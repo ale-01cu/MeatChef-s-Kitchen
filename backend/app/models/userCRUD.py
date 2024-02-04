@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.user import UserModel
-from app.schemas.user import UserBaseSchema, UserCreateSchema, UserSchema
+from app.schemas.user import UserBaseSchema, UserCreateSchema
 
 
 def get_user(db: Session, user_id: str):
@@ -8,11 +8,13 @@ def get_user(db: Session, user_id: str):
 
 
 def get_user_by_email(db: Session, email: str) -> UserCreateSchema:
-    return db.query(UserModel).filter(UserModel.email == email).first()
+    return db.query(UserModel).filter(
+        UserModel.email == email, UserModel.is_active == True).first()
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(UserModel).offset(skip).limit(limit).all()
+    return db.query(UserModel).filter(
+        UserModel.is_active == True).offset(skip).limit(limit).all()
 
 
 def create_user(db: Session, user: UserCreateSchema):

@@ -12,7 +12,16 @@ def authorization(request: Request, db: Session = Depends(get_db)):
             payload = verify_token(token)
             email = payload['sub']
             user = get_user_by_email(db, email)
+            if not user:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail='Usuario no encontrado.'
+                )
             return user
+        
+    except HTTPException as e:
+        print(e)
+        raise e
 
     except Exception as e:
         print(e)
