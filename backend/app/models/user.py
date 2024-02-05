@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date
+from sqlalchemy import Boolean, Column, String, Date
 from datetime import datetime
 from settings.db import Base
 import uuid
@@ -15,6 +15,7 @@ class UserModel(Base):
     full_name = Column(String, default='')
     password = Column(String, nullable=False)
     avatar = Column(String, default='')
+    phone_number = Column(String, nullable=False, unique=True)
     is_active = Column(Boolean, default=True)
     is_superuser = Column(Boolean, default=False)
     is_staff = Column(Boolean, default=False)

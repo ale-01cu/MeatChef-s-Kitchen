@@ -1,9 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.schemas.user import UserLogin, UserCreateSchema
+from app.schemas.user import UserLogin, UserCreateSchema, UserSchema
 from app.schemas.token import Token, TokenInput, TokenIsValid
 from settings.db import get_db
-from app.models.userCRUD import create_user, get_user_by_email
+from app.cruds.user import (
+    create_user, 
+    get_user_by_email, 
+    get_user_by_phone_number
+)
 from app.utils.password import get_password_hash, verify_password
 from datetime import timedelta
 from settings.base import ACCESS_TOKEN_EXPIRE_MINUTES
@@ -15,13 +19,20 @@ router = APIRouter()
 @router.post('/register', tags={'register'})
 async def register(
     user: UserCreateSchema, db: Session = Depends(get_db)
-) -> UserCreateSchema:
+) -> UserSchema:
     try:
         foundEmail = get_user_by_email(db, user.email)
         if foundEmail: 
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="El email ya esta en uso.",
+            )
+        
+        found_phone_number = get_user_by_phone_number(db, user.phone_number)
+        if found_phone_number:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="El numero de telefono ya esta en uso.",
             )
 
         password_hashed = get_password_hash(user.password)
@@ -46,7 +57,7 @@ async def register(
 @router.post('/login', tags={'login'})
 async def login(
     user: UserLogin, db: Session = Depends(get_db)
-):
+) -> Token:
     try:
 
         userFound = get_user_by_email(db, user.email)

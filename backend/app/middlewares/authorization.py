@@ -1,10 +1,20 @@
 from fastapi import Request, HTTPException, status, Depends
 from app.utils.token import verify_token
-from app.models.userCRUD import get_user_by_email
+from app.cruds.user import get_user_by_email
 from sqlalchemy.orm import Session
 from settings.db import get_db
+from app.schemas.user import UserSchema
 
-def authorization(request: Request, db: Session = Depends(get_db)):
+def authorization(
+    request: Request, 
+    db: Session = Depends(get_db)
+) -> UserSchema:
+    
+    unauthorization_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail='Necesita Autorizacion.'
+    )
+
     try:
         if 'authorization' in request.headers.keys():
             token: str = request.headers['authorization'].split('bearer ')[1]
@@ -19,13 +29,12 @@ def authorization(request: Request, db: Session = Depends(get_db)):
                 )
             return user
         
+        else: raise unauthorization_exception
+        
     except HTTPException as e:
         print(e)
         raise e
 
     except Exception as e:
         print(e)
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Necesita Autorizacion.'
-        )
+        raise unauthorization_exception

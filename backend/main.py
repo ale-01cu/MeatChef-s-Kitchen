@@ -1,30 +1,33 @@
-from typing import Union
-from settings.db import SessionLocal, engine
-from app.models import user as userModel
+from settings.db import engine
+from app.models import (
+    user as userModel,
+    meat_product,
+    category
+)
 from sqlalchemy.orm import Session
-from fastapi import FastAPI, Depends
-from settings.db import get_db
+from fastapi import FastAPI, UploadFile, File, Form
 from app.routers import auth
 from app.routers import user
 
-userModel.Base.metadata.create_all(bind=engine)
 app = FastAPI()
+
+userModel.Base.metadata.create_all(bind=engine)
+meat_product.Base.metadata.create_all(bind=engine)
+category.Base.metadata.create_all(bind=engine)
 
 app.include_router(auth.router)
 app.include_router(user.router)
 
-# @app.get("/")
-# def read_root(db: Session = Depends(get_db)):
-#     user = userSchema.UserCreateSchema(
-#         id = 1,
-#         email = 'almejo@gmail.com',
-#         full_name = 'almejo arpentino',
-#         password = '123'
-#     )
-#     userCRUD.create_user(db, user)
-#     return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+@app.post("/uploadfile/")
+async def create_upload_file(
+    file: UploadFile = File(), 
+    type_of_meat: str = Form(),
+    name_of_the_cut_of_meat: str = Form(),
+    description: str | None = Form(),
+    price: float = Form(),
+    category: str = Form()
+):
+    contents = await file.read()
+    with open(f"./{file.filename}", "wb") as f:
+        f.write(contents)
+    return {"filename": file.filename}
