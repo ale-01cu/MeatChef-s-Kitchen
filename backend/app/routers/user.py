@@ -4,7 +4,8 @@ from app.cruds.user import (
     update_user,
     get_user_by_id,
     list_users as list_users_db,
-    delete_user
+    delete_user_by_id,
+    update_user_by_superuser_db
 )
 from sqlalchemy.orm import Session
 from settings.db import get_db
@@ -24,13 +25,12 @@ async def get_user(
 ) -> UserSchema:
 
     try:
-        user = get_user_by_id(db, user_id)
 
-        if not user:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail='No se encontro ningun usuario.',
-            )
+        user = get_user_by_id(db, user_id)
+        if not user: raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='No se encontro ningun usuario.',
+        )
         return user
     
     except HTTPException as e:
@@ -95,17 +95,11 @@ async def update_user_by_user(
 ) -> UserSchema: 
     try:
 
-        db.query(UserModel)\
-        .filter(UserModel.id == user_id)\
-        .update(values={
-            UserModel.email: user.email,
-            UserModel.full_name: user.full_name,
-            UserModel.phone_number: user.phone_number
-        })
-
-        db.commit()
+        if not get_user_by_id(db, user_id): raise Exception()
+        update_user(user_id, user, db)
         return db.query(UserModel).filter(
-            UserModel.id == user_id
+            UserModel.id == user_id,
+            UserModel.is_active == True
         ).first()
     
     except Exception as e:
@@ -114,7 +108,7 @@ async def update_user_by_user(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail='No se pudo actualizar el usuario.'
         )
-
+    
 
 @router.put('/user-full/{user_id}', 
     tags=['update user by superuser'],
@@ -127,13 +121,11 @@ async def update_user_by_superuser(
 ) -> UserFull: 
     try:
 
-        db.query(UserModel)\
-        .filter(UserModel.id == user_id)\
-        .update(values=user.dict())
-        db.commit()
-
+        if not get_user_by_id(db, user_id): raise Exception()
+        update_user_by_superuser_db(user_id, user, db)
         return db.query(UserModel).filter(
-            UserModel.id == user_id
+            UserModel.id == user_id,
+            UserModel.is_active == True
         ).first()
     
     except Exception as e:
@@ -157,12 +149,8 @@ async def delete_user(
     
     try:
     
-        # delete_user(user_id, db)
         if not get_user_by_id(db, user_id): return None
-        user = db.query(UserModel).filter(
-            UserModel.id == user_id).first()
-        user.is_active = False
-        db.commit()
+        delete_user_by_id(db, user_id)
         user_deleted = get_user_by_id(db, user_id)
         if user_deleted: raise Exception()
         return None

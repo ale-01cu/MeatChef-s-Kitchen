@@ -1,14 +1,13 @@
 from pydantic import BaseModel
-from fastapi import UploadFile, File
-from typing import Annotated
 
 class MeatProductCreate(BaseModel):
     type_of_meat: str
     name_of_the_cut_of_meat: str
-    description: str | None
+    description: str
     price: float
-    photo: str | None
+    photo: str
     category: str
+    is_active: bool = True
 
 class MeatProduct(MeatProductCreate):
     id: str
