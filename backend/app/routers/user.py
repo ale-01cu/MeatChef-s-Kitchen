@@ -17,13 +17,9 @@ from app.models.user import UserModel
 router = APIRouter()
 
 
-@router.get('/user/{user_id}', 
-    tags=['get-user'], 
-)
-async def get_user(
-    user_id: str, db: Session = Depends(get_db)
+@router.get('/user/{user_id}', tags=['get-user'])
+async def get_user(user_id: str, db: Session = Depends(get_db)
 ) -> UserSchema:
-
     try:
 
         user = get_user_by_id(db, user_id)
@@ -46,12 +42,9 @@ async def get_user(
     
 
 
-@router.get('/users', 
-    tags=['list-users'],
-    dependencies=[Depends(authorization), Depends(if_is_superuser)]
-)
-async def list_users(
-    db: Session = Depends(get_db),
+@router.get('/users', tags=['list-users'],
+    dependencies=[Depends(if_is_superuser)])
+async def list_users(db: Session = Depends(get_db)
 ) -> list[UserSchema]:
     
     try:
@@ -65,10 +58,8 @@ async def list_users(
         )
 
 
-@router.get('/search-users/{full_name}', tags=['search users'])
-async def search_users(
-    full_name: str, 
-    db: Session = Depends(get_db)
+@router.get('/search-users/{full_name}', tags=['search-users'])
+async def search_users(full_name: str, db: Session = Depends(get_db)
 ) -> list[UserSchema]:
     try:
 
@@ -84,10 +75,8 @@ async def search_users(
     
 
 
-@router.put('/user/{user_id}', 
-    tags=['update user by user'],
-    dependencies=[Depends(authorization), Depends(owner_permissions)]
-)
+@router.put('/user/{user_id}', tags=['update-user-by-user'],
+    dependencies=[Depends(authorization), Depends(owner_permissions)])
 async def update_user_by_user(
     user_id: str,
     user: UserUpdate,
@@ -110,13 +99,9 @@ async def update_user_by_user(
         )
     
 
-@router.put('/user-full/{user_id}', 
-    tags=['update user by superuser'],
-    dependencies=[Depends(authorization), Depends(if_is_superuser)]
-)
-async def update_user_by_superuser(
-    user_id: str,
-    user: UserFull,
+@router.put('/user-full/{user_id}', tags=['update-user-by-superuser'],
+    dependencies=[Depends(if_is_superuser)])
+async def update_user_by_superuser(user_id: str, user: UserFull,
     db: Session = Depends(get_db),
 ) -> UserFull: 
     try:
@@ -137,16 +122,12 @@ async def update_user_by_superuser(
     
 
 
-@router.delete('/user/{user_id}', 
-    tags=['delete-users'],
-    dependencies=[Depends(authorization), Depends(if_is_superuser)],
+@router.delete('/user/{user_id}', tags=['delete-users'],
+    dependencies=[Depends(if_is_superuser)],
     status_code=status.HTTP_204_NO_CONTENT
 )
-async def delete_user(
-    user_id: str,
-    db: Session = Depends(get_db),
+async def delete_user(user_id: str, db: Session = Depends(get_db),
 ) -> None:
-    
     try:
     
         if not get_user_by_id(db, user_id): return None

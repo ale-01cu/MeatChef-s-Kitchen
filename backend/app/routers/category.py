@@ -4,11 +4,14 @@ from app.cruds.category import (
     list_categorys_db,
     get_category_by_id,
     update_category_db,
-    delete_category_by_id
+    delete_category_by_id,
+    get_category_by_name
 )
 from app.schemas.category import CategoryCreate, CategorySchema
 from sqlalchemy.orm import Session
 from settings.db import get_db
+from app.middlewares import role_permisisons
+from psycopg2.errors import UniqueViolation
 
 router = APIRouter()
 
@@ -28,9 +31,7 @@ def list_categorys(db: Session = Depends(get_db)) -> list[CategorySchema]:
     
 
 @router.get('/category/{category_id}', tags=['get-category'])
-def get_category(
-    category_id: str,
-    db: Session = Depends(get_db)
+def get_category(category_id: str, db: Session = Depends(get_db)
 ) -> CategorySchema:
     try:
 
@@ -45,16 +46,23 @@ def get_category(
         )
 
 
-@router.post('/category', tags=['create-category'])
-async def create_category(
-    category: CategoryCreate,
-    db: Session = Depends(get_db), 
-
+@router.post('/category', tags=['create-category'],
+    dependencies=[Depends(role_permisisons.if_is_staff)])
+async def create_category(category: CategoryCreate, db: Session = Depends(get_db)
 ) -> CategorySchema:
     try:
 
+        if get_category_by_name(db, category.name): 
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail='Ya existe una categoria con ese nombre.'
+            )
         category = create_category_db(db, category)
         return category
+    
+    except HTTPException as e:
+        print(e)
+        raise e
 
     except Exception as e:
         print(e)
@@ -64,17 +72,22 @@ async def create_category(
         )
     
 
-@router.put('/category/{category_id}', tags=['update-category'])
-def update_category(
-    category_id: str,
-    category: CategoryCreate,
-    db: Session = Depends(get_db), 
+@router.put('/category/{category_id}', tags=['update-category'],
+    dependencies=[Depends(role_permisisons.if_is_staff)])
+def update_category(category_id: str, category: CategoryCreate,
+    db: Session = Depends(get_db) 
 ) -> CategorySchema:
     try:
 
         category = update_category_db(db, category_id, category)
         return category
-
+    
+    except UniqueViolation as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Ya existe un producto con el mismo nombre.'
+        )
     except Exception as e:
         print(e)
         raise HTTPException(
@@ -84,14 +97,10 @@ def update_category(
     
 
 
-@router.delete(
-    '/category/{category_id}', 
-    tags=['delete-category'], 
-    status_code=status.HTTP_204_NO_CONTENT
-)
-def delete_category(
-    category_id: str,
-    db: Session = Depends(get_db)
+@router.delete('/category/{category_id}', tags=['delete-category'], 
+    status_code=status.HTTP_204_NO_CONTENT,
+    dependencies=[Depends(role_permisisons.if_is_superuser)])
+def delete_category(category_id: str, db: Session = Depends(get_db)
 ) -> None:
     try:
 

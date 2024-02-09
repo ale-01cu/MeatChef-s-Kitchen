@@ -70,7 +70,7 @@ def update_user_by_superuser_db(user_id: str, user: UserFull, db: Session) -> No
         .filter(
             UserModel.id == user_id,
             UserModel.is_active == True)\
-        .update(values=user.dict())
+        .update(values=user.model_dump())
     db.commit()
 
 

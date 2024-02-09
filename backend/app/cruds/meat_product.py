@@ -24,7 +24,7 @@ def create_meat_product(
     db: Session, 
     meat_product: MeatProductCreate = None,
 ) -> MeatProduct: 
-    db_meat_product = MeatProduct(**meat_product.dict())
+    db_meat_product = MeatProduct(**meat_product.model_dump())
     db.add(db_meat_product)
     db.commit()
     return db_meat_product
@@ -37,7 +37,7 @@ def update_meat_product_db(
 ) -> MeatProduct:
     meat_product = db.query(MeatProduct).filter(
         MeatProduct.id == product_id
-    ).update(meat_product.dict())
+    ).update(meat_product.model_dump())
     db.commit()
     return db.query(MeatProduct).filter(
         MeatProduct.id == product_id).first()

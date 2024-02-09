@@ -13,6 +13,7 @@ class Category(Base):
 
     name = Column(
         String,
+        unique=True,
         nullable=False,
         comment='Nombre de la categoria'
     )

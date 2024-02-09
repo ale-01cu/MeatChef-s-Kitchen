@@ -20,6 +20,8 @@ class MeatProduct(Base):
 
     name_of_the_cut_of_meat = Column(
         String,
+        unique=True,
+        index=True,
         nullable=False,
         comment='Nombre del corte de carne'
     )
@@ -41,7 +43,8 @@ class MeatProduct(Base):
     )
 
     category = Column(
-        ForeignKey('categorys.id'),
+        ForeignKey('categorys.id', ondelete='SET DEFAULT'),
+        default='',
         comment='Categoria'
     )
 
