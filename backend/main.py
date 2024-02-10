@@ -1,35 +1,28 @@
+from fastapi import FastAPI
 from settings.db import engine
 from app.models import (
     user as user_model,
     meat_product as meat_product_model,
-    category as category_model
+    category as category_model,
+    course as course_model
 )
-from fastapi import FastAPI, UploadFile, File, Form
-from app.routers import auth
-from app.routers import user
-from app.routers import meat_product
-from app.routers import category
-app = FastAPI()
+from app.routers import (
+    auth, 
+    user, 
+    meat_product, 
+    category,
+    course
+)
 
 user_model.Base.metadata.create_all(bind=engine)
 meat_product_model.Base.metadata.create_all(bind=engine)
 category_model.Base.metadata.create_all(bind=engine)
+course_model.Base.metadata.create_all(bind=engine)
 
+app = FastAPI()
 app.include_router(auth.router)
 app.include_router(user.router)
 app.include_router(meat_product.router)
 app.include_router(category.router)
+app.include_router(course.router)
 
-@app.post("/uploadfile/")
-async def create_upload_file(
-    file: UploadFile = File(), 
-    type_of_meat: str = Form(),
-    name_of_the_cut_of_meat: str = Form(),
-    description: str | None = Form(),
-    price: float = Form(),
-    category: str = Form()
-):
-    contents = await file.read()
-    with open(f"./{file.filename}", "wb") as f:
-        f.write(contents)
-    return {"filename": file.filename}

@@ -8,17 +8,15 @@ from app.cruds.user import (
     get_user_by_email, 
     get_user_by_phone_number
 )
-from app.utils.password import get_password_hash, verify_password
+from app.utils.password import hash_password, verify_password
 from datetime import timedelta
 from settings.base import ACCESS_TOKEN_EXPIRE_MINUTES
-from app.utils.token import create_access_token
-from app.utils.token import verify_token
+from app.utils.token import create_access_token, verify_token
 from jose import JWTError
 router = APIRouter()
 
 @router.post('/register', tags={'register'})
-async def register(
-    user: UserCreateSchema, db: Session = Depends(get_db)
+async def register(user: UserCreateSchema, db: Session = Depends(get_db)
 ) -> UserSchema:
     try:
         foundEmail = get_user_by_email(db, user.email)
@@ -35,8 +33,8 @@ async def register(
                 detail="El numero de telefono ya esta en uso.",
             )
 
-        password_hashed = get_password_hash(user.password)
-        user.password = password_hashed
+        hashed_password = hash_password(user.password)
+        user.password = hashed_password
         new_user = create_user(db, user)
         return new_user
     
@@ -55,8 +53,7 @@ async def register(
 
 
 @router.post('/login', tags={'login'})
-async def login(
-    user: UserLogin, db: Session = Depends(get_db)
+async def login(user: UserLogin, db: Session = Depends(get_db)
 ) -> Token:
     try:
 

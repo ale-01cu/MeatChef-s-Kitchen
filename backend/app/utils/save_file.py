@@ -3,7 +3,8 @@ from app.errors.SaveFileException import SaveFileException
 from app.schemas.file import FileSchema
 import os
 
-async def save_file(file: UploadFile, path: str, filename: str = None) -> FileSchema:
+async def save_file(file: UploadFile, path: str, filename: str = None
+) -> FileSchema:
     global file_name
     if not file:
         return FileSchema(

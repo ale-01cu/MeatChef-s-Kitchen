@@ -16,10 +16,10 @@ from app.schemas.meat_product import MeatProduct, MeatProductCreate
 from app.utils.save_file import save_file
 from app.errors.SaveFileException import SaveFileException
 from typing import Optional
-from app.middlewares.authorization import authorization
 from app.middlewares import role_permisisons
 from psycopg2.errors import UniqueViolation
-
+from fastapi.exceptions import ValidationException
+from app.utils.delete_file import delete_file
 
 router = APIRouter()
 
@@ -40,9 +40,7 @@ async def list_meat_products(db: Session = Depends(get_db)
     
 
 @router.get('/meat-products/{product_id}', tags=['get-meat-product'])
-async def get_meat_products(
-    product_id: str,
-    db: Session = Depends(get_db)
+async def get_meat_products(product_id: str, db: Session = Depends(get_db)
 ) -> MeatProduct:
     try:
 
@@ -109,6 +107,10 @@ async def create_meat_products(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Error al guardar el fichero.'
         )
+    
+    except ValidationException as e:
+        print(e)
+        raise e
 
     except Exception as e:
         print(e)
@@ -132,11 +134,15 @@ async def update_meat_products(
     db: Session = Depends(get_db)
 ) -> MeatProduct:
     try:
+        
+        # Comprueba si existe ya la foto
+        # y si existe los elimina
+        product = get_meat_product_by_id(db, product_id)
+        path = f'media/meat-products/{name_of_the_cut_of_meat}'
+        file_info = await save_file(photo, path)
+        if product.photo != file_info.path:
+            delete_file(product.photo)
 
-        file_info = await save_file(
-            photo, 
-            f'media/meat-products/{name_of_the_cut_of_meat}',
-        )
         meat_product = MeatProductCreate(
             type_of_meat=type_of_meat,
             name_of_the_cut_of_meat=name_of_the_cut_of_meat,
