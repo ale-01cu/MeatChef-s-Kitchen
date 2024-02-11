@@ -2,8 +2,7 @@ from .authorization import authorization
 from fastapi import Depends, HTTPException, status
 from app.schemas.user import UserSchema
 
-def owner_permissions(
-    user_id: str, user: dict = Depends(authorization)
+def owner_permissions(user_id: str, user: dict = Depends(authorization)
 ) -> None:
     exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

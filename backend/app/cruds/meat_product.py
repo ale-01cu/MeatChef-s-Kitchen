@@ -14,7 +14,7 @@ def get_meat_product_by_id(db: Session, id: str) -> MeatProduct:
         MeatProduct.is_active == True).first()
 
 
-def create_meat_product(db: Session, meat_product: MeatProductCreate = None,
+def create_meat_product(db: Session, meat_product: MeatProductCreate,
 ) -> MeatProduct: 
     db_meat_product = MeatProduct(**meat_product.model_dump())
     db.add(db_meat_product)

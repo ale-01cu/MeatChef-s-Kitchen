@@ -1,4 +1,5 @@
 from sqlalchemy import Boolean, Column, String, Date
+from sqlalchemy.orm import relationship
 from datetime import datetime
 from settings.db import Base
 import uuid
@@ -39,6 +40,11 @@ class UserModel(Base):
         String, 
         nullable=False, 
         unique=True
+    )
+
+    order = relationship(
+        'Order',
+        back_populates='user'
     )
 
     is_active = Column(

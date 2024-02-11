@@ -1,4 +1,5 @@
 from sqlalchemy import Column, String, Text, Float, Boolean, Date, ForeignKey
+from sqlalchemy.orm import relationship
 from settings.db import Base
 import uuid
 from datetime import datetime
@@ -46,6 +47,11 @@ class MeatProduct(Base):
         ForeignKey('categorys.id', ondelete='SET DEFAULT'),
         default='',
         comment='Categoria'
+    )
+
+    order_item = relationship(
+        "OrderItem", 
+        back_populates="meat_product"
     )
 
     is_active = Column(

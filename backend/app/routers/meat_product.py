@@ -107,10 +107,6 @@ async def create_meat_products(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Error al guardar el fichero.'
         )
-    
-    except ValidationException as e:
-        print(e)
-        raise e
 
     except Exception as e:
         print(e)
