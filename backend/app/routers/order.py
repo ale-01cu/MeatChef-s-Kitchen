@@ -7,7 +7,8 @@ from app.cruds.order import (
     list_order_db,
     update_order_status_db,
     get_order_by_id,
-    delete_order_by_id
+    delete_order_by_id,
+    list_order_by_user_db
 )
 from app.schemas.order import (
     OrderInputSchema,
@@ -18,21 +19,26 @@ from app.schemas.order import (
 from settings.db import get_db
 from sqlalchemy.orm import Session
 from app.middlewares.authorization import authorization
-from app.middlewares.owner_permissions import owner_permissions
+from app.middlewares.owner_permissions import order_owner_permissions
 from app.middlewares.role_permisisons import if_is_superuser
 from app.schemas.user import UserSchema
 
 router = APIRouter()
 
 
-@router.get('/order', tags=['list-order'], 
-    dependencies=[Depends(if_is_superuser)])
-async def list_order(db: Session = Depends(get_db)
+@router.get('/order', tags=['list-order'])
+async def list_order(
+    user: UserSchema = Depends(authorization),
+    db: Session = Depends(get_db)
 ) -> list[OrderListSchema]:
     try:
 
-        orders = list_order_db(db)
-        return orders
+        if user.is_superuser:
+            orders = list_order_db(db)
+            return orders
+        else:
+            orders = list_order_by_user_db(db, user.id)
+            return orders
 
     except Exception as e:
         print(e)
@@ -42,7 +48,8 @@ async def list_order(db: Session = Depends(get_db)
         )
 
 
-@router.get('/order/{order_id}', tags=['get-order'])
+@router.get('/order/{order_id}', tags=['get-order'], 
+    dependencies=[Depends(order_owner_permissions)])
 async def get_order(order_id: str, db: Session = Depends(get_db)
 ) -> OrderSchema:
     try:
@@ -86,7 +93,8 @@ async def create_order(
     
 
 
-@router.put('/order/{order_id}', tags=['update-order'])
+@router.put('/order/{order_id}', tags=['update-order'],
+    dependencies=[Depends(if_is_superuser)])
 async def update_order_status(
     order_id: str, 
     order_status: OrderUpdateStatusSchema, 
@@ -106,6 +114,7 @@ async def update_order_status(
     
 
 @router.delete('/order/{order_id}', tags=['delete-order'], 
+    dependencies=[Depends(if_is_superuser)],
     status_code=status.HTTP_204_NO_CONTENT)
 async def delete_order(order_id: str, db: Session = Depends(get_db)
 ) -> None:

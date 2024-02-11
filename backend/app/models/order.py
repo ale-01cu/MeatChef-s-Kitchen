@@ -7,7 +7,21 @@ from sqlalchemy.orm import relationship
 from settings.db import Base
 import uuid
 from datetime import datetime
-from sqlalchemy.ext.hybrid import hybrid_property
+
+class Statuslist:
+    received = 'recivido'
+    processing = 'procesando'
+    delivery = 'enviado'
+    complete = 'completo'
+    cancelled = 'cancelado'
+
+class DeliveryType:
+    picked_up = 'recogida'
+    delivery = 'envio'
+
+class PaymentMethod:
+    magnetic_card = 'targeta magnetica'
+    cash = 'efectivo'
 
 class Order(Base):
     __tablename__ = 'orders'
@@ -18,20 +32,6 @@ class Order(Base):
         default=lambda: str(uuid.uuid4())
     )
 
-    class Statuslist:
-        received = 'recivido'
-        processing = 'procesando'
-        delivery = 'enviado'
-        complete = 'completo'
-        cancelled = 'cancelado'
-
-    class DeliveryType:
-        picked_up = 'recogida'
-        delivery = 'envio'
-
-    class PaymentMethod:
-        magnetic_card = 'targeta magnetica'
-        cash = 'efectivo'
 
     status = Column(
         String,

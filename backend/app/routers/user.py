@@ -76,10 +76,8 @@ async def search_users(full_name: str, db: Session = Depends(get_db)
 
 
 @router.put('/user/{user_id}', tags=['update-user-by-user'],
-    dependencies=[Depends(authorization), Depends(owner_permissions)])
-async def update_user_by_user(
-    user_id: str,
-    user: UserUpdate,
+    dependencies=[Depends(owner_permissions)])
+async def update_user_by_user(user_id: str, user: UserUpdate,
     db: Session = Depends(get_db),
 ) -> UserSchema: 
     try:

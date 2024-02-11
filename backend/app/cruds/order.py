@@ -10,6 +10,17 @@ def list_order_db(db: Session, skip: int = 0, limit: int = 100
         .offset(skip).limit(limit).all()
 
 
+def list_order_by_user_db(db: Session, user_id: str, skip: int = 0, limit: int = 100 
+) -> list[OrderListSchema]:
+    return db\
+        .query(Order)\
+        .filter(
+            Order.user_id == user_id,
+            Order.is_active == True)\
+        .offset(skip).limit(limit).all()
+
+
+
 def get_order_by_id(db: Session, id: str) -> OrderSchema:
     return db\
         .query(Order)\
