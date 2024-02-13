@@ -18,7 +18,6 @@ from app.errors.SaveFileException import SaveFileException
 from typing import Optional
 from app.middlewares import role_permisisons
 from psycopg2.errors import UniqueViolation
-from fastapi.exceptions import ValidationException
 from app.utils.delete_file import delete_file
 
 router = APIRouter()

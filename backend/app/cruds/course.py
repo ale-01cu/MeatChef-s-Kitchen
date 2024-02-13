@@ -20,9 +20,8 @@ def get_course_by_id(db: Session, id: str) -> CourseSchema:
 
 def get_course_by_name(db: Session, name: str) -> CourseSchema:
     return db.query(Course).filter(
-        Course.name.ilike(f"%{name}%"), 
-        Course.is_active == True
-    ).all()
+        Course.name == name, 
+    ).first()
 
 
 def create_course_db(db: Session, course: CourseCreateSchema = None,

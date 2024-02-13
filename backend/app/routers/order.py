@@ -132,3 +132,40 @@ async def delete_order(order_id: str, db: Session = Depends(get_db)
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail='No se pudo eliminar la orden.'
         )
+    
+    
+from app.models.order import Statuslist, DeliveryType, PaymentMethod
+from app.schemas.order import OrderStatusSchema, OrderDeliverySchema, OrderPaymentSchema
+
+@router.get('/order-status', tags=['list-order-status'])
+async def list_order_status(db: Session = Depends(get_db)
+) -> list[OrderStatusSchema]:
+    try: return [{'status': status} for status in Statuslist.STATUS_LIST]
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='No se pudo listar las estados.'
+        )
+    
+@router.get('/order-deliveryType', tags=['list-order-deliveryType'])
+async def list_order_delivery_type(db: Session = Depends(get_db)
+) -> list[OrderDeliverySchema]:
+    try: return [{'type': type} for type in DeliveryType.DELIVERY_TYPE_LIST]
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='No se pudo listar los tipos de delivery.'
+        )
+
+@router.get('/order-paymentMethod', tags=['list-order-paymentMethod'])
+async def list_order_payment_method(db: Session = Depends(get_db)
+) -> list[OrderPaymentSchema]:
+    try: return [{'method': method} for method in PaymentMethod.PAYMENT_METHOD_LIST]
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='No se pudo listar los metodos de pago.'
+        )

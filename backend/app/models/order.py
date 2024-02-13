@@ -9,19 +9,34 @@ import uuid
 from datetime import datetime
 
 class Statuslist:
-    received = 'recivido'
-    processing = 'procesando'
-    delivery = 'enviado'
-    complete = 'completo'
-    cancelled = 'cancelado'
+    RECEIVED = 'recivido'
+    PROCESSING = 'procesando'
+    DELIVERY = 'enviado'
+    COMPLETED = 'completo'
+    CANCELLED = 'cancelado'
+    STATUS_LIST = [
+        RECEIVED,
+        PROCESSING,
+        DELIVERY,
+        COMPLETED,
+        CANCELLED
+    ]
 
 class DeliveryType:
-    picked_up = 'recogida'
-    delivery = 'envio'
+    PICKED_UP = 'recogida'
+    DELIVERY = 'envio'
+    DELIVERY_TYPE_LIST = [
+        PICKED_UP,
+        DELIVERY
+    ]
 
 class PaymentMethod:
-    magnetic_card = 'targeta magnetica'
-    cash = 'efectivo'
+    MAGNETIC_CARD = 'targeta magnetica'
+    CASH = 'efectivo'
+    PAYMENT_METHOD_LIST = [
+       MAGNETIC_CARD,
+        CASH 
+    ]
 
 class Order(Base):
     __tablename__ = 'orders'

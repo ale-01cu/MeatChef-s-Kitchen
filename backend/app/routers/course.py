@@ -98,8 +98,10 @@ async def create_course(
     db: Session = Depends(get_db)
 ) -> CourseSchema:
     try:
-
-        if get_course_by_name(db, name): raise UniqueViolation()
+        if get_course_by_name(db, name): raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Ya existe un curso con ese nombre.'
+        )
         path = f'media/courses/{name}'
         photo_info = await save_file(photo, path)
         video_info = await save_file(video, path)
@@ -114,6 +116,10 @@ async def create_course(
         )
         course = create_course_db(db, course)
         return course
+    
+    except HTTPException as e:
+        print(e)
+        raise e
     
     except UniqueViolation as e:
         print(e)
@@ -143,7 +149,7 @@ async def create_course(
 
 @router.put('/course/{course_id}', tags=['update-course'],
     dependencies=[Depends(role_permisisons.if_is_teacher)])
-async def create_course(
+async def update_course(
     course_id: str,
     name: str = Form(),
     description: str = Form(),

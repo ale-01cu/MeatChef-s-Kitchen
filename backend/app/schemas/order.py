@@ -38,5 +38,14 @@ class OrderSchema(OrderListSchema):
 class OrderUpdateStatusSchema(BaseModel):
     status: str
 
+class OrderStatusSchema(BaseModel):
+    status: str
+
+class OrderDeliverySchema(BaseModel):
+    type: str
+
+class OrderPaymentSchema(BaseModel):
+    method: str
+
 
 

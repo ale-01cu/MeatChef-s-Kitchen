@@ -13,8 +13,10 @@ from app.routers import (
     meat_product, 
     category,
     course,
-    order
+    order,
+    sales
 )
+from fastapi.staticfiles import StaticFiles
 
 user_model.Base.metadata.create_all(bind=engine)
 meat_product_model.Base.metadata.create_all(bind=engine)
@@ -23,10 +25,13 @@ course_model.Base.metadata.create_all(bind=engine)
 order_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+app.mount("/media", StaticFiles(directory="media"), name="media")
+
 app.include_router(auth.router)
 app.include_router(user.router)
 app.include_router(meat_product.router)
 app.include_router(category.router)
 app.include_router(course.router)
 app.include_router(order.router)
+app.include_router(sales.router)
 
