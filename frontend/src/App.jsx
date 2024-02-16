@@ -1,34 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Home from './pages/Home'
+import {NextUIProvider} from "@nextui-org/system";
+import { Route, Switch } from "wouter";
+import { useState, useMemo } from 'react';
+import AuthContext from './contexts/AuthContext'
+import useVerifyToken from './hooks/useVerifyToken';
+import { useEffect } from 'react';
+import {ToastContainer} from 'react-toastify'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [ tokenInMemory] = useVerifyToken()
+  const [ auth, setAuth ] = useState(false)
+
+
+  useEffect(() => {
+    if(tokenInMemory) setAuth(true)
+    else setAuth(false)
+    
+  }, [ tokenInMemory ])
+
+  const authData = useMemo(() => ({
+    auth,
+    setAuth
+  }),[ auth ])
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <AuthContext.Provider value={authData}>
+
+      <NextUIProvider>
+        <Switch>
+          <Route path="/" component={Home} />
+          {/* <Route path="/users/:name">
+            {(params) => <>Hello, {params.name}!</>}
+          </Route> */}
+          {/* Default route in a switch */}
+          <Route>404: No such page!</Route>
+        </Switch>
+      </NextUIProvider>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        // theme={"light"}
+      />
+    </AuthContext.Provider>
+
   )
 }
 

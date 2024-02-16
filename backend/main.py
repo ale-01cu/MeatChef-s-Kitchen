@@ -17,6 +17,7 @@ from app.routers import (
     sales
 )
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 user_model.Base.metadata.create_all(bind=engine)
 meat_product_model.Base.metadata.create_all(bind=engine)
@@ -34,4 +35,18 @@ app.include_router(category.router)
 app.include_router(course.router)
 app.include_router(order.router)
 app.include_router(sales.router)
+
+
+origins = [
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
