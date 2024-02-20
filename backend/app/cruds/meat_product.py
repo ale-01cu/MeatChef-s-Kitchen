@@ -5,7 +5,8 @@ from app.schemas.meat_product import MeatProductCreate
 def list_meat_products_db(db: Session, skip: int = 0, limit: int = 100 
 ) -> list[MeatProduct]:
     return db.query(MeatProduct).filter(
-        MeatProduct.is_active == True).offset(skip).limit(limit).all()
+        MeatProduct.is_active == True
+    ).offset(skip).limit(limit).all()
 
 
 def get_meat_product_by_id(db: Session, id: str) -> MeatProduct:

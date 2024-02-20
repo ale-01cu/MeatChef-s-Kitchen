@@ -43,10 +43,15 @@ class MeatProduct(Base):
         comment='Foto del producto'
     )
 
-    category = Column(
+    category_id = Column(
         ForeignKey('categorys.id', ondelete='SET DEFAULT'),
         default='',
         comment='Categoria'
+    )
+
+    category = relationship(
+        'Category',
+        back_populates="meat_product"
     )
 
     order_item = relationship(

@@ -161,6 +161,8 @@ async def update_course(
 
         # Comprueba si existe ya la foto o el video
         # y si existe los elimina
+        if get_course_by_name(db, name):raise UniqueViolation()
+
         course = get_course_by_id(db, course_id)
         path = f'media/courses/{name}'
         photo_info = await save_file(photo, path)

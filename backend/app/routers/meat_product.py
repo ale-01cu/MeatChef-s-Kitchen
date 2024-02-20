@@ -123,13 +123,12 @@ async def update_meat_products(
     name_of_the_cut_of_meat: str = Form(),
     description: str = Form(),
     price: float = Form(),
-    photo: Optional[UploadFile] = File(None),
+    photo: UploadFile = File(),
     category: str = Form(),
     is_active: bool = Form(),
     db: Session = Depends(get_db)
 ) -> MeatProduct:
     try:
-        
         # Comprueba si existe ya la foto
         # y si existe los elimina
         product = get_meat_product_by_id(db, product_id)

@@ -5,7 +5,7 @@ import {
   ModalBody, 
   ModalFooter,
   useDisclosure
-} from "@nextui-org/modal";
+} from "@nextui-org/react";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useState } from "react";
@@ -67,7 +67,7 @@ export default function LoginModal(){
       <Modal 
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
-          placement="top-center"
+          placement="center"
         >
           <ModalContent>
             {(onClose) => (
@@ -101,7 +101,9 @@ export default function LoginModal(){
                         value={isRemember}
                         onChange={() => setIsRemember(!isRemember)}
                       />
-                      <label htmlFor="remember-input">Recordarme</label>
+                      <label htmlFor="remember-input">
+                        Recordarme
+                      </label>
                         
                     </div>
                     <button 
