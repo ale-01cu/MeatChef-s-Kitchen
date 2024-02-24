@@ -14,7 +14,7 @@ from app.cruds.course import (
     get_course_by_id,
     list_courses_db,
     update_course_db,
-    get_course_by_name
+    list_course_by_name
 )
 from app.schemas.course import (
     CourseCreateSchema,
@@ -46,12 +46,12 @@ async def list_courses(db: Session = Depends(get_db)
         )
 
 
-@router.get('/search-course/{name}', tags=['search-course'])
+@router.get('/course/search/{name}', tags=['search-course'])
 async def search_courses(name: str, db: Session = Depends(get_db)
 ) -> list[CourseListSchema]:
     try:
 
-        courses = get_course_by_name(db, name)
+        courses = list_course_by_name(db, name)
         return courses
 
     except Exception as e:
@@ -98,7 +98,7 @@ async def create_course(
     db: Session = Depends(get_db)
 ) -> CourseSchema:
     try:
-        if get_course_by_name(db, name): raise HTTPException(
+        if list_course_by_name(db, name): raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Ya existe un curso con ese nombre.'
         )

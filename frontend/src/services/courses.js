@@ -14,6 +14,17 @@ export const listCourses = async () => {
   return data
 }
 
+export const listSearchCourses = async (query) => {
+
+  const { response, data }  = await fetching({
+    url: COURSES_URL + '/search/' + query,
+    method: 'GET',
+  })
+
+  if(!response.ok) return []
+  return data
+}
+
 
 
 export const retrieveCourses = async (courseId) => {

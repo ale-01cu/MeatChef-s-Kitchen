@@ -15,6 +15,18 @@ export const listMeats = async () => {
 }
 
 
+export const listSearchMeats = async (query) => {
+
+  const { response, data }  = await fetching({
+    url: MEATS_URL + '/search/' + query,
+    method: 'GET',
+  })
+
+  if(!response.ok) return []
+  return data
+}
+
+
 
 export const retrieveMeats = async (meatId) => {
   const { data }  = await fetching({

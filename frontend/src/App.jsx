@@ -33,7 +33,9 @@ function App() {
           <Route path="/" component={Home} />
           <Route path="/carnicos" component={Meats} />
           <Route path="/carnicos/:category" component={Meats} />
+          <Route path="/carnicos/search/:search" component={Meats} />
           <Route path="/cursos" component={Courses} />
+          <Route path="/cursos/search/:search" component={Courses} />
           {/* <Route path="/users/:name">
             {(params) => <>Hello, {params.name}!</>}
           </Route> */}

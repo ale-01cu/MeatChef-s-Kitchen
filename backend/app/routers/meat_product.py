@@ -8,7 +8,8 @@ from app.cruds.meat_product import (
     create_meat_product,
     get_meat_product_by_id,
     delete_meat_product_by_id,
-    update_meat_product_db
+    update_meat_product_db,
+    list_meat_product_by_name
 )
 from settings.db import get_db
 from sqlalchemy.orm import Session
@@ -62,6 +63,30 @@ async def get_meat_products(product_id: str, db: Session = Depends(get_db)
         )
     
 
+@router.get('/meat-products/search/{product_name}', tags=['search-meat-product'])
+async def search_meat_products(product_name: str, db: Session = Depends(get_db)
+) -> list[MeatProduct]:
+    try:
+
+        product = list_meat_product_by_name(db, product_name)
+        if not product: raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='El producto no existe.'
+        )
+        return product
+
+    except HTTPException as e:
+        print(e)
+        raise e
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='No se pudo devolver los resultados de la busqueda.'
+        )
+    
+
 
 @router.post('/meat-products', tags=['create-meat-product'],
     dependencies=[Depends(role_permisisons.if_is_staff)])
@@ -71,7 +96,7 @@ async def create_meat_products(
     description: str = Form(),
     price: float = Form(),
     photo: Optional[UploadFile] = File(None),
-    category: str = Form(),
+    category_id: str = Form(),
     is_active: bool = Form(),
     db: Session = Depends(get_db)
 ) -> MeatProduct:
@@ -87,7 +112,7 @@ async def create_meat_products(
             description=description,
             price=price,
             photo=file_info.path,
-            category=category,
+            category_id=category_id,
             is_active=is_active
         )
         products = create_meat_product(db, meat_product)
@@ -124,7 +149,7 @@ async def update_meat_products(
     description: str = Form(),
     price: float = Form(),
     photo: UploadFile = File(),
-    category: str = Form(),
+    category_id: str = Form(),
     is_active: bool = Form(),
     db: Session = Depends(get_db)
 ) -> MeatProduct:
@@ -143,7 +168,7 @@ async def update_meat_products(
             description=description,
             price=price,
             photo=file_info.path,
-            category=category,
+            category_id=category_id,
             is_active=is_active
         )
         product = update_meat_product_db(db, product_id, meat_product)

@@ -1,7 +1,8 @@
 import { Link } from "wouter"
 import AuthButtons from './AuthButtons'
+import Search from "./Search"
 
-export default function Header() {
+export default function Header({typeSearch}) {
   return (
     <header>
       <div>
@@ -10,14 +11,7 @@ export default function Header() {
         </Link>
       </div>
 
-      <div>
-        <input 
-          type="search" 
-          name="search" 
-          id="search" 
-          placeholder="Buscar..."
-        />
-      </div>
+      <Search type={typeSearch}/>
 
       <div>
         <AuthButtons/>

@@ -15,6 +15,14 @@ def get_meat_product_by_id(db: Session, id: str) -> MeatProduct:
         MeatProduct.is_active == True).first()
 
 
+def list_meat_product_by_name(db: Session, name: str, skip: int = 0, limit: int = 100
+) -> list[MeatProduct]:
+    return db.query(MeatProduct).filter(
+        MeatProduct.name_of_the_cut_of_meat.ilike(f"%{name}%"), 
+        MeatProduct.is_active == True
+    ).offset(skip).limit(limit).all()
+
+
 def create_meat_product(db: Session, meat_product: MeatProductCreate,
 ) -> MeatProduct: 
     db_meat_product = MeatProduct(**meat_product.model_dump())

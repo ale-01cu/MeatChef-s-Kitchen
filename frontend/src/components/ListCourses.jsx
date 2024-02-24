@@ -1,14 +1,12 @@
-import useListCourses from '../hooks/useListCourses'
 import Card from './Card'
 
-export default function ListCourses() {
-  const [ courses, isLoading ] = useListCourses()
+export default function ListCourses({data}) {
 
   return (
     <>
       <ul>
         {
-          courses?.map(course => (
+          data?.map(course => (
             <li key={course.id}>
               <Card 
                 image={course.photo}

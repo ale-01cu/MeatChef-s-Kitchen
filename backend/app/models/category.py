@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String
 from settings.db import Base
+from sqlalchemy.orm import relationship
 import uuid
 
 class Category(Base):
@@ -18,3 +19,7 @@ class Category(Base):
         comment='Nombre de la categoria'
     )
 
+    meat_product = relationship(
+        'MeatProduct',
+        back_populates='category'
+    )

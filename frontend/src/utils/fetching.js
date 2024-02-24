@@ -10,9 +10,6 @@ export default async function fetching(params = {}) {
     })
     const data = await res.json()
 
-    console.log('aaaaaaaaaaaaaaa');
-    console.log(data);
-    
     return {
       response: res,
       data

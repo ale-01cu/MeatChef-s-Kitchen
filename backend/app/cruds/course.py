@@ -18,10 +18,12 @@ def get_course_by_id(db: Session, id: str) -> CourseSchema:
         Course.is_active == True).first()
 
 
-def get_course_by_name(db: Session, name: str) -> CourseSchema:
+def list_course_by_name(db: Session, name: str, skip: int = 0, limit: int = 100
+) -> list[CourseSchema]:
     return db.query(Course).filter(
-        Course.name == name, 
-    ).first()
+        Course.name.ilike(f"%{name}%"),
+        Course.is_active == True
+    ).offset(skip).limit(limit).all()
 
 
 def create_course_db(db: Session, course: CourseCreateSchema = None,

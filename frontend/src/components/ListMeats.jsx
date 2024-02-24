@@ -1,13 +1,11 @@
-import useListMeats from "../hooks/useListMeats"
 import Card from './Card'
 
-export default function ListMeats() {
-  const [ meats, isLoading ] = useListMeats()
+export default function ListMeats({data}) {
   return (
     <>
       <ul>
         {
-          meats?.map(meat => (
+          data?.map(meat => (
             <li key={meat.id}>
               <Card 
                 image={meat.photo}
