@@ -12,6 +12,7 @@ from app.utils.password import hash_password, verify_password
 from datetime import timedelta
 from settings.base import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.utils.token import create_access_token, verify_token
+from app.utils.token import get_token_within_bearer
 from jose import JWTError
 router = APIRouter()
 
@@ -91,10 +92,11 @@ async def login(user: UserLogin, db: Session = Depends(get_db)
         )
     
 
-@router.post('/verify-token', tags=['verify-token'])
-async def verify_token(token: TokenInput) -> TokenIsValid:
+@router.get('/verify-token/{token}', tags=['verify-token'])
+async def verify_token_controller(token: str) -> TokenIsValid:
     try:
-        verify_token(token)
+        only_token = get_token_within_bearer(token)
+        verify_token(only_token)
         return TokenIsValid(is_valid=True)
     except JWTError:
         return TokenIsValid(is_valid=False)

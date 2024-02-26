@@ -5,9 +5,7 @@ from sqlalchemy.orm import Session
 from settings.db import get_db
 from app.schemas.user import UserSchema
 
-def authorization(
-    request: Request, 
-    db: Session = Depends(get_db)
+def authorization(request: Request, db: Session = Depends(get_db)
 ) -> UserSchema:
     
     unauthorization_exception = HTTPException(
@@ -18,6 +16,7 @@ def authorization(
     try:
         if 'authorization' in request.headers.keys():
             token: str = request.headers['authorization'].split('bearer ')[1]
+            print(token)
             if not token: raise Exception() 
             payload = verify_token(token)
             email = payload['sub']

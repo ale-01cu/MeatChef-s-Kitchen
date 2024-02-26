@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import date
+from typing import Optional
 
 class CourseCreateSchema(BaseModel):
     name: str
@@ -14,6 +15,13 @@ class CourseUpdateSchema(BaseModel):
     description: str
     photo: str
     video: str
+    is_active: bool
+
+class CourseUpdateWithinNameSchema(BaseModel):
+    description: str
+    photo: str
+    video: str
+    is_active: bool
 
 class CourseListSchema(BaseModel):
     id: str
@@ -21,6 +29,7 @@ class CourseListSchema(BaseModel):
     description: str
     photo: str
     teacher_id: str
+    is_active: bool
     createAt: date
 
 
@@ -31,4 +40,5 @@ class CourseSchema(BaseModel):
     teacher_id: str
     photo: str
     video: str
+    is_active: bool
     createAt: date

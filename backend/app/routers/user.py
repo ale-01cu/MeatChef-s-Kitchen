@@ -17,12 +17,36 @@ from app.models.user import UserModel
 router = APIRouter()
 
 
-@router.get('/user/{user_id}', tags=['get-user'])
-async def get_user(user_id: str, db: Session = Depends(get_db)
+@router.get('/profile/{user_id}', tags=['get-user'])
+async def get_profile(user_id: str, db: Session = Depends(get_db)
 ) -> UserSchema:
     try:
 
         user = get_user_by_id(db, user_id)
+        if not user: raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='No se encontro ningun usuario.',
+        )
+        return user
+    
+    except HTTPException as e:
+        print(e)
+        raise e
+        
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Error al buscar el usuario.',
+        )
+    
+
+@router.get('/user', tags=['get-fulluser'])
+async def get_user(db: Session = Depends(get_db),
+    user: UserFull = Depends(authorization)
+) -> UserFull:
+    try:
+        user = get_user_by_id(db, user.id)
         if not user: raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail='No se encontro ningun usuario.',

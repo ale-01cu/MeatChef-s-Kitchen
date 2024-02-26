@@ -8,19 +8,25 @@ from sqlalchemy.orm import Session
 from app.utils.save_file import save_file
 from app.middlewares import role_permisisons
 from app.middlewares.authorization import authorization
+from app.middlewares.getUser import get_user
 from app.cruds.course import (
     create_course_db,
     delete_course_by_id,
     get_course_by_id,
     list_courses_db,
     update_course_db,
-    list_course_by_name
+    list_course_by_name,
+    get_course_by_name,
+    list_courses_admin_db,
+    list_course_admin_by_name,
+    get_course_admin_by_id
 )
 from app.schemas.course import (
     CourseCreateSchema,
     CourseListSchema,
     CourseSchema,
-    CourseUpdateSchema
+    CourseUpdateSchema,
+    CourseUpdateWithinNameSchema
 )
 from app.schemas.user import UserSchema
 from psycopg2.errors import UniqueViolation
@@ -31,10 +37,12 @@ from app.utils.delete_file import delete_file
 router = APIRouter()
 
 @router.get('/course', tags=['list-course'])
-async def list_courses(db: Session = Depends(get_db)
+async def list_courses(db: Session = Depends(get_db),
+    user: UserSchema | None = Depends(get_user)
 ) -> list[CourseListSchema]:
     try:
-
+        if user and user.is_teacher: 
+            return list_courses_admin_db(db)
         courses = list_courses_db(db)
         return courses
 
@@ -47,10 +55,13 @@ async def list_courses(db: Session = Depends(get_db)
 
 
 @router.get('/course/search/{name}', tags=['search-course'])
-async def search_courses(name: str, db: Session = Depends(get_db)
+async def search_courses(name: str, db: Session = Depends(get_db),
+    user: UserSchema | None = Depends(get_user)
 ) -> list[CourseListSchema]:
     try:
 
+        if user and user.is_teacher: 
+            return list_course_admin_by_name(db, name)
         courses = list_course_by_name(db, name)
         return courses
 
@@ -63,10 +74,13 @@ async def search_courses(name: str, db: Session = Depends(get_db)
     
 
 @router.get('/course/{course_id}', tags=['get-course'])
-async def get_course(course_id: str, db: Session = Depends(get_db)
+async def get_course(course_id: str, db: Session = Depends(get_db),
+    user: UserSchema | None = Depends(get_user)
 ) -> CourseSchema:
     try:
 
+        if user and user.is_teacher: 
+            return get_course_admin_by_id(db, course_id)
         course = get_course_by_id(db, course_id)
         if not course: raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -98,7 +112,11 @@ async def create_course(
     db: Session = Depends(get_db)
 ) -> CourseSchema:
     try:
-        if list_course_by_name(db, name): raise HTTPException(
+
+        print(name)
+        course = get_course_by_name(db, name)
+        print(course)
+        if course: raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Ya existe un curso con ese nombre.'
         )
@@ -155,29 +173,43 @@ async def update_course(
     description: str = Form(),
     photo: UploadFile = File(),
     video: UploadFile = File(),
+    is_active: str = Form(),
+    user: UserSchema | None = Depends(get_user),
     db: Session = Depends(get_db)
 ) -> CourseSchema:
     try:
-
         # Comprueba si existe ya la foto o el video
         # y si existe los elimina
-        if get_course_by_name(db, name):raise UniqueViolation()
+        if user.is_teacher: course = get_course_admin_by_id(db, course_id)
+        else: course = get_course_by_id(db, course_id)
 
-        course = get_course_by_id(db, course_id)
-        path = f'media/courses/{name}'
-        photo_info = await save_file(photo, path)
-        if course.photo != photo_info.path:
-            delete_file(course.photo)
-        video_info = await save_file(video, path)
-        if course.video != video_info.path:
-            delete_file(course.video)
+        if photo.filename:
+            course = get_course_by_id(db, course_id)
+            path = f'media/courses/{name}'
+            photo_info = await save_file(photo, path)
+            if course.photo != photo_info.path:
+                delete_file(course.photo)
 
-        course = CourseUpdateSchema(
-            name=name,
-            description=description,
-            photo=photo_info.path,
-            video=video_info.path,
-        )
+        if video.filename:
+            video_info = await save_file(video, path)
+            if course.video != video_info.path:
+                delete_file(course.video)
+
+        if course and course.name == name: 
+            course = CourseUpdateWithinNameSchema(
+                description=description,
+                photo=photo_info.path if photo.filename else course.photo,
+                video=video_info.path if video.filename else course.video,
+                is_active=is_active
+            )
+        else:
+            course = CourseUpdateSchema(
+                name=name,
+                description=description,
+                photo=photo_info.path if photo.filename else course.photo,
+                video=video_info.path if video.filename else course.video,
+                is_active=is_active
+            )
         course = update_course_db(db, course_id, course)
         return course
     

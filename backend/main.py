@@ -14,7 +14,8 @@ from app.routers import (
     category,
     course,
     order,
-    sales
+    sales,
+    permissions
 )
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,6 +36,7 @@ app.include_router(category.router)
 app.include_router(course.router)
 app.include_router(order.router)
 app.include_router(sales.router)
+app.include_router(permissions.router)
 
 
 origins = [

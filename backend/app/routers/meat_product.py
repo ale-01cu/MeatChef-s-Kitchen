@@ -9,7 +9,8 @@ from app.cruds.meat_product import (
     get_meat_product_by_id,
     delete_meat_product_by_id,
     update_meat_product_db,
-    list_meat_product_by_name
+    list_meat_product_by_name,
+    list_meat_product_by_category
 )
 from settings.db import get_db
 from sqlalchemy.orm import Session
@@ -37,6 +38,24 @@ async def list_meat_products(db: Session = Depends(get_db)
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail='No se pudo listar los productos carnicos.'
         )
+    
+
+@router.get('/meat-products/category/{category}', tags=['list-meat-products'])
+async def list_meat_products_by_category(category: str, db: Session = Depends(get_db)
+) -> list[MeatProduct]:
+    try:
+
+        products = list_meat_product_by_category(db, category)
+        return products
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='No se pudo listar los productos carnicos.'
+        )
+    
+    
     
 
 @router.get('/meat-products/{product_id}', tags=['get-meat-product'])

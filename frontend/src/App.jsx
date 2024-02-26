@@ -8,22 +8,25 @@ import { useEffect } from 'react';
 import {ToastContainer} from 'react-toastify'
 import Meats from './pages/Meats';
 import Courses from './pages/Courses';
+import CourseDetail from './pages/CourseDetail';
+import CourseEdit from './pages/CourseEdit';
 
 function App() {
-  const [ tokenInMemory] = useVerifyToken()
+  const { isValid, user } = useVerifyToken()
   const [ auth, setAuth ] = useState(false)
 
 
   useEffect(() => {
-    if(tokenInMemory) setAuth(true)
+    if(isValid) setAuth(true)
     else setAuth(false)
     
-  }, [ tokenInMemory ])
+  }, [ isValid ])
 
   const authData = useMemo(() => ({
     auth,
-    setAuth
-  }),[ auth ])
+    setAuth,
+    user
+  }),[ auth, user ])
 
   return (
     <AuthContext.Provider value={authData}>
@@ -32,9 +35,11 @@ function App() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/carnicos" component={Meats} />
-          <Route path="/carnicos/:category" component={Meats} />
+          <Route path="/carnicos/category/:category_id" component={Meats} />
           <Route path="/carnicos/search/:search" component={Meats} />
           <Route path="/cursos" component={Courses} />
+          <Route path="/cursos/editar/:course_id" component={CourseEdit} />
+          <Route path="/cursos/:course_id" component={CourseDetail} />
           <Route path="/cursos/search/:search" component={Courses} />
           {/* <Route path="/users/:name">
             {(params) => <>Hello, {params.name}!</>}

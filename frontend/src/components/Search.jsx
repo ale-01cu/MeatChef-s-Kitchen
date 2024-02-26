@@ -13,7 +13,8 @@ export default function Search({type}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLocation(CLIENT_BASE_URL + '/' + type + '/search/' + searchValue)
+    if(searchValue) setLocation(CLIENT_BASE_URL + '/' + type + '/search/' + searchValue)
+  
   }
 
   return (

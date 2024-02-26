@@ -3,8 +3,8 @@ import {
   ModalContent, 
   ModalHeader, 
   ModalBody, 
-  ModalFooter,
-  useDisclosure
+  useDisclosure,
+  Input
 } from "@nextui-org/react";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -70,7 +70,7 @@ export default function LoginModal(){
           placement="center"
         >
           <ModalContent>
-            {(onClose) => (
+            {() => (
               <>
                 <ModalHeader className="">Log in</ModalHeader>
                 <ModalBody>
@@ -79,14 +79,14 @@ export default function LoginModal(){
                     className="" 
                     onSubmit={formik.handleSubmit}
                   >
-                    <input
+                    <Input
                       label="Email"
                       name="email"
                       placeholder="Enter your email"
                       onChange={formik.handleChange}
                       value={formik.values.email}
                     />
-                    <input
+                    <Input
                       name="password"
                       placeholder="Enter your password"
                       type="password"

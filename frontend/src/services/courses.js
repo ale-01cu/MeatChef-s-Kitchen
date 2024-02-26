@@ -1,5 +1,6 @@
 import fetching from '../utils/fetching'
 import { COURSES_URL } from '../utils/constants'
+import { getSessionStorageToken } from '../utils/token'
 
 export const listCourses = async () => {
 
@@ -7,7 +8,8 @@ export const listCourses = async () => {
     url: COURSES_URL,
     method: 'GET',
     headers: {
-      'content-type': 'aplication/json'
+      'content-type': 'aplication/json',
+      'authorization': getSessionStorageToken()
     },
   })
 
@@ -19,6 +21,8 @@ export const listSearchCourses = async (query) => {
   const { response, data }  = await fetching({
     url: COURSES_URL + '/search/' + query,
     method: 'GET',
+    headers: {'authorization': getSessionStorageToken()}
+
   })
 
   if(!response.ok) return []
@@ -26,13 +30,55 @@ export const listSearchCourses = async (query) => {
 }
 
 
+export const deleteCourse = async (course_id) => {
+  const response = await fetch(COURSES_URL + '/' + course_id, {
+    method: 'DELETE',
+    headers: {'authorization': getSessionStorageToken()}
+  })
+
+  if(!response.ok) return false
+  return true
+}
+
+
+export const updateCourse = async (course_id, formData) => {
+  const { response, data } = await fetching({
+    url: COURSES_URL + '/' + course_id,
+    method: 'PUT',
+    body: formData,
+    headers: {'authorization': getSessionStorageToken()}
+
+  })
+  return {
+    res: response,  
+    data
+  }
+
+}
+
+export const createCourse = async (formData) => {
+  const { response, data } = await fetching({
+    url: COURSES_URL,
+    method: 'POST',
+    body: formData,
+    headers: {'authorization': getSessionStorageToken()}
+  })
+
+  return {
+    res: response,  
+    data
+  }
+
+}
+
 
 export const retrieveCourses = async (courseId) => {
   const { data }  = await fetching({
     url: COURSES_URL + '/' + courseId,
     method: 'GET',
     headers: {
-      'content-type': 'aplication/json'
+      'content-type': 'aplication/json',
+      'authorization': getSessionStorageToken()
     },
   })
 

@@ -15,3 +15,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 def verify_token(token: str):
     return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+
+def get_token_within_bearer(token: str) -> str:
+    only_token: str = token.split('bearer ')[1]
+    return only_token

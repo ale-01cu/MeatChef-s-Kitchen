@@ -8,13 +8,12 @@ from app.schemas.user import (
 )
 
 
-def get_user_by_id(db: Session, user_id: str) -> UserCreateSchema:
+def get_user_by_id(db: Session, user_id: str) -> UserFull:
     user = db.query(UserModel).filter(
         UserModel.id == user_id,
         UserModel.is_active == True
     ).first()
     return user
-
 
 def get_user_by_email(db: Session, email: str) -> UserCreateSchema:
     return db.query(UserModel).filter(
