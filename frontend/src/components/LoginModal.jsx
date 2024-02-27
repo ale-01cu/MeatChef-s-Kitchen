@@ -18,7 +18,7 @@ import { toast } from 'react-toastify'
 export default function LoginModal(){
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
   const [ isRemember, setIsRemember ] = useState(false)
-  const { setAuth } = useAuth()
+  const { setAuth, setMyUser } = useAuth()
 
   const formik = useFormik({
     initialValues: {
@@ -35,7 +35,6 @@ export default function LoginModal(){
         .required(true, 'El password es obligatorio.')
     }),
     onSubmit: async (formData) => {
-      console.log(formData);
       try {
         const res = await fetch(LOGIN_URL, {
           method: 'post',
@@ -51,6 +50,7 @@ export default function LoginModal(){
         const { access_token } = data
         setToken(`bearer ${access_token}`, isRemember)
         setAuth(true)
+        setMyUser()
         onClose()
         toast.success('Se ha logueado correctamente.')
 

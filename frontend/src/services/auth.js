@@ -18,7 +18,7 @@ export const verifyToken = async () => {
 
 export const getFullUser = async () => {
   const token = getSessionStorageToken()
-  const { data } = await fetching({
+  const { response, data } = await fetching({
     method: 'GET',
     url: USER_URL,
     headers: {
@@ -26,5 +26,5 @@ export const getFullUser = async () => {
     }
   })
 
-  return data
+  return { response, data }
 }

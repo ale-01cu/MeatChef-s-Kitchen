@@ -8,7 +8,6 @@ import { getLocalStorageToken } from "../utils/token";
 export default function AuthButtons() {
   const { auth } = useAuth()
   
-
   if(getLocalStorageToken() && !auth) return null
 
   return (

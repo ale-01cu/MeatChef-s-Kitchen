@@ -1,7 +1,7 @@
 import Home from './pages/Home'
 import {NextUIProvider} from "@nextui-org/react";
 import { Route, Switch } from "wouter";
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import AuthContext from './contexts/AuthContext'
 import useVerifyToken from './hooks/useVerifyToken';
 import { useEffect } from 'react';
@@ -10,23 +10,34 @@ import Meats from './pages/Meats';
 import Courses from './pages/Courses';
 import CourseDetail from './pages/CourseDetail';
 import CourseEdit from './pages/CourseEdit';
+import { getFullUser } from './services/auth';
 
 function App() {
-  const { isValid, user } = useVerifyToken()
+  const { isValid } = useVerifyToken()
   const [ auth, setAuth ] = useState(false)
+  const [ user, setUser ] = useState()
 
+  const setMyUser = useCallback(() => {
+    getFullUser()
+      .then(({response, data}) => {
+        if(response.status != 200) setUser(null)
+        else setUser(data)} 
+      )
+  }, [])
 
   useEffect(() => {
     if(isValid) setAuth(true)
     else setAuth(false)
-    
   }, [ isValid ])
+
+  useEffect(() => setMyUser(), [setMyUser])
 
   const authData = useMemo(() => ({
     auth,
     setAuth,
-    user
-  }),[ auth, user ])
+    user,
+    setMyUser
+  }),[ auth, user, setMyUser ])
 
   return (
     <AuthContext.Provider value={authData}>

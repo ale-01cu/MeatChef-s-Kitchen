@@ -3,10 +3,10 @@ import { TOKEN } from './constants'
 
 // Guarda el Token en la session storage y
 // en el local storage basandose en un parametro
-export function setToken(token, isSessionStorage) {
+export function setToken(token, isLocalStorageToken) {
 
   window.sessionStorage.setItem(TOKEN, token)
-  if(isSessionStorage) window.localStorage.setItem(TOKEN, token);
+  if(isLocalStorageToken) window.localStorage.setItem(TOKEN, token);
 
 }
 

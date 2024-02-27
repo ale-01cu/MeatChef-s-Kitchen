@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { getLocalStorageToken, deleteToken, setToken } from "../utils/token"
-import { verifyToken, getFullUser } from "../services/auth"
+import { verifyToken } from "../services/auth"
 
 // Verifica si el token es valido
 // para saber si el usuario esta 
@@ -8,7 +8,6 @@ import { verifyToken, getFullUser } from "../services/auth"
 export default function useVerifyToken() {
   const [ tokenInMemory, setTokenInMemory ] = useState()
   const [ isValid, setIsValid ] = useState(false)
-  const [ user, setUser ] = useState()
 
   useEffect(() => {
     const token = getLocalStorageToken()
@@ -16,22 +15,16 @@ export default function useVerifyToken() {
     setToken(token, false)
 
     if(tokenInMemory) verifyToken()
-      .then(({res, data}) => {
-          if(!res.ok){
-            setIsValid(true)
-            return null
-          }
+      .then(({data}) => {
           const { is_valid } = data
-          setIsValid(is_valid)
-      })
+          if(!is_valid) {
+            setIsValid(false)
+            deleteToken()
+          }
+          else setIsValid(is_valid)
+    })
 
   }, [tokenInMemory, isValid])
 
-
-  useEffect(() => {
-    getFullUser()
-      .then(data => setUser(data))
-  }, [])
-
-  return { isValid, tokenInMemory, token: getLocalStorageToken(), user }
+  return { isValid, tokenInMemory, token: getLocalStorageToken() }
 }
