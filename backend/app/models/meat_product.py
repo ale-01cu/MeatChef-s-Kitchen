@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Text, Float, Boolean, Date, ForeignKey
+from sqlalchemy import Column, String, Text, Float, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from settings.db import Base
 import uuid
@@ -66,7 +66,7 @@ class MeatProduct(Base):
     )
 
     createAt = Column(
-        Date, 
+        DateTime, 
         default=datetime.utcnow,
         comment='Fecha de creado'
     )

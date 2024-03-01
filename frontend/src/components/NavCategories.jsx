@@ -1,4 +1,4 @@
-import ListCategories from "./ListCategories"
+import ListCategories from "./Meats/ListCategories"
 
 export default function NavCategories() {
   return (

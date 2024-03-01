@@ -10,7 +10,9 @@ def list_courses_db(db: Session, skip: int = 0, limit: int = 100
 ) -> list[CourseListSchema]:
     return db.query(Course).filter(
         Course.is_active == True
-    ).offset(skip).limit(limit).all()
+    )\
+    .order_by(Course.createAt.desc())\
+    .offset(skip).limit(limit).all()
 
 def list_courses_admin_db(db: Session, skip: int = 0, limit: int = 100 
 ) -> list[CourseListSchema]:
@@ -44,14 +46,18 @@ def list_course_by_name(db: Session, name: str, skip: int = 0, limit: int = 100
     return db.query(Course).filter(
         Course.name.ilike(f"%{name}%"),
         Course.is_active == True
-    ).offset(skip).limit(limit).all()
+    )\
+    .order_by(Course.createAt.desc())\
+    .offset(skip).limit(limit).all()
 
 
 def list_course_admin_by_name(db: Session, name: str, skip: int = 0, limit: int = 100
 ) -> list[CourseSchema]:
     return db.query(Course).filter(
         Course.name.ilike(f"%{name}%"),
-    ).offset(skip).limit(limit).all()
+    )\
+    .order_by(Course.createAt.desc())\
+    .offset(skip).limit(limit).all()
 
 
 def create_course_db(db: Session, course: CourseCreateSchema = None,

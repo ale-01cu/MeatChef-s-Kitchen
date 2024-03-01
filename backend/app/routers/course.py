@@ -31,7 +31,6 @@ from app.schemas.course import (
 from app.schemas.user import UserSchema
 from psycopg2.errors import UniqueViolation
 from app.errors.SaveFileException import SaveFileException
-from fastapi.exceptions import ValidationException
 from app.utils.delete_file import delete_file
 
 router = APIRouter()
@@ -42,9 +41,7 @@ async def list_courses(db: Session = Depends(get_db),
 ) -> list[CourseListSchema]:
     try:
         if user and user.is_teacher: 
-            courses = list_courses_admin_db(db)
-            print([course.name for course in courses])
-            return courses
+            return list_courses_admin_db(db)
         courses = list_courses_db(db)
         return courses
 

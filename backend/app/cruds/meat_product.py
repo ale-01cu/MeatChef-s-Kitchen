@@ -10,11 +10,22 @@ def list_meat_products_db(db: Session, skip: int = 0, limit: int = 100
         MeatProduct.is_active == True
     ).offset(skip).limit(limit).all()
 
+def list_meat_products_admin_db(db: Session, skip: int = 0, limit: int = 100 
+) -> list[MeatProduct]:
+    return db.query(MeatProduct)\
+    .order_by(MeatProduct.createAt.desc())\
+    .offset(skip).limit(limit).all()
+
 
 def get_meat_product_by_id(db: Session, id: str) -> MeatProduct:
     return db.query(MeatProduct).filter(
         MeatProduct.id == id, 
         MeatProduct.is_active == True).first()
+
+def get_meat_product_admin_by_id(db: Session, id: str) -> MeatProduct:
+    return db.query(MeatProduct).filter(
+        MeatProduct.id == id, 
+    ).first()
 
 
 def list_meat_product_by_name(db: Session, name: str, skip: int = 0, limit: int = 100
@@ -24,6 +35,14 @@ def list_meat_product_by_name(db: Session, name: str, skip: int = 0, limit: int 
         MeatProduct.is_active == True
     ).offset(skip).limit(limit).all()
 
+def list_meat_product_admin_by_name(db: Session, name: str, skip: int = 0, limit: int = 100
+) -> list[MeatProduct]:
+    return db.query(MeatProduct).filter(
+        MeatProduct.name_of_the_cut_of_meat.ilike(f"%{name}%"), 
+    )\
+    .order_by(MeatProduct.createAt.desc())\
+    .offset(skip).limit(limit).all()
+
 
 def list_meat_product_by_category(db: Session, cat: str, skip: int = 0, limit: int = 100
 ) -> list[MeatProduct]:
@@ -31,6 +50,15 @@ def list_meat_product_by_category(db: Session, cat: str, skip: int = 0, limit: i
         MeatProduct.category_id == cat, 
         MeatProduct.is_active == True
     ).offset(skip).limit(limit).all()
+
+
+def list_meat_product_admin_by_category(db: Session, cat: str, skip: int = 0, limit: int = 100
+) -> list[MeatProduct]:
+    return db.query(MeatProduct).filter(
+        MeatProduct.category_id == cat, 
+    )\
+    .order_by(MeatProduct.createAt.desc())\
+    .offset(skip).limit(limit).all()
 
 
 def create_meat_product(db: Session, meat_product: MeatProductCreate,

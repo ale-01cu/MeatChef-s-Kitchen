@@ -10,7 +10,11 @@ from app.cruds.meat_product import (
     delete_meat_product_by_id,
     update_meat_product_db,
     list_meat_product_by_name,
-    list_meat_product_by_category
+    list_meat_product_by_category,
+    get_meat_product_admin_by_id,
+    list_meat_product_admin_by_category,
+    list_meat_product_admin_by_name,
+    list_meat_products_admin_db
 )
 from settings.db import get_db
 from sqlalchemy.orm import Session
@@ -21,14 +25,19 @@ from typing import Optional
 from app.middlewares import role_permisisons
 from psycopg2.errors import UniqueViolation
 from app.utils.delete_file import delete_file
+from app.middlewares.getUser import get_user
+from app.schemas.user import UserSchema
 
 router = APIRouter()
 
 @router.get('/meat-products', tags=['list-meat-products'])
-async def list_meat_products(db: Session = Depends(get_db)
+async def list_meat_products(db: Session = Depends(get_db),
+    user: UserSchema | None = Depends(get_user)
 ) -> list[MeatProduct]:
     try:
 
+        if user and user.is_staff: 
+            return list_meat_products_admin_db(db)
         products = list_meat_products_db(db)
         return products
 
@@ -41,10 +50,13 @@ async def list_meat_products(db: Session = Depends(get_db)
     
 
 @router.get('/meat-products/category/{category}', tags=['list-meat-products'])
-async def list_meat_products_by_category(category: str, db: Session = Depends(get_db)
+async def list_meat_products_by_category(category: str, db: Session = Depends(get_db),
+    user: UserSchema | None = Depends(get_user)
 ) -> list[MeatProduct]:
     try:
 
+        if user and user.is_staff:
+            return list_meat_product_admin_by_category(db, category)
         products = list_meat_product_by_category(db, category)
         return products
 
@@ -55,14 +67,16 @@ async def list_meat_products_by_category(category: str, db: Session = Depends(ge
             detail='No se pudo listar los productos carnicos.'
         )
     
-    
-    
+
 
 @router.get('/meat-products/{product_id}', tags=['get-meat-product'])
-async def get_meat_products(product_id: str, db: Session = Depends(get_db)
+async def get_meat_products(product_id: str, db: Session = Depends(get_db),
+    user: UserSchema | None = Depends(get_user)
 ) -> MeatProduct:
     try:
 
+        if user and user.is_staff:
+            return get_meat_product_admin_by_id(db, product_id)
         product = get_meat_product_by_id(db, product_id)
         if not product: raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -83,10 +97,13 @@ async def get_meat_products(product_id: str, db: Session = Depends(get_db)
     
 
 @router.get('/meat-products/search/{product_name}', tags=['search-meat-product'])
-async def search_meat_products(product_name: str, db: Session = Depends(get_db)
+async def search_meat_products(product_name: str, db: Session = Depends(get_db),
+    user: UserSchema | None = Depends(get_user)
 ) -> list[MeatProduct]:
     try:
 
+        if user and user.is_staff:
+            return list_meat_product_admin_by_name(db, product_name)
         product = list_meat_product_by_name(db, product_name)
         if not product: raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

@@ -3,7 +3,7 @@ import { CATEGORIES_URL } from '../utils/constants'
 
 export const listCategories = async () => {
 
-  const { data }  = await fetching({
+  const { response, data }  = await fetching({
     url: CATEGORIES_URL,
     method: 'GET',
     headers: {
@@ -11,5 +11,6 @@ export const listCategories = async () => {
     },
   })
 
+  if(!response.ok) throw new Error(data.detail)
   return data
 }

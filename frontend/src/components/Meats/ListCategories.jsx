@@ -1,6 +1,6 @@
-import useListCategories from '../hooks/useListCategories'
+import useListCategories from '../../hooks/useListCategories'
 import { Link } from 'wouter' 
-import { CLIENT_CATEGORY_URL } from '../utils/constants'
+import { CLIENT_CATEGORY_URL } from '../../utils/constants'
 
 export default function ListCategories() {
   const [ categories, isLoading ] = useListCategories()
