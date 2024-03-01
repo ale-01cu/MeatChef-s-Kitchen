@@ -1,23 +1,31 @@
-import InputFile from "./InputFile";
+import InputFile from "../InputFile";
 import { Image } from "@nextui-org/react";
-import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../../utils/constants";
 import { useEffect, useState } from "react";
-import { retrieveCourses, updateCourse } from "../services/courses";
+import { retrieveCourses, updateCourse } from "../../services/courses";
 import {  
   Textarea,
   Input,
-  Checkbox
+  Checkbox,
+  Button
 } from "@nextui-org/react";
 
-export default function CourseForm({course_id}) {
+export default function UpdateCourseForm(props) {
+  const {courseId, closeModal, refreshOneElement } = props
   const [ courseData, setCoursesData ] = useState(null)
   const [ photoFile, setPhotoFile ] = useState()
   const [ videoFile, setVideoFile ] = useState()
+  const [ updateIsError, setUpdateIsError ] = useState(null)
+  const [ isLoading, setIsLoading ] = useState(false)
 
   useEffect(() => {
-    retrieveCourses(course_id)
+    retrieveCourses(courseId)
       .then(data => setCoursesData(data))
-  }, [course_id])
+      .catch(e => {
+        console.error(e);
+        setUpdateIsError(e)
+      })
+  }, [courseId])
 
 
   const handleChange = (e, field) => {
@@ -48,16 +56,22 @@ export default function CourseForm({course_id}) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setIsLoading(true)
     const formData = new FormData(e.target)
     formData.set('is_active', courseData.is_active)
 
-    updateCourse(course_id, formData)
-      .then(({res, data}) => {
-        console.log(data);
+    updateCourse(courseId, formData)
+      .then(({res}) => {
         if(res.ok) {
-          console.log('updated');
+          closeModal()
+          refreshOneElement(courseId)
         }
       })
+      .catch(e => {
+        console.error(e);
+        setUpdateIsError(e)
+      })
+      .finally(() => setIsLoading(false))
   }
 
 
@@ -65,7 +79,10 @@ export default function CourseForm({course_id}) {
 
   return (
     <>
-      <h1 className="">Editar Curso</h1>
+      {
+        updateIsError &&
+          <h1>Revento esta talla</h1>
+      }
       <form 
         id="form-login" 
         className="" 
@@ -164,12 +181,13 @@ export default function CourseForm({course_id}) {
           Activo
         </Checkbox>
 
-        <button 
+        <Button 
           className='' 
           type='submit' 
+          isLoading={isLoading}
         >
             Actualizar
-        </button>
+        </Button>
       </form>
     </>
   )

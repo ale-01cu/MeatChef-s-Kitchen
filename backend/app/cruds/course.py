@@ -14,7 +14,11 @@ def list_courses_db(db: Session, skip: int = 0, limit: int = 100
 
 def list_courses_admin_db(db: Session, skip: int = 0, limit: int = 100 
 ) -> list[CourseListSchema]:
-    return db.query(Course).offset(skip).limit(limit).all()
+    return db.query(Course)\
+    .order_by(Course.createAt.desc())\
+    .offset(skip)\
+    .limit(limit)\
+    .all()
 
 
 def get_course_by_id(db: Session, id: str) -> CourseSchema:

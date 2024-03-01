@@ -42,7 +42,9 @@ async def list_courses(db: Session = Depends(get_db),
 ) -> list[CourseListSchema]:
     try:
         if user and user.is_teacher: 
-            return list_courses_admin_db(db)
+            courses = list_courses_admin_db(db)
+            print([course.name for course in courses])
+            return courses
         courses = list_courses_db(db)
         return courses
 
@@ -113,9 +115,7 @@ async def create_course(
 ) -> CourseSchema:
     try:
 
-        print(name)
         course = get_course_by_name(db, name)
-        print(course)
         if course: raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Ya existe un curso con ese nombre.'
@@ -152,10 +152,6 @@ async def create_course(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Error al guardar el fichero.'
         )
-    
-    except ValidationException as e:
-        print(e)
-        raise e
 
     except Exception as e:
         print(e)
@@ -227,10 +223,6 @@ async def update_course(
             detail='Error al guardar el fichero.'
         )
     
-    except ValidationException as e:
-        print(e)
-        raise e
-
     except Exception as e:
         print(e)
         raise HTTPException(

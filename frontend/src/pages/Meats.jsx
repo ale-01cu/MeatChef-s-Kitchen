@@ -37,8 +37,7 @@ export default function Meats() {
         <div>
           {
             search && meatData.length === 0 
-              ? <h1>No se encontraron resultados.</h1>
-              : <h1>Resultados de la busqueda</h1> 
+              && <h1>No se encontraron resultados.</h1>
           }
         </div>
         <ListMeats data={meatData}/>

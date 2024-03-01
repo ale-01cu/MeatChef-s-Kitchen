@@ -1,5 +1,5 @@
 from settings.db import Base
-from sqlalchemy import Column, String, Date, Boolean, Text, ForeignKey
+from sqlalchemy import Column, String, DateTime, Boolean, Text, ForeignKey
 from datetime import datetime
 import uuid
 
@@ -50,7 +50,7 @@ class Course(Base):
 
 
     createAt = Column(
-        Date, 
+        DateTime, 
         default=datetime.utcnow,
         comment='Fecha de creado'
     )
