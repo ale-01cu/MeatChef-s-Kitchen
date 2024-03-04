@@ -8,12 +8,17 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 
-export default function CustomModal({btnText, headerText, children}) {
+export default function CustomModal({btnOpen, btnText, headerText, children}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
-      <Button onClick={onOpen}>{ btnText }</Button>
+      {
+        !btnOpen 
+          ? <Button onClick={onOpen}>{ btnText }</Button>
+          : React.cloneElement(btnOpen, { onClick: onOpen }) 
+      }
+      
       <Modal 
           isOpen={isOpen} 
           onOpenChange={onOpenChange}

@@ -69,3 +69,10 @@ export const createMeat = async (formData) => {
   }
 
 }
+
+export const deleteMeat = async (meatId) => {
+  await fetch(MEATS_URL + '/' + meatId, {
+    method: 'DELETE',
+    headers: {'authorization': getSessionStorageToken()}
+  })
+}

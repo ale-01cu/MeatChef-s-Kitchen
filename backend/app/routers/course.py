@@ -129,6 +129,7 @@ async def create_course(
             video=video_info.path,
             is_active=is_active
         )
+        
         course = create_course_db(db, course)
         return course
     

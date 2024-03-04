@@ -4,6 +4,11 @@ import useListCategories from "../hooks/useListCategories";
 export default function CategoriesSelect ({ placeholder }) {
   const [ categories, isLoading ] = useListCategories()
 
+
+  const handleChange = (value) => {
+    console.log(value);
+  }
+
   return (
     <Select
       isRequired
@@ -14,7 +19,11 @@ export default function CategoriesSelect ({ placeholder }) {
       name="category_id"
     >
       {categories.map((cat) => (
-        <SelectItem key={cat.id} value={cat.id}>
+        <SelectItem 
+        key={cat.id} 
+        value={cat.id}
+        onChange={handleChange}
+      >
           {cat.name}
         </SelectItem>
       ))}

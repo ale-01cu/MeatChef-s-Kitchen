@@ -64,7 +64,7 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
         console.error(e);
         setAddIsError(e)
       })
-      .catch(() => setIsLoading(false))
+      .finally(() => setIsLoading(false))
 
   }
 

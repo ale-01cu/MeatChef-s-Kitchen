@@ -4,9 +4,6 @@ from typing import Optional
 class UserBaseSchema(BaseModel):
     id: str
 
-    class Config:
-        from_attributes = True
-
 
 class UserCreateSchema(BaseModel):
     email: str

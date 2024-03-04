@@ -1,6 +1,5 @@
-import ListMeats from "../components/ListMeats"
+import ListMeats from "../components/Meats/ListMeats"
 import Header from "../components/Header"
-import NavCategories from "../components/NavCategories"
 import { useParams } from "wouter"
 import { listMeats, listSearchMeats, listMeatsByCategory, retrieveMeats } from "../services/meats"
 import { useEffect, useState } from "react"
@@ -8,6 +7,8 @@ import AddMeatForm from "../components/Meats/AddMeatForm"
 import CustomModal from "../components/CustomModal"
 import useAuth from "../hooks/useAuth"
 import CategoriesSelect from "../components/CategoriesSelect"
+import CategoryForm from "../components/Category/CategoryForm"
+import BtnAddCategory from "../components/Category/BtnAddCategory"
 
 export default function Meats() {
   const { user } = useAuth()
@@ -68,7 +69,22 @@ export default function Meats() {
   return (
     <>
       <Header typeSearch='carnicos'/>
-      <CategoriesSelect placeholder='Filtrar por Categoria'/>
+
+      <div>
+        <CategoriesSelect placeholder='Filtrar por Categoria'/>
+        {
+          user?.is_superuser 
+            && <CustomModal
+              btnOpen={<BtnAddCategory/>}
+              headerText='Nueva Categoria'
+            >
+              <CategoryForm/>
+            </CustomModal>
+        }
+
+      </div>
+
+
       <main>
         {
           !isError && search && <div>
@@ -84,7 +100,7 @@ export default function Meats() {
         </div>
 
         {
-          user?.is_staff 
+          user?.is_superuser 
             && <CustomModal
               btnText='Agregar Nuevo Producto'
               headerText='Nuevo Producto'
@@ -100,7 +116,11 @@ export default function Meats() {
 
         {
           meatData.length > 0 && !isError && !isLoading
-            && <ListMeats data={meatData}/>
+            && <ListMeats 
+              data={meatData} 
+              user={user} 
+              refreshParent={setRefreshComponent}
+            />
         }
 
         {
