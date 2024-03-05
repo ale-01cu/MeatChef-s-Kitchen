@@ -11,7 +11,7 @@ export default function AuthButtons() {
   if(getLocalStorageToken() && !auth) return null
 
   return (
-    <div>
+    <div className="flex gap-2">
       {
         !auth 
           ? <>

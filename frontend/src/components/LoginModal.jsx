@@ -4,7 +4,8 @@ import {
   ModalHeader, 
   ModalBody, 
   useDisclosure,
-  Input
+  Input,
+  Button
 } from "@nextui-org/react";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -63,11 +64,19 @@ export default function LoginModal(){
 
   return (
     <>
-      <button onClick={onOpen}>Login</button>
+      <Button 
+        onClick={onOpen} 
+        color="default" 
+        variant="bordered" 
+        className="text-white font-bold w-1/2"
+      >
+        Login
+      </Button>
       <Modal 
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
           placement="center"
+          backdrop='blur'
         >
           <ModalContent>
             {() => (

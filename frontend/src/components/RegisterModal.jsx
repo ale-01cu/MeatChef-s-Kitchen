@@ -3,9 +3,9 @@ import {
   ModalContent, 
   ModalHeader, 
   ModalBody, 
-  ModalFooter,
   useDisclosure
 } from "@nextui-org/modal";
+import { Button } from "@nextui-org/react";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { REGISTER_URL } from "../utils/constants";
@@ -75,14 +75,21 @@ export default function RegisterModal(){
 
   return (
     <>
-      <button onClick={onOpen}>Registrarme</button>
+      <Button 
+        onClick={onOpen} 
+        variant="solid" 
+        className="bg-white font-bold w-1/2"
+      >
+        Registrarme
+      </Button>
       <Modal 
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
           placement="top-center"
+          backdrop='blur'
         >
           <ModalContent>
-            {(onClose) => (
+            {() => (
               <>
                 <ModalHeader className="">Registro</ModalHeader>
                 <ModalBody>
