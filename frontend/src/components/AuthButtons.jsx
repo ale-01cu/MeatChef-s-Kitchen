@@ -18,7 +18,7 @@ export default function AuthButtons() {
             <LoginModal/>
             <RegisterModal/>
           </>
-          : <Logout/>
+          : <div className="w-full flex justify-center"><Logout/></div>
       }
     </div>
   )

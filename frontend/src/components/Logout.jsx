@@ -1,5 +1,6 @@
 import { deleteToken } from "../utils/token"
 import useAuth from '../hooks/useAuth'
+import { Button } from "@nextui-org/react"
 
 export default function Logout() {
   const { setAuth, setMyUser } = useAuth()
@@ -13,8 +14,14 @@ export default function Logout() {
   }
   
   return (
-    <button onClick={handleClick} type="button">
+    <Button 
+      onClick={handleClick} 
+      type="button" 
+      color="danger" 
+      variant="ghost" 
+      className="hover:scale-105"
+    >
       Cerrar Sesion
-    </button> 
+    </Button> 
   )
 }

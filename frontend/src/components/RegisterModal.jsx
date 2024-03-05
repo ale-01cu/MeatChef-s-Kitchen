@@ -78,7 +78,7 @@ export default function RegisterModal(){
       <Button 
         onClick={onOpen} 
         variant="solid" 
-        className="bg-white font-bold w-1/2"
+        className="bg-white font-bold w-1/2 text-black hover:scale-105"
       >
         Registrarme
       </Button>

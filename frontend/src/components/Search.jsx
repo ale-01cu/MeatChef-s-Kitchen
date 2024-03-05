@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useLocation } from "wouter" 
 import { CLIENT_BASE_URL } from "../utils/constants"
+import { Input } from "@nextui-org/react"
+import SearchIcon from './SearchIcon'
 
 export default function Search({type}) {
   const [ searchValue, setSearchValue ] = useState('')
@@ -8,7 +10,10 @@ export default function Search({type}) {
 
   const handelChange = (e) => {
     setSearchValue(e.target.value)
+  }
 
+  const handleClear = () => {
+    setSearchValue('')
   }
 
   const handleSubmit = async (e) => {
@@ -21,13 +26,40 @@ export default function Search({type}) {
     <div>
       <form onSubmit={handleSubmit}>
 
-        <input 
-          type="search" 
+        <Input
+          id="search" 
           name="search"
           value={searchValue} 
           onChange={handelChange}
-          id="search" 
+          isClearable
+          onClear={handleClear}
+          radius="lg"
+          className="w-[300px]"
+          classNames={{
+            label: "text-black/50 dark:text-white/90",
+            input: [
+              "bg-transparent",
+              "text-black/90 dark:text-white/90",
+              "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+            ],
+            innerWrapper: "",
+            inputWrapper: [
+              "shadow-xl",
+              "bg-default-200/50",
+              "dark:bg-default/60",
+              "backdrop-blur-xl",
+              "backdrop-saturate-200",
+              "hover:bg-default-200/70",
+              "dark:hover:bg-default/70",
+              "group-data-[focused=true]:bg-default-200/50",
+              "dark:group-data-[focused=true]:bg-default/60",
+              "!cursor-text",
+            ],
+          }}
           placeholder="Buscar..."
+          startContent={
+            <SearchIcon className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
+          }
         />
 
       </form>

@@ -68,7 +68,7 @@ export default function LoginModal(){
         onClick={onOpen} 
         color="default" 
         variant="bordered" 
-        className="text-white font-bold w-1/2"
+        className="text-white font-bold w-1/2 hover:scale-105"
       >
         Login
       </Button>

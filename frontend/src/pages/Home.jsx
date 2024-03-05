@@ -11,7 +11,7 @@ export default function Home() {
             wrapper: 'w-full min-w-full z-0',
             img: 'max-h-screen w-full object-cover'
           }} 
-          src="..\..\public\_8146030e-f9e8-4e43-b9ea-11322be32dc1.jpg" 
+          src="/_8146030e-f9e8-4e43-b9ea-11322be32dc1.jpg" 
           alt=""
           radius="none"
         />
@@ -64,7 +64,7 @@ export default function Home() {
 
         <div className="space-y-2">
           <AuthButtons/>
-          <Button color="warning" className="text-white font-bold w-full">
+          <Button color="warning" className="text-white font-bold w-full hover:scale-105">
             Conoce Sobre Nosotros
           </Button> 
 
