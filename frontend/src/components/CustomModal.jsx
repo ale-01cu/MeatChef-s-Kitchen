@@ -7,6 +7,7 @@ import {
   Button
 } from "@nextui-org/react";
 import React from "react";
+import AddIcon from './AddIcon'
 
 export default function CustomModal({btnOpen, btnText, headerText, children}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -15,7 +16,12 @@ export default function CustomModal({btnOpen, btnText, headerText, children}) {
     <>
       {
         !btnOpen 
-          ? <Button onClick={onOpen}>{ btnText }</Button>
+          ? <Button 
+            onClick={onOpen} 
+            color="success" 
+            startContent={<AddIcon/>}>
+              { btnText }
+            </Button>
           : React.cloneElement(btnOpen, { onClick: onOpen }) 
       }
       

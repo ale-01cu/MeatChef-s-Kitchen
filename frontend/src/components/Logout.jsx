@@ -14,14 +14,10 @@ export default function Logout() {
   }
   
   return (
-    <Button 
+    <button 
       onClick={handleClick} 
-      type="button" 
-      color="danger" 
-      variant="ghost" 
-      className="hover:scale-105"
     >
       Cerrar Sesion
-    </Button> 
+    </button> 
   )
 }

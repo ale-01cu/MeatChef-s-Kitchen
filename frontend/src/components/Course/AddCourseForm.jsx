@@ -8,6 +8,8 @@ import {
 import { useState } from "react";
 import { createCourse } from "../../services/courses";
 import InputFile from "../InputFile";
+import PhotoIcon from "../PhotoIcon";
+import VideoIcon from '../VideoIcon'
 
 export default function AddCourseForm ({ closeModal, refreshParent }) {
   const [ courseData, setCoursesData ] = useState({
@@ -16,7 +18,7 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
   })
   const [ photoFile, setPhotoFile ] = useState()
   const [ videoFile, setVideoFile ] = useState()
-  const [isSelected, setIsSelected] = useState(true);
+  const [ isSelected, setIsSelected ] = useState(true);
   const [ addIsError, setAddIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
 
@@ -77,7 +79,7 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
       }
       <form 
         id="form-login" 
-        className="" 
+        className="flex flex-col gap-y-2 py-4" 
         onSubmit={handleSubmit}
       >
         <Input
@@ -88,6 +90,7 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
           value={courseData.name}
         />
         <Textarea
+          label='Descripcion'
           name="description"
           placeholder="Descripcion del curso"
           type="text"
@@ -99,8 +102,9 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
         <InputFile 
           name='photo'
           fileAccept='image/jpeg, image/png' 
-          text='Cambiar Foto'
+          text='Foto'
           handleChange={photoHandleChange}
+          startContentIcon={<PhotoIcon/>}
         />
 
         {
@@ -116,8 +120,9 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
         <InputFile 
           name='video'
           fileAccept='video/mp4' 
-          text='Cambiar Video'
+          text='Video'
           handleChange={videoHandleChange}
+          startContentIcon={<VideoIcon/>}
         />
 
         {
@@ -134,20 +139,22 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
           </div>
 
         }
-
-        <Checkbox 
-          defaultSelected 
-          name="is_active" 
-          isSelected={isSelected} 
-          onValueChange={setIsSelected}
-        >
-          Activo
-        </Checkbox>
+        <div className="flex justify-end">
+          <Checkbox 
+            defaultSelected 
+            name="is_active" 
+            isSelected={isSelected} 
+            onValueChange={setIsSelected}
+          >
+            Activo
+          </Checkbox>
+        </div>
 
         <Button 
-          className='' 
+          className="mt-2"
           type='submit' 
           isLoading={isLoading}
+          color="primary"
         >
             Guardar
         </Button>

@@ -1,7 +1,7 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import useListCategories from "../hooks/useListCategories";
 
-export default function CategoriesSelect ({ placeholder }) {
+export default function CategoriesSelect ({ placeholder, className }) {
   const [ categories, isLoading ] = useListCategories()
 
 
@@ -14,7 +14,7 @@ export default function CategoriesSelect ({ placeholder }) {
       isRequired
       label="Categoria"
       placeholder={placeholder}
-      className="max-w-xs"
+      className={className}
       isLoading={isLoading}
       name="category_id"
     >

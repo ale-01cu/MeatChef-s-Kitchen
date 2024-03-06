@@ -85,7 +85,7 @@ export default function UpdateCourseForm(props) {
       }
       <form 
         id="form-login" 
-        className="" 
+        className="flex flex-col gap-y-2" 
         onSubmit={handleSubmit}
       >
         <Input
@@ -182,9 +182,10 @@ export default function UpdateCourseForm(props) {
         </Checkbox>
 
         <Button 
-          className='' 
+          className='mt-4' 
           type='submit' 
           isLoading={isLoading}
+          color="primary"
         >
             Actualizar
         </Button>

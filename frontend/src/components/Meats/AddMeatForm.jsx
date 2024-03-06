@@ -77,7 +77,7 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
       }
       <form 
         id="create-meat" 
-        className="" 
+        className="flex flex-col gap-y-2" 
         onSubmit={handleSubmit}
       >
         <Input
@@ -108,6 +108,7 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
         <CategoriesSelect placeholder='Seleccione una Categoria'/>
 
         <Textarea
+          label='Descripcion'
           name="description"
           placeholder="Descripcion del Corte"
           type="text"
@@ -142,8 +143,9 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
         </Checkbox>
 
         <Button 
-          className='' 
-          type='submit' 
+          className='mt-5' 
+          type='submit'
+          color="primary" 
           isLoading={isLoading}
         >
             Guardar

@@ -61,26 +61,28 @@ export default function Courses() {
   return (
     <>
       <Header typeSearch='cursos'/>
-      <main>
+      <main className="p-10">
+        {
+          user?.is_teacher
+          && <div className="w-full flex justify-end">
+                <CustomModal
+                  btnText='Nuevo Curso'
+                  headerText='Crear Curso'
+                  >
+                  <AddCourseForm refreshParent={setRefreshComponent}/>
+                </CustomModal>
+              </div>
+        }
+
         {
           !isError && search && <div>
-            <h1>Resultados de la Busqueda</h1>
+            <h1 className="text-4xl font-extrabold text-center p-2">Resultados de la Busqueda</h1>
           </div>
         }
-        <div>
-          {
-            !isError && search && coursesData?.length === 0 
-              && <h1>No se encontraron resultados.</h1>
-          }
-        </div>
+        
         {
-          user?.is_teacher 
-            && <CustomModal
-              btnText='Agregar Nuevo Curso'
-              headerText='Crear Curso'
-            >
-              <AddCourseForm refreshParent={setRefreshComponent}/>
-            </CustomModal>
+          !isError && search && coursesData?.length === 0 
+            && <div><h1 className="text-center text-pretty">No se encontraron resultados :(</h1></div>
         }
 
         {

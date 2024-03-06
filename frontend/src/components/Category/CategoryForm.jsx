@@ -45,7 +45,7 @@ export default function CategoryForm ({ closeModal }) {
       }
       <form 
         id="create-category-form" 
-        className="" 
+        className="flex flex-col gap-y-2" 
         onSubmit={handleSubmit}
       >
         <Input
@@ -57,9 +57,10 @@ export default function CategoryForm ({ closeModal }) {
         />
 
         <Button 
-          className='' 
+          className='mt-5' 
           type='submit' 
           isLoading={isLoading}
+          color="primary"
         >
             Guardar
         </Button>

@@ -5,7 +5,9 @@ import {
   ModalBody, 
   useDisclosure,
   Input,
-  Button
+  Button,
+  Checkbox,
+  Image
 } from "@nextui-org/react";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -14,12 +16,14 @@ import { LOGIN_URL } from "../utils/constants";
 import { setToken } from "../utils/token";
 import useAuth from '../hooks/useAuth'
 import { toast } from 'react-toastify'
-
+import MailIcon from "./MailIcon";
+import LockIcon from "./LockIcon";
 
 export default function LoginModal(){
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
   const [ isRemember, setIsRemember ] = useState(false)
   const { setAuth, setMyUser } = useAuth()
+  const [ isLoading, setIsLoading ] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -28,14 +32,15 @@ export default function LoginModal(){
     },
     validationSchema: Yup.object({
       email: Yup
-        .string()
+        .string('El email debe de ser un texto.')
         .email("El email no es valido.")
         .required(true, 'El password es obligatorio.'),
       password: Yup
-        .string()
+        .string('La contraseña debe ser de tipo texto.')
         .required(true, 'El password es obligatorio.')
     }),
     onSubmit: async (formData) => {
+      setIsLoading(true)
       try {
         const res = await fetch(LOGIN_URL, {
           method: 'post',
@@ -58,6 +63,11 @@ export default function LoginModal(){
       } catch (error) {
         // toast.error(error.message)
         console.error(error);
+
+      } finally {
+
+        setIsLoading(true)
+
       }
     }
   })
@@ -81,46 +91,67 @@ export default function LoginModal(){
           <ModalContent>
             {() => (
               <>
-                <ModalHeader className="">Log in</ModalHeader>
+                <ModalHeader className="flex justify-center">
+                  <Image
+                    src="/Recurso 6.png"
+                    alt="Logo"
+                    width={300}
+                  />
+                </ModalHeader>
                 <ModalBody>
                   <form 
                     id="form-login" 
-                    className="" 
+                    className="flex flex-col gap-y-2 py-4" 
                     onSubmit={formik.handleSubmit}
                   >
                     <Input
                       label="Email"
                       name="email"
-                      placeholder="Enter your email"
+                      placeholder="Introduzca su Correo..."
                       onChange={formik.handleChange}
                       value={formik.values.email}
+                      endContent={
+                        <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      isInvalid={formik.errors.email ? true : false}
+                      errorMessage={formik.errors.email}
+
                     />
                     <Input
+                      label="Contraseña"
                       name="password"
-                      placeholder="Enter your password"
+                      placeholder="Introduzca su Constraseña..."
                       type="password"
                       onChange={formik.handleChange}
                       value={formik.values.password}
+                      endContent={
+                        <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                     }
+                      isInvalid={formik.errors.password ? true : false}
+                      errorMessage={formik.errors.password}
+
                     />
-                    <div className="">
-                      <input
-                        id="remember-input"
-                        type="checkbox"
+                    <div className="flex justify-end mb-5 py-2">
+                      <Checkbox
                         name="remember"
-                        value={isRemember}
+                        classNames={{
+                          label: "text-small",
+                        }}
                         onChange={() => setIsRemember(!isRemember)}
-                      />
-                      <label htmlFor="remember-input">
+                        value={isRemember}
+
+                      >
                         Recordarme
-                      </label>
+                      </Checkbox>
                         
                     </div>
-                    <button 
-                      className='' 
+                    <Button 
+                      color="primary"
                       type='submit' 
+                      isLoading={isLoading}
                     >
                         Iniciar Sesion
-                    </button>
+                    </Button>
                   </form>
                 </ModalBody>
               </>

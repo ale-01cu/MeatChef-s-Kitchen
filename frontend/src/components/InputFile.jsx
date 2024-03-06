@@ -1,7 +1,9 @@
 import { useRef } from "react"
+import { Button } from "@nextui-org/react";
+
 
 export default function InputFile(props) {
-  const { fileAccept, handleChange, text, name, value } = props
+  const { fileAccept, handleChange, text, name, value, startContentIcon } = props
   const inputFileRef = useRef(null)
 
   const handleButtonClick = () => {
@@ -19,14 +21,18 @@ export default function InputFile(props) {
         ref={inputFileRef}
         onChange={handleChange}
       />
-      <button 
+      <Button 
         type="button"
         aria-label="add-publication" 
-        color='primary'
+        color='default'
         onClick={handleButtonClick}
+        className="w-full mb-1"
       >
-        {text}
-      </button>
+        <span className="flex justify-start items-center w-20 gap-x-2">
+          { startContentIcon }
+          {text}
+        </span>
+      </Button>
     </>
   )
 }

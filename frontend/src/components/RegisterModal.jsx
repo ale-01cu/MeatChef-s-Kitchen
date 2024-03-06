@@ -5,14 +5,16 @@ import {
   ModalBody, 
   useDisclosure
 } from "@nextui-org/modal";
-import { Button } from "@nextui-org/react";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { REGISTER_URL } from "../utils/constants";
 import { toast } from 'react-toastify'
+import { Image, Input, Button } from "@nextui-org/react";
+import { useState } from "react";
 
 export default function RegisterModal(){
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
+  const [ isLoading, setIsLoading ] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -36,20 +38,21 @@ export default function RegisterModal(){
         .email("El email no es valido")
         .required("El email es obligatorio."),
       password: Yup
-        .string('El password debe de ser un texto')
-        .required("El password es obligatorio.")
-        .min(6, 'El password debe de tener como minimo 6 caracteres.')
-        .max(25)
-        .oneOf([Yup.ref("repeatPassword")], "Los passwords no coinciden."),
+        .string('El contraseña debe de ser un texto')
+        .required("El contraseña es obligatorio.")
+        .min(6, 'El contraseña debe de tener como minimo 6 caracteres.')
+        .max(25, 'La contraseña debe de ser de almenos 25 caracteres')
+        .oneOf([Yup.ref("repeatPassword")], "Los contraseña no coinciden."),
       repeatPassword: Yup
-        .string('El confirmar password debe de ser un texto')
-        .required("El password es obligatorio.")
-        .min(6, 'El confirmar password debe de tener como minimo 6 caracteres.')
-        .max(25)
+        .string('El confirmar contraseña debe de ser un texto')
+        .required("El contraseña es obligatorio.")
+        .min(6, 'El confirmar contraseña debe de tener como minimo 6 caracteres.')
+        .max(25, 'La contraseña debe de ser de almenos 25 caracteres')
         .oneOf([Yup.ref("password")], "Los passwords no coinciden."),
     }),
     
     onSubmit: async (formData) => {
+      setIsLoading(true)
       try {
         console.log(formData);
         const res = await fetch(REGISTER_URL, {
@@ -69,6 +72,11 @@ export default function RegisterModal(){
 
       } catch (error) {
         console.log(error);
+      
+      }finally {
+
+        setIsLoading(false)
+
       }
     }
   })
@@ -91,55 +99,79 @@ export default function RegisterModal(){
           <ModalContent>
             {() => (
               <>
-                <ModalHeader className="">Registro</ModalHeader>
+                <ModalHeader className="flex justify-center">
+                  <Image
+                    src="/Recurso 6.png"
+                    alt="Logo"
+                    width={300}
+                  />
+                </ModalHeader>
                 <ModalBody>
                   <form 
                     id="form-register" 
-                    className=""
+                    className="flex flex-col gap-y-2 py-4"
                     onSubmit={formik.handleSubmit}
                   >
-                    <input
+                    <Input
+                      label="Nombre"
                       placeholder="Escriba su nombre y apellidos"
                       name="full_name"
                       onChange={formik.handleChange}
                       value={formik.values.full_name}
+                      isInvalid={formik.errors.full_name ? true : false}
+                      errorMessage={formik.errors.full_name}
+
                     />
-                    <input
+                    <Input
                       label="Numero de Telefono"
                       placeholder="Escriba su Numero de Telefono"
                       name="phone_number"
                       onChange={formik.handleChange}
                       value={formik.values.phone_number}
+                      isInvalid={formik.errors.phone_number ? true : false}
+                      errorMessage={formik.errors.phone_number}
+
                     />
-                    <input
+                    <Input
                       label="Email"
                       placeholder="Enter your email"
                       name="email"
                       onChange={formik.handleChange}
                       value={formik.values.email}
+                      isInvalid={formik.errors.email ? true : false}
+                      errorMessage={formik.errors.email}
+                      
                     />
-                    <input
+                    <Input
                       label="Password"
                       placeholder="Escriba su password"
                       type="password"
                       name="password"
                       onChange={formik.handleChange}
                       value={formik.values.passwrod}
+                      isInvalid={formik.errors.password ? true : false}
+                      errorMessage={formik.errors.password}
+
                     />
-                    <input
+                    <Input
                       label="Repeat Password"
                       placeholder="Escriba su password una vez mas"
                       type="password"
                       name="repeatPassword"
                       onChange={formik.handleChange}
                       value={formik.values.repeatPassword}
+                      isInvalid={formik.errors.repeatPassword ? true : false}
+                      errorMessage={formik.errors.repeatPassword}
+
                     />
-                    <button 
-                      className='' 
+                    <Button 
+                      color="primary"
                       type='submit' 
+                      className="mt-6"
+                      isLoading={isLoading}
                     >
                       Registrarme
-                    </button>  
+                    </Button>  
                   </form>
                 </ModalBody>
               </>

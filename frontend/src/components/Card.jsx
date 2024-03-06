@@ -1,33 +1,26 @@
 import { Link } from "wouter" 
 import { BASE_URL } from "../utils/constants" 
+import { Image } from "@nextui-org/react"
 
 export default function Card(props) {
-  const { image, name, description, btnText, path } = props
+  const { image, name, description, path } = props
   
   return (
-    <section>
+    <Link to={path}>
       <div id="image">
-        <img src={BASE_URL + '/' + image} alt="" />
+        <Image src={BASE_URL + '/' + image} alt="ImageCard" />
       </div>
 
-      <div id="name">
-        <p>{name}</p>
+      <div className="space-y-2 flex justify-center flex-col items-center">
+        <div id="name">
+          <p className="font-bold text-pretty text-2xl">{name}</p>
+        </div>
+
+        <div id="description">
+          <p className="text-pretty">{description}</p>
+        </div>
       </div>
 
-      {
-        description && <div id="description">
-          <p>{description}</p>
-        </div>
-      }
-
-      {
-        btnText && <div id="button">
-          <Link to={path}>
-            <span>{btnText}</span>
-          </Link>
-        </div>
-      }
-      
-    </section>
+    </Link>
   )
 }

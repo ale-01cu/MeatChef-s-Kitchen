@@ -34,7 +34,7 @@ export default function Search({type}) {
           isClearable
           onClear={handleClear}
           radius="lg"
-          className="w-[300px]"
+          className="w-[350px]"
           classNames={{
             label: "text-black/50 dark:text-white/90",
             input: [
@@ -44,9 +44,11 @@ export default function Search({type}) {
             ],
             innerWrapper: "",
             inputWrapper: [
+              'p-3',
+              'h-[45px]',
               "shadow-xl",
               "bg-default-200/50",
-              "dark:bg-default/60",
+              "dark:bg-default/80",
               "backdrop-blur-xl",
               "backdrop-saturate-200",
               "hover:bg-default-200/70",

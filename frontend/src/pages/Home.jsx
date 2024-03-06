@@ -1,64 +1,54 @@
 import AuthButtons from "../components/AuthButtons.jsx"
 import { Image, Button } from "@nextui-org/react"
 import { Link } from "wouter"
+import CardHome from "../components/CardHome.jsx"
 
 export default function Home() {
   return (
-    <main className="min-h-screen max-h-screen bg-black">
-      <div className="w-full h-full absolute opacity-50">
+    <main className="min-h-screen max-h-screen">
+      <div className="w-full h-full absolute">
         <Image 
           classNames={{
             wrapper: 'w-full min-w-full z-0',
-            img: 'max-h-screen w-full object-cover'
+            img: 'min-h-screen max-h-screen w-full object-cover'
           }} 
-          src="/_8146030e-f9e8-4e43-b9ea-11322be32dc1.jpg" 
-          alt=""
+          src="/Imagen1.png" 
+          alt="Fondo"
           radius="none"
         />
       </div>
 
       <div className="z-10 flex flex-col justify-between min-h-screen items-center py-10 relative">
         <div className="text-white">
-          la otra foto
+          <Image 
+            src="/Recurso 5.png"
+            width={350}
+            alt="Logo"
+          />
         </div>
 
-        <div className="flex gap-24">
+        <div className="flex flex-col justify-center items-center w-11/12 gap-12 sm:gap-24 sm:flex-row">
 
-          <section className="w-80 border-5 border-solid py-5 px-12 rounded-3xl border-white text-white bg-black bg-opacity-50 hover:scale-110 transition cursor-pointer">
-            <Link to="/carnicos">
-              <div id="image">
-                <Image src='' alt="" />
-              </div>
+          <CardHome
+            imagePath='/Imagen2.png'
+            imageWith={140}
+            ImageAlt='Carnicos'
+            imageStyle='absolute -translate-x-32 -translate-y-6 sm:-translate-x-36 sm:-translate-y-6'
+            title='Carnes'
+            description='Descubre nuestras ofertas y compra carne de primera calidad en nuestra tienda en linea.'
+            linkPath='/carnicos'
+          />
 
-              <div className="space-y-2">
-                <div id="name" className="font-extrabold text-4xl">
-                  <h1>Carnes</h1>
-                </div>
+          <CardHome
+            imagePath='/Imagen3.png'
+            imageWith={200}
+            ImageAlt='Cursos'
+            imageStyle='absolute -translate-x-36 -translate-y-6 sm:-translate-x-40 sm:-translate-y-6'
+            title='Cursos'
+            description='Perfecciona tu técnica de cortes carnicos con nuestros cursos especializados.'
+            linkPath='/cursos'
+          />
 
-                <div id="description">
-                  <p>Descubre nuestras ofertas y compra carne de primera calidad en nuestra tienda en linea.</p>
-                </div>
-              </div>
-            </Link>
-          </section>
-
-          <section className="w-80 border-5 border-solid py-5 px-12 rounded-3xl border-white text-white bg-black bg-opacity-50 hover:scale-105 transition cursor-pointer">
-            <Link to="/cursos">
-              <div id="image">
-                <Image src='' alt="" />
-              </div>
-
-              <div className="space-y-2">
-                <div id="name" className="font-extrabold text-4xl">
-                  <h1>Cursos</h1>
-                </div>
-
-                <div id="description">
-                  <p>Perfecciona tu técnica de cortes carnicos con nuestros cursos especializados.</p>
-                </div>
-              </div>
-            </Link>
-          </section>
         </div>
 
 

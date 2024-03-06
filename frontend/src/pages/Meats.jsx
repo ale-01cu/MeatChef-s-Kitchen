@@ -70,8 +70,18 @@ export default function Meats() {
     <>
       <Header typeSearch='carnicos'/>
 
-      <div>
-        <CategoriesSelect placeholder='Filtrar por Categoria'/>
+      <div className="flex w-full justify-end items-center px-5 gap-x-2">
+        {
+          user?.is_superuser 
+            && <CustomModal
+              btnText='Nuevo Producto'
+              headerText='Nuevo Producto'
+            >
+              <AddMeatForm refreshParent={setRefreshComponent}/>
+            </CustomModal>
+        }
+
+        <CategoriesSelect className='max-w-xs' placeholder='Filtrar por Categoria'/>
         {
           user?.is_superuser 
             && <CustomModal
@@ -85,28 +95,16 @@ export default function Meats() {
       </div>
 
 
-      <main>
+      <main className="p-10">
         {
           !isError && search && <div>
-            <h1>Resultados de la Busqueda</h1>
+            <h1 className="text-4xl font-extrabold text-center p-2">Resultados de la Busqueda</h1>
           </div>
         }
 
-        <div>
-          {
-            !isError && search && meatData.length === 0 
-              && <h1>No se encontraron resultados.</h1>
-          }
-        </div>
-
         {
-          user?.is_superuser 
-            && <CustomModal
-              btnText='Agregar Nuevo Producto'
-              headerText='Nuevo Producto'
-            >
-              <AddMeatForm refreshParent={setRefreshComponent}/>
-            </CustomModal>
+          !isError && search && meatData.length === 0 
+            && <div><h1 className="text-center text-pretty">No se encontraron resultados.</h1></div>
         }
 
         {

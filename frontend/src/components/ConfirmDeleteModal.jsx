@@ -7,6 +7,7 @@ import {
   useDisclosure,
   Button
 } from "@nextui-org/react";
+import DeleteIcon from './DeleteIcon'
 
 export default function ConfirmDeleteModal (props) {
   const { 
@@ -20,7 +21,7 @@ export default function ConfirmDeleteModal (props) {
 
   return (
     <>
-      <Button onClick={onOpen}>Eliminar</Button>
+      <Button className="px-0 min-w-unit-10" color="danger" onClick={onOpen} startContent={<DeleteIcon/>}/>
       <Modal 
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
@@ -29,9 +30,9 @@ export default function ConfirmDeleteModal (props) {
           <ModalContent>
             {() => (
               <>
-                <ModalHeader className="">Cruz comica</ModalHeader>
+                <ModalHeader className=""></ModalHeader>
                 <ModalBody>
-                  <p>{text}</p>
+                  <p className="text-center">{text}</p>
                   {
 
                     deleteIsError &&
@@ -40,14 +41,18 @@ export default function ConfirmDeleteModal (props) {
                   }
                 </ModalBody>
                 <ModalFooter>
-                  <Button type="button">Cancelar</Button>
-                  <Button 
-                    onClick={() => handleclickDelete(itemId, onClose)} 
-                    className=""
-                    isLoading={isLoadingDelete}
-                  >
-                    Aceptar
-                  </Button>
+                  <div className="w-full flex justify-center gap-x-10">
+                    <Button type="button" color="warning">Cancelar</Button>
+                    <Button 
+                      onClick={() => handleclickDelete(itemId, onClose)} 
+                      className=""
+                      isLoading={isLoadingDelete}
+                      color="danger"
+                    >
+                      Aceptar
+                    </Button>
+
+                  </div>
                 </ModalFooter>
               </>
             )}
