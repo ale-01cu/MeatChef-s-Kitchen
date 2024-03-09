@@ -9,7 +9,7 @@ export default function Card(props) {
     <Link to={path} className="w-full">
       <div id="image">
         <Image src={BASE_URL + '/' + image} alt="ImageCard" classNames={{
-          wrapper: 'w-full',
+          wrapper: 'w-full img-container',
           img: 'max-h-[266px] object-cover aspect-video'
         }}/>
       </div>

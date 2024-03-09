@@ -32,10 +32,8 @@ export default function CourseDetail() {
   else if(!course) return null
 
   return (
-    <main>
-      <Header typeSearch='cursos'/>
-      
-      <div className="flex p-20 justify-center gap-x-24">
+    <div>
+      <div className="flex py-20 px-52 justify-center gap-x-12">
         <section className="w-1/2">
           <video controls>
             <source 
@@ -43,25 +41,27 @@ export default function CourseDetail() {
               type="video/mp4"
             />
             Tu navegador no soporta la etiqueta video.
-
           </video>
         </section>
 
-        <section className="flex flex-col gap-y-4 w-1/2 items-start">
-          <h1 className="font-bold text-5xl">{course.name}</h1>
-          <p>{course.description}</p>
-          <Button 
-            type='submit'
-            color="warning" 
-            isLoading={false}
-            startContent={<StarIcon/>}
-          >
-              Favorito
-          </Button>
+        <section className="w-1/2 flex justify-center">
+          <div className="flex flex-col gap-y-4 items-start w-max">
+            <h1 className="font-bold text-5xl">{course.name}</h1>
+            <p className="max-w-96">{course.description}</p>
+            <Button 
+              type='submit'
+              color="warning" 
+              isLoading={false}
+              startContent={<StarIcon/>}
+            >
+                Favorito
+            </Button>
+            
+          </div>
         </section>
 
       </div>
       
-    </main>
+    </div>
   )
 }

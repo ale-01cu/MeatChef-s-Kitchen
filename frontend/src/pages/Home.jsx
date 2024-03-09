@@ -4,14 +4,14 @@ import CardHome from "../components/CardHome.jsx"
 
 export default function Home() {
   return (
-    <main className="min-h-screen max-h-screen">
+    <div className="min-h-screen max-h-screen">
       <div className="w-full h-full absolute">
         <Image 
           classNames={{
             wrapper: 'w-full min-w-full z-0',
             img: 'min-h-screen max-h-screen w-full object-cover'
           }} 
-          src="/Imagen1.png" 
+          src="/Imagen1.webp" 
           alt="Fondo"
           radius="none"
         />
@@ -59,6 +59,6 @@ export default function Home() {
 
         </div>
       </div>
-    </main>
+    </div>
   )
 }

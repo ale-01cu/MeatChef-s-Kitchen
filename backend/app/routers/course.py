@@ -77,9 +77,9 @@ async def get_course(course_id: str, db: Session = Depends(get_db),
     user: UserSchema | None = Depends(get_user)
 ) -> CourseSchema:
     try:
-
-        if user and user.is_teacher or user.is_superuser: 
-            return get_course_admin_by_id(db, course_id)
+        if user:
+            if user.is_teacher or user.is_superuser: 
+                return get_course_admin_by_id(db, course_id)
         course = get_course_by_id(db, course_id)
         if not course: raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

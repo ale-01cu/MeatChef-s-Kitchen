@@ -1,6 +1,10 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { useLocation } from "wouter";
+
 const NONE_SELECTED_VALUE = 'NONE'
+const LOCATIONS = {
+  form: 'FORM'
+}
 
 export default function CategoriesSelect (props) {
   const { 
@@ -8,12 +12,13 @@ export default function CategoriesSelect (props) {
     className, 
     categories, 
     isLoading, 
-    defaultValue } = props
+    defaultValue, 
+    location } = props
   const [ _, navegate ] = useLocation()
   
 
   const handleChange = (e) => {
-    if(!defaultValue ) {
+    if(!(location === LOCATIONS.form)) {
       const categoryId = e.target.value
       if(categoryId !== NONE_SELECTED_VALUE) 
         navegate('/carnicos/category/' + categoryId)

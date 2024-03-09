@@ -1,5 +1,4 @@
 import ListMeats from "../components/Meats/ListMeats"
-import Header from "../components/Header"
 import { useParams } from "wouter"
 import { listMeats, listSearchMeats, listMeatsByCategory, retrieveMeats } from "../services/meats"
 import { useEffect, useState } from "react"
@@ -7,6 +6,7 @@ import AddMeatForm from "../components/Meats/AddMeatForm"
 import CustomModal from "../components/CustomModal"
 import useAuth from "../hooks/useAuth"
 import CategoryParent from "../components/Category/CategoryParent"
+import MeatSlider from "../components/Meats/MeatSlider"
 
 export default function Meats() {
   const { user } = useAuth()
@@ -68,7 +68,6 @@ export default function Meats() {
 
   return (
     <>
-      <Header typeSearch='carnicos'/>
 
       <div className="flex w-full justify-end items-center px-5 gap-x-2">
         {
@@ -80,13 +79,14 @@ export default function Meats() {
               <AddMeatForm refreshParent={setRefreshComponent}/>
             </CustomModal>
         }
-        <CategoryParent user={user}/>
-
+        <CategoryParent user={user} categoryId={category_id}/>
 
       </div>
 
 
-      <main className="p-10">
+      <div className="p-10 flex flex-col gap-y-16">
+        { !isError && !search && !category_id && !isLoading && !user?.is_superuser && <MeatSlider/> }
+
         {
           !isError && search && <div>
             <h1 className="text-4xl font-extrabold text-center p-2">Resultados de la Busqueda</h1>
@@ -101,6 +101,13 @@ export default function Meats() {
         {
           !search && meatData.length === 0 && !isError && !isLoading
             && <h1>No hay Cursos</h1>
+        }
+
+        {
+          !isLoading && !isError && !search && !category_id
+            && <h5 className="text-xl font-semibold text-center">
+              Compra Online la mejor seleccion de carne.
+            </h5>
         }
 
         {
@@ -121,7 +128,7 @@ export default function Meats() {
           isError &&
             <h1>Exploto esta talla</h1>
         }
-      </main>
+      </div>
     </>
   )
 }

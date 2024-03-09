@@ -37,10 +37,9 @@ export default function MeatDetail() {
 
   return (
     <div>
-      <Header typeSearch='cursos'/>
-      <main className="">
-        <div className="flex p-20 justify-center items-center gap-x-24">
-          <section className="w-1/2">
+      <div className="">
+        <div className="flex p-20 justify-center items-center">
+          <section className="w-1/2 flex justify-center">
             <Image 
               src={BASE_URL + '/' + meat?.photo} 
               alt="ImageCard"
@@ -56,9 +55,14 @@ export default function MeatDetail() {
               {meat?.name_of_the_cut_of_meat}
             </h1>
             {
-              user?.is_superuser && meat?.is_active 
-                ? <CardChipStatus startContentIcon={<ActiveIcon/>} text='Activo' color='success'/>
-                : <CardChipStatus startContentIcon={<CloseIcon/>} text='Inactivo' color='danger'/>
+                user?.is_superuser 
+                  && <>
+                    {
+                      meat?.is_active 
+                      ? <CardChipStatus startContentIcon={<ActiveIcon/>} text='Activo' color='success'/>
+                      : <CardChipStatus startContentIcon={<CloseIcon/>} text='Inactivo' color='danger'/>
+                    }
+                  </>
             }
             <h3 className="text-xl">
               {meat?.type_of_meat}
@@ -66,7 +70,7 @@ export default function MeatDetail() {
             <h2 className="text-2xl font-bold text-amber-600">
               {meat?.price} MLC
             </h2>
-            <p>{meat?.description}</p>
+            <p className="max-w-96">{meat?.description}</p>
 
             <div className="flex justify-center items-center gap-x-3">
               
@@ -94,7 +98,7 @@ export default function MeatDetail() {
 
         </div>
 
-      </main>
+      </div>
     </div>
   )
 }

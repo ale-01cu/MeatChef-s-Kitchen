@@ -11,6 +11,7 @@ import Courses from './pages/Courses';
 import CourseDetail from './pages/CourseDetail';
 import { getFullUser } from './services/auth';
 import MeatDetail from './pages/MeatDetail';
+import Navegate from './routes/Navegate';
 
 function App() {
   const { isValid } = useVerifyToken()
@@ -43,21 +44,7 @@ function App() {
     <AuthContext.Provider value={authData}>
 
       <NextUIProvider>
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/carnicos" component={Meats} />
-          <Route path="/carnicos/:meat_id" component={MeatDetail} />
-          <Route path="/carnicos/category/:category_id" component={Meats} />
-          <Route path="/carnicos/search/:search" component={Meats} />
-          <Route path="/cursos" component={Courses} />
-          <Route path="/cursos/:course_id" component={CourseDetail} />
-          <Route path="/cursos/search/:search" component={Courses} />
-          {/* <Route path="/users/:name">
-            {(params) => <>Hello, {params.name}!</>}
-          </Route> */}
-          {/* Default route in a switch */}
-          <Route>404: No such page!</Route>
-        </Switch>
+        <Navegate/>
         {/* <ToastContainer
           position="top-center"
           autoClose={5000}

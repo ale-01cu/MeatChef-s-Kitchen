@@ -4,7 +4,7 @@ import { CLIENT_BASE_URL } from "../utils/constants"
 import { Input } from "@nextui-org/react"
 import SearchIcon from './Icons/SearchIcon'
 
-export default function Search({type}) {
+export default function Search({ type }) {
   const [ searchValue, setSearchValue ] = useState('')
   const [_, setLocation] = useLocation()
 

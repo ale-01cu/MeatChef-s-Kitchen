@@ -73,9 +73,9 @@ async def get_meat_products(product_id: str, db: Session = Depends(get_db),
     user: UserSchema | None = Depends(get_user)
 ) -> MeatProduct:
     try:
-
-        if user and user.is_staff or user.is_superuser:
-            return get_meat_product_admin_by_id(db, product_id)
+        if user:
+            if user.is_staff or user.is_superuser:
+                return get_meat_product_admin_by_id(db, product_id)
         product = get_meat_product_by_id(db, product_id)
         if not product: raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

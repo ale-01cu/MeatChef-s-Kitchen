@@ -60,8 +60,7 @@ export default function Courses() {
 
   return (
     <>
-      <Header typeSearch='cursos'/>
-      <main className="p-10">
+      <div className="p-10">
         {
           user?.is_teacher
           && <div className="w-full flex justify-end">
@@ -109,7 +108,7 @@ export default function Courses() {
             <h1>Exploto esta talla</h1>
         }
 
-      </main>
+      </div>
     </>
   )
 }

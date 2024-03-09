@@ -112,6 +112,7 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           categories={categories}
           isLoading={false}
           defaultValue={'NONE'}
+          location='FORM'
         />
 
         <Textarea

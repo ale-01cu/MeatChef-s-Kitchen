@@ -54,7 +54,7 @@ export default function CustomModal({btnOpen, btnText, headerText, children}) {
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="">
+                <ModalHeader className="flex justify-center">
                   { headerText }
                 </ModalHeader>
                 <ModalBody>
