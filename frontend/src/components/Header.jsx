@@ -1,5 +1,5 @@
 import { Link } from "wouter"
-import AuthButtons from './AuthButtons'
+import AuthButtons from './Auth/AuthButtons'
 import Search from "./Search"
 import { Image } from "@nextui-org/react"
 

@@ -13,5 +13,10 @@ export default function useListCategories() {
       .finally(() => setIsLoading(false))
   }, [])
 
-  return [items, isLoading]
+  return { 
+    categories: items, 
+    isLoading, 
+    setIsLoading,
+    setCategories: setItems 
+  }
 }

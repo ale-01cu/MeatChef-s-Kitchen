@@ -7,7 +7,7 @@ import {
   useDisclosure,
   Button
 } from "@nextui-org/react";
-import DeleteIcon from './DeleteIcon'
+import DeleteIcon from './Icons/DeleteIcon'
 
 export default function ConfirmDeleteModal (props) {
   const { 

@@ -3,11 +3,15 @@ import CardMenu from '../CardMenu'
 import { deleteMeat } from '../../services/meats'
 import { useState } from 'react'
 import CardChipStatus from '../CardChipStatus'
-import ActiveIcon from '../ActiveIcon'
-import CloseIcon from '../CloseIcon'
+import ActiveIcon from '../Icons/ActiveIcon'
+import CloseIcon from '../Icons/CloseIcon'
+import UpdateMeatForm from './UpdateMeatForm'
+import CustomModal from '../CustomModal'
+import EditIcon from '../Icons/EditIcon'
+import { Button } from '@nextui-org/react'
 
 export default function ListMeats(props) {
-  const { data, user, refreshParent } = props
+  const { data, user, refreshParent, refreshOneElement } = props
 
 
   const [ deleteIsError, setDeleteIsError ] = useState(null)
@@ -29,11 +33,11 @@ export default function ListMeats(props) {
   }
 
   return (
-    <section className='py-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5'>
-      <ul>
+    <section className='py-5'>
+      <ul className='grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
         {
           data?.map(meat => (
-            <li key={meat.id} className='relative flex justify-end'>
+            <li key={meat.id} className='relative flex justify-end hover:scale-105 transition'>
               <Card 
                 image={meat.photo}
                 name={meat.name_of_the_cut_of_meat}
@@ -48,17 +52,35 @@ export default function ListMeats(props) {
                       {
                         meat.is_active 
                           ? <CardChipStatus startContentIcon={<ActiveIcon/>} text='Activo' color='success'/>
-                          : <CardChipStatus startContentIcon={<CloseIcon/>} text='Desactivado' color='danger'/>
+                          : <CardChipStatus startContentIcon={<CloseIcon/>} text='Inactivo' color='danger'/>
                       }
-                      <CardMenu
-                        itemId={meat.id}
-                        courseIsActive={meat.is_active}
-                        handleclickDelete={handleclick}
-                        textModalDelete='Desea eliminar el producto seleccionado ?'
-                        deleteIsError={deleteIsError}
-                        isLoadingDelete={isLoadingDelete}
-                      >
-                      </CardMenu>
+
+                      <div className='flex flex-col gap-2'>
+                        <CardMenu
+                          itemId={meat.id}
+                          courseIsActive={meat.is_active}
+                          handleclickDelete={handleclick}
+                          textModalDelete='Desea eliminar el producto seleccionado ?'
+                          deleteIsError={deleteIsError}
+                          isLoadingDelete={isLoadingDelete}
+                        >
+
+                          <CustomModal
+                            btnText='Editar' 
+                            headerText='Editar Curso'
+                            btnOpen={<Button className='px-0 min-w-unit-10' color='warning' startContent={<EditIcon/>}/>}
+
+                          >
+
+                            <UpdateMeatForm 
+                              meatId={meat.id}
+                              refreshOneElement={refreshOneElement}
+                            />
+                            
+                          </CustomModal>
+
+                        </CardMenu>
+                      </div>
 
                     </div>
               }

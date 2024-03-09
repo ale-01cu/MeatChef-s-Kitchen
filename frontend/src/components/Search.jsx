@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useLocation } from "wouter" 
 import { CLIENT_BASE_URL } from "../utils/constants"
 import { Input } from "@nextui-org/react"
-import SearchIcon from './SearchIcon'
+import SearchIcon from './Icons/SearchIcon'
 
 export default function Search({type}) {
   const [ searchValue, setSearchValue ] = useState('')

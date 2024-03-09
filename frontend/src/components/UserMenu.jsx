@@ -1,8 +1,8 @@
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User, DropdownSection} from "@nextui-org/react";
-import Logout from "./Logout";
+import Logout from "./Auth/Logout";
 import useAuth from "../hooks/useAuth";
 import { BASE_URL } from "../utils/constants";
-import AvatarIcon from './AvatarIcon'
+import AvatarIcon from './Icons/AvatarIcon'
 
 export default function UserMenu() {
   const { user } = useAuth()
@@ -15,7 +15,7 @@ export default function UserMenu() {
             as="button"
             avatarProps={{
               src: user?.avatar
-                ? BASE_URL + '/' + user.avatar
+                ? BASE_URL + '/' + user?.avatar
                 : undefined,
               fallback: !user?.avatar && 
                 <AvatarIcon 
@@ -52,10 +52,11 @@ export default function UserMenu() {
             isReadOnly
             key="profile"
             className="h-14 gap-2 opacity-100"
+            textValue="User"
           >
             <User
-              name="Junior Garcia"
-              description="@jrgarciadev"
+              description={'@' + user?.full_name}
+              name={user?.email}
               classNames={{
                 name: "text-default-600",
                 description: "text-default-500",
@@ -73,14 +74,16 @@ export default function UserMenu() {
               }}
             />
           </DropdownItem>
-          <DropdownItem key="settings">Mi Perfil</DropdownItem>
+          <DropdownItem key="settings" textValue="Profile">Mi Perfil</DropdownItem>
         </DropdownSection> 
 
         <DropdownSection aria-label="Help & Feedback">
-          <DropdownItem key="help_and_feedback">
+          <DropdownItem key="help_and_feedback" textValue="Help">
             Help & Feedback
           </DropdownItem>
-          <DropdownItem key="logout"><Logout/></DropdownItem>
+          <DropdownItem key="logout" textValue="Logout">
+            <Logout/>
+          </DropdownItem>
         </DropdownSection> 
       </DropdownMenu>
       </Dropdown>

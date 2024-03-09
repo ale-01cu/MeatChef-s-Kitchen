@@ -5,9 +5,9 @@ import CardMenu from '../CardMenu.jsx'
 import CustomModal from '../CustomModal.jsx'
 import UpdateCourseForm from './UpdateCourseForm.jsx.jsx'
 import { Button } from '@nextui-org/react'
-import EditIcon from '../EditIcon.jsx'
-import ActiveIcon from '../ActiveIcon.jsx'
-import CloseIcon from '../CloseIcon.jsx'
+import EditIcon from '../Icons/EditIcon.jsx'
+import ActiveIcon from '../Icons/ActiveIcon.jsx'
+import CloseIcon from '../Icons/CloseIcon.jsx'
 import CardChipStatus from '../CardChipStatus.jsx'
 import { COURSES_URL } from '../../utils/constants.js'
 
@@ -37,11 +37,11 @@ export default function ListCourses(props) {
   }
 
   return (
-    <section className='py-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5'>
-      <ul>
+    <section className='py-5'>
+      <ul className='grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
         {
           data?.map(course => (
-            <li key={course.id} className='relative flex justify-end'>
+            <li key={course.id} className='relative flex justify-end hover:scale-105 transition'>
               <Card 
                 image={course.photo}
                 name={course.name}
@@ -54,7 +54,7 @@ export default function ListCourses(props) {
                     {
                       course.is_active 
                         ? <CardChipStatus startContentIcon={<ActiveIcon/>} text='Activo' color='success'/>
-                        : <CardChipStatus startContentIcon={<CloseIcon/>} text='Desactivado' color='danger'/>
+                        : <CardChipStatus startContentIcon={<CloseIcon/>} text='Inactivo' color='danger'/>
                     }
 
                     <div className='flex flex-col gap-2'>

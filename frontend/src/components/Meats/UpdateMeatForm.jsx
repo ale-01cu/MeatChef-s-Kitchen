@@ -2,39 +2,41 @@ import InputFile from "../InputFile";
 import { Image } from "@nextui-org/react";
 import { BASE_URL } from "../../utils/constants";
 import { useEffect, useState } from "react";
-import { retrieveCourses, updateCourse } from "../../services/courses";
 import {  
   Textarea,
   Input,
   Checkbox,
   Button
 } from "@nextui-org/react";
+import { updateMeat, retrieveMeats } from '../../services/meats'
+import CategoriesSelect from "../Category/CategoriesSelect";
+import useListCategories from "../../hooks/useListCategories";
 
-export default function UpdateCourseForm(props) {
-  const {courseId, closeModal, refreshOneElement } = props
-  const [ courseData, setCoursesData ] = useState(null)
+export default function UpdateMeatForm(props) {
+  const { meatId, closeModal, refreshOneElement } = props
+  const [ meatData, setMeatData ] = useState(null)
   const [ photoFile, setPhotoFile ] = useState()
-  const [ videoFile, setVideoFile ] = useState()
   const [ updateIsError, setUpdateIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
+  const { categories } = useListCategories()
 
   useEffect(() => {
-    retrieveCourses(courseId)
-      .then(data => setCoursesData(data))
+    retrieveMeats(meatId)
+      .then(data => setMeatData(data))
       .catch(e => {
         console.error(e);
         setUpdateIsError(e)
       })
-  }, [courseId])
+  }, [meatId])
 
 
   const handleChange = (e, field) => {
     const value = e.target.value
-    let newCourseData = {
-      ...courseData
+    let newMeatData = {
+      ...meatData
     }
-    newCourseData[field] = value 
-    setCoursesData(newCourseData)
+    newMeatData[field] = value 
+    setMeatData(newMeatData)
   }
 
   const photoHandleChange = (e) => {
@@ -42,15 +44,10 @@ export default function UpdateCourseForm(props) {
     setPhotoFile(file)
   }
 
-  const videoHandleChange = (e) => {
-    const file = e.target.files[0]
-    setVideoFile(file)
-  }
-
   const handleSelect = () => {
-    setCoursesData({
-      ...courseData,
-      is_active: !courseData.is_active
+    setMeatData({
+      ...meatData,
+      is_active: !meatData.is_active
     })
   }
 
@@ -58,12 +55,12 @@ export default function UpdateCourseForm(props) {
     e.preventDefault()
     setIsLoading(true)
     const formData = new FormData(e.target)
-    formData.set('is_active', courseData.is_active)
+    formData.set('is_active', meatData.is_active)
 
-    updateCourse(courseId, formData)
+    updateMeat(meatId, formData)
       .then(() => {
-          closeModal()
-          refreshOneElement(courseId)
+        closeModal()
+        refreshOneElement(meatId)
       })
       .catch(e => {
         console.error(e);
@@ -73,7 +70,7 @@ export default function UpdateCourseForm(props) {
   }
 
 
-  if(!courseData) return null
+  if(!meatData) return null
 
   return (
     <>
@@ -82,23 +79,49 @@ export default function UpdateCourseForm(props) {
           <h1>Revento esta talla</h1>
       }
       <form 
-        id="form-login" 
+        id="form-update-meat" 
         className="flex flex-col gap-y-2" 
         onSubmit={handleSubmit}
       >
+
         <Input
-          label="Nombre"
-          name="name"
-          placeholder="Nombre del Curso"
-          onChange={(e) => handleChange(e, 'name')}
-          value={courseData.name}
+          label="Tipo de Carne"
+          name="type_of_meat"
+          placeholder="Tipo de Carne"
+          onChange={(e) => handleChange(e, 'type_of_meat')}
+          value={meatData.type_of_meat}
         />
+
+        <Input
+          label="Nombre del Corte"
+          name="name_of_the_cut_of_meat"
+          placeholder="Nombre del Corte"
+          onChange={(e) => handleChange(e, 'name_of_the_cut_of_meat')}
+          value={meatData.name_of_the_cut_of_meat}
+        />
+
+        <Input
+          label="Precio"
+          name="price"
+          type="number"
+          placeholder="Precio"
+          onChange={(e) => handleChange(e, 'price')}
+          value={meatData.price}
+        />
+
+        <CategoriesSelect 
+          placeholder='Seleccione una Categoria'
+          categories={categories}
+          isLoading={false}
+          defaultValue={meatData?.category?.id}
+        />
+
         <Textarea
           name="description"
           placeholder="Descripcion del curso"
           type="text"
           onChange={(e) => handleChange(e, 'description')}
-          value={courseData.description}
+          value={meatData.description}
         />
 
         {
@@ -127,53 +150,17 @@ export default function UpdateCourseForm(props) {
 
                 <Image 
                   className="w-full max-h-[400px]" 
-                  src={BASE_URL + '/' + courseData.photo} 
+                  src={BASE_URL + '/' + meatData.photo} 
                   alt="" 
                 />
               </div>
         }
 
-        {
-          videoFile 
-            ? <div>
-                <InputFile 
-                  name='video'
-                  fileAccept='video/mp4' 
-                  text='Cambiar Video'
-                  handleChange={videoHandleChange}
-                />
-
-                <video controls>
-                  <source 
-                    src={URL.createObjectURL(videoFile)}
-                    type="video/mp4"
-                  />
-                  Tu navegador no soporta la etiqueta video.
-
-                </video>
-              </div>
-            : <div>
-                <InputFile 
-                  name='video'
-                  fileAccept='video/mp4' 
-                  text='Cambiar Video'
-                  handleChange={videoHandleChange}
-                />
-
-                <video controls>
-                  <source 
-                    src={BASE_URL + '/' + courseData.video} 
-                    type="video/mp4"
-                  />
-                  Tu navegador no soporta la etiqueta video.
-                </video>
-              </div>
-        }
 
         <Checkbox 
           defaultSelected 
           name="is_active" 
-          isSelected={courseData.is_active} 
+          isSelected={meatData.is_active} 
           onValueChange={handleSelect}
         >
           Activo

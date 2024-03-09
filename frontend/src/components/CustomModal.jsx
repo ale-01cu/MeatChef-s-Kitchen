@@ -7,7 +7,7 @@ import {
   Button
 } from "@nextui-org/react";
 import React from "react";
-import AddIcon from './AddIcon'
+import AddIcon from './Icons/AddIcon'
 
 export default function CustomModal({btnOpen, btnText, headerText, children}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -30,6 +30,26 @@ export default function CustomModal({btnOpen, btnText, headerText, children}) {
           onOpenChange={onOpenChange}
           placement="center"
           scrollBehavior='inside'
+          motionProps={{
+            variants: {
+              enter: {
+                y: 0,
+                opacity: 1,
+                transition: {
+                  duration: 0.3,
+                  ease: "easeOut",
+                },
+              },
+              exit: {
+                y: -20,
+                opacity: 0,
+                transition: {
+                  duration: 0.2,
+                  ease: "easeIn",
+                },
+              },
+            }
+          }}
         >
           <ModalContent>
             {(onClose) => (

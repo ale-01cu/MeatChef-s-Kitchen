@@ -9,8 +9,8 @@ import {ToastContainer} from 'react-toastify'
 import Meats from './pages/Meats';
 import Courses from './pages/Courses';
 import CourseDetail from './pages/CourseDetail';
-import CourseEdit from './pages/CourseEdit';
 import { getFullUser } from './services/auth';
+import MeatDetail from './pages/MeatDetail';
 
 function App() {
   const { isValid } = useVerifyToken()
@@ -46,10 +46,10 @@ function App() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/carnicos" component={Meats} />
+          <Route path="/carnicos/:meat_id" component={MeatDetail} />
           <Route path="/carnicos/category/:category_id" component={Meats} />
           <Route path="/carnicos/search/:search" component={Meats} />
           <Route path="/cursos" component={Courses} />
-          <Route path="/cursos/editar/:course_id" component={CourseEdit} />
           <Route path="/cursos/:course_id" component={CourseDetail} />
           <Route path="/cursos/search/:search" component={Courses} />
           {/* <Route path="/users/:name">

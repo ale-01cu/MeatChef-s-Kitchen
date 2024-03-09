@@ -6,9 +6,7 @@ import { useEffect, useState } from "react"
 import AddMeatForm from "../components/Meats/AddMeatForm"
 import CustomModal from "../components/CustomModal"
 import useAuth from "../hooks/useAuth"
-import CategoriesSelect from "../components/CategoriesSelect"
-import CategoryForm from "../components/Category/CategoryForm"
-import BtnAddCategory from "../components/Category/BtnAddCategory"
+import CategoryParent from "../components/Category/CategoryParent"
 
 export default function Meats() {
   const { user } = useAuth()
@@ -48,7 +46,9 @@ export default function Meats() {
         
     }else if(category_id) {
       listMeatsByCategory(category_id)
-        .then(data => setMeatsData(data))
+        .then(data => {
+          setMeatsData(data)
+        })
         .catch(e => {
           console.error(e);
           setIsError(e)
@@ -73,24 +73,15 @@ export default function Meats() {
       <div className="flex w-full justify-end items-center px-5 gap-x-2">
         {
           user?.is_superuser 
-            && <CustomModal
-              btnText='Nuevo Producto'
-              headerText='Nuevo Producto'
-            >
+          && <CustomModal
+          btnText='Nuevo Producto'
+          headerText='Nuevo Producto'
+          >
               <AddMeatForm refreshParent={setRefreshComponent}/>
             </CustomModal>
         }
+        <CategoryParent user={user}/>
 
-        <CategoriesSelect className='max-w-xs' placeholder='Filtrar por Categoria'/>
-        {
-          user?.is_superuser 
-            && <CustomModal
-              btnOpen={<BtnAddCategory/>}
-              headerText='Nueva Categoria'
-            >
-              <CategoryForm/>
-            </CustomModal>
-        }
 
       </div>
 
@@ -118,6 +109,7 @@ export default function Meats() {
               data={meatData} 
               user={user} 
               refreshParent={setRefreshComponent}
+              refreshOneElement={reRenderOneElement}
             />
         }
 

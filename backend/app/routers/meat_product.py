@@ -35,8 +35,7 @@ async def list_meat_products(db: Session = Depends(get_db),
     user: UserSchema | None = Depends(get_user)
 ) -> list[MeatProduct]:
     try:
-
-        if user and user.is_staff: 
+        if user and (user.is_staff or user.is_superuser): 
             return list_meat_products_admin_db(db)
         products = list_meat_products_db(db)
         return products
@@ -49,15 +48,15 @@ async def list_meat_products(db: Session = Depends(get_db),
         )
     
 
-@router.get('/meat-products/category/{category}', tags=['list-meat-products'])
-async def list_meat_products_by_category(category: str, db: Session = Depends(get_db),
+@router.get('/meat-products/category/{category_id}', tags=['list-meat-products'])
+async def list_meat_products_by_category(category_id: str, db: Session = Depends(get_db),
     user: UserSchema | None = Depends(get_user)
 ) -> list[MeatProduct]:
     try:
 
-        if user and user.is_staff:
-            return list_meat_product_admin_by_category(db, category)
-        products = list_meat_product_by_category(db, category)
+        if user and user.is_staff or user.is_superuser:
+            return list_meat_product_admin_by_category(db, category_id)
+        products = list_meat_product_by_category(db, category_id)
         return products
 
     except Exception as e:
@@ -75,7 +74,7 @@ async def get_meat_products(product_id: str, db: Session = Depends(get_db),
 ) -> MeatProduct:
     try:
 
-        if user and user.is_staff:
+        if user and user.is_staff or user.is_superuser:
             return get_meat_product_admin_by_id(db, product_id)
         product = get_meat_product_by_id(db, product_id)
         if not product: raise HTTPException(
@@ -187,23 +186,27 @@ async def update_meat_products(
     photo: UploadFile = File(),
     category_id: str = Form(),
     is_active: bool = Form(),
+    user: UserSchema | None = Depends(get_user),
     db: Session = Depends(get_db)
 ) -> MeatProduct:
     try:
         # Comprueba si existe ya la foto
         # y si existe los elimina
-        product = get_meat_product_by_id(db, product_id)
-        path = f'media/meat-products/{name_of_the_cut_of_meat}'
-        file_info = await save_file(photo, path)
-        if product.photo != file_info.path:
-            delete_file(product.photo)
+        if user and user.is_staff or user.is_superuser: product = get_meat_product_admin_by_id(db, product_id)
+        else: product = get_meat_product_by_id(db, product_id)
+
+        if photo.filename:
+            path = f'media/meat-products/{name_of_the_cut_of_meat}'
+            file_info = await save_file(photo, path)
+            if product.photo != file_info.path:
+                delete_file(product.photo)
 
         meat_product = MeatProductCreate(
             type_of_meat=type_of_meat,
             name_of_the_cut_of_meat=name_of_the_cut_of_meat,
             description=description,
             price=price,
-            photo=file_info.path,
+            photo=file_info.path if photo.filename else product.photo,
             category_id=category_id,
             is_active=is_active
         )

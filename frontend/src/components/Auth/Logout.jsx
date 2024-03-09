@@ -1,5 +1,5 @@
-import { deleteToken } from "../utils/token"
-import useAuth from '../hooks/useAuth'
+import { deleteToken } from "../../utils/token"
+import useAuth from '../../hooks/useAuth'
 import { Button } from "@nextui-org/react"
 
 export default function Logout() {
@@ -16,6 +16,7 @@ export default function Logout() {
   return (
     <button 
       onClick={handleClick} 
+      className="w-full flex"
     >
       Cerrar Sesion
     </button> 

@@ -20,7 +20,7 @@ export const createCategories = async (formData) => {
     method: 'POST',
     body: formData,
     headers: {
-      'content-type': 'aplication/json',
+      'Content-Type': 'application/json',
       'authorization': getSessionStorageToken()
     },
   })

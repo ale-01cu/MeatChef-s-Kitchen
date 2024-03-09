@@ -8,7 +8,8 @@ import {
 import { useState } from "react";
 import InputFile from "../InputFile";
 import { createMeat } from '../../services/meats'
-import CategoriesSelect from "../CategoriesSelect";
+import CategoriesSelect from "../Category/CategoriesSelect";
+import useListCategories from "../../hooks/useListCategories";
 
 export default function AddMeatForm ({ closeModal, refreshParent }) {
   const [ meatData, setMeatData ] = useState({
@@ -22,6 +23,7 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
   const [ isSelected, setIsSelected ] = useState(true);
   const [ addIsError, setAddIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
+  const { categories } = useListCategories()
 
 
   const handleChange = (e, field) => {
@@ -105,7 +107,12 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           value={meatData.price}
         />
 
-        <CategoriesSelect placeholder='Seleccione una Categoria'/>
+        <CategoriesSelect 
+          placeholder='Seleccione una Categoria'
+          categories={categories}
+          isLoading={false}
+          defaultValue={'NONE'}
+        />
 
         <Textarea
           label='Descripcion'

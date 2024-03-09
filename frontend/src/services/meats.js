@@ -4,52 +4,59 @@ import { getSessionStorageToken } from '../utils/token'
 
 export const listMeats = async () => {
 
-  const { response, data }  = await fetching({
+  const { data }  = await fetching({
     url: MEATS_URL,
     method: 'GET',
     headers: {
-      'content-type': 'aplication/json'
+      'content-type': 'aplication/json',
+      'authorization': getSessionStorageToken()
     },
   })
-  if(!response.ok) throw new Error(data.detail)
   return data
 }
 
 
 export const listSearchMeats = async (query) => {
 
-  const { response, data }  = await fetching({
+  const { data }  = await fetching({
     url: MEATS_URL + '/search/' + query,
     method: 'GET',
+    headers: {
+      'content-type': 'aplication/json',
+      'authorization': getSessionStorageToken()
+    },
   })
 
-  if(!response.ok) throw new Error(data.detail)
   return data
 }
 
 
 export const listMeatsByCategory = async (category_id) => {
 
-  const { response, data }  = await fetching({
+  const { data }  = await fetching({
     url: fILTER_MEATS_BY_CATEGORIES_URL + '/' + category_id,
     method: 'GET',
+    headers: {
+      'content-type': 'aplication/json',
+      'authorization': getSessionStorageToken()
+    },
   })
 
-  if(!response.ok) throw new Error(data.detail)
   return data
 }
 
 
 
 export const retrieveMeats = async (meatId) => {
-  const { response, data }  = await fetching({
+  const { data }  = await fetching({
     url: MEATS_URL + '/' + meatId,
     method: 'GET',
-    headers: {
-      'content-type': 'aplication/json'
+    headers: { 
+      'content-type': 'aplication/json',
+      'authorization': getSessionStorageToken()
     },
   })
-  if(!response.ok) throw new Error(data.detail)
+
   return data
 }
 
@@ -62,13 +69,27 @@ export const createMeat = async (formData) => {
     headers: {'authorization': getSessionStorageToken()}
   })
 
-  if(!response.ok) throw new Error(data.detail)
   return {
     res: response,  
     data
   }
 
 }
+
+
+export const updateMeat = async (meatId, formData) => {
+  const { data } = await fetching({
+    url: MEATS_URL + '/' + meatId,
+    method: 'PUT',
+    body: formData,
+    headers: {'authorization': getSessionStorageToken()}
+
+  })
+
+  return data
+
+}
+
 
 export const deleteMeat = async (meatId) => {
   await fetch(MEATS_URL + '/' + meatId, {

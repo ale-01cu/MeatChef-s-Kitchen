@@ -78,7 +78,7 @@ async def get_course(course_id: str, db: Session = Depends(get_db),
 ) -> CourseSchema:
     try:
 
-        if user and user.is_teacher: 
+        if user and user.is_teacher or user.is_superuser: 
             return get_course_admin_by_id(db, course_id)
         course = get_course_by_id(db, course_id)
         if not course: raise HTTPException(
@@ -174,11 +174,10 @@ async def update_course(
     try:
         # Comprueba si existe ya la foto o el video
         # y si existe los elimina
-        if user.is_teacher: course = get_course_admin_by_id(db, course_id)
+        if user and user.is_teacher: course = get_course_admin_by_id(db, course_id)
         else: course = get_course_by_id(db, course_id)
 
         if photo.filename:
-            course = get_course_by_id(db, course_id)
             path = f'media/courses/{name}'
             photo_info = await save_file(photo, path)
             if course.photo != photo_info.path:

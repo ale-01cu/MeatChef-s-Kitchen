@@ -8,8 +8,9 @@ import {
 import { useState } from "react";
 import { createCourse } from "../../services/courses";
 import InputFile from "../InputFile";
-import PhotoIcon from "../PhotoIcon";
-import VideoIcon from '../VideoIcon'
+import PhotoIcon from "../Icons/PhotoIcon";
+import VideoIcon from '../Icons/VideoIcon'
+
 
 export default function AddCourseForm ({ closeModal, refreshParent }) {
   const [ courseData, setCoursesData ] = useState({

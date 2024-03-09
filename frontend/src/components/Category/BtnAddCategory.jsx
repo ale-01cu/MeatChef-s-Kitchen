@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/react"
-import AddIcon2 from '../AddIcon2'
+import AddIcon2 from '../Icons/AddIcon2'
 
 export default function BtnAddCategory({ onClick }) {
   return (

@@ -1,4 +1,4 @@
-import { VERIFY_TOKEN_URL, USER_URL } from "../utils/constants";
+import { VERIFY_TOKEN_URL, USER_URL, LOGIN_URL, REGISTER_URL } from "../utils/constants";
 import fetching from "../utils/fetching";
 import { getSessionStorageToken } from "../utils/token";
 
@@ -13,6 +13,28 @@ export const verifyToken = async () => {
     res: response,
     data
   }
+}
+
+export const login = async (formData) => {
+  const { data } = await fetching({
+    url: LOGIN_URL,
+    method: 'post',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(formData)
+  })
+
+  return data
+}
+
+export const register = async (formData) => {
+  const { data } = await fetching({
+    url: REGISTER_URL,
+    method: 'post',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(formData)
+  })
+
+  return data
 }
 
 

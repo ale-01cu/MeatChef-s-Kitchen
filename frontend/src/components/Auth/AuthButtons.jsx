@@ -1,9 +1,8 @@
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
-import useAuth from '../hooks/useAuth'
-import Logout from "./Logout";
-import { getLocalStorageToken } from "../utils/token";
-import UserMenu from './UserMenu'
+import useAuth from '../../hooks/useAuth'
+import { getLocalStorageToken } from "../../utils/token";
+import UserMenu from '../UserMenu'
 
 export default function AuthButtons() {
   const { auth } = useAuth()

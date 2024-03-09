@@ -6,19 +6,17 @@ export default function Card(props) {
   const { image, name, description, path } = props
   
   return (
-    <Link to={path}>
+    <Link to={path} className="w-full">
       <div id="image">
-        <Image src={BASE_URL + '/' + image} alt="ImageCard" />
+        <Image src={BASE_URL + '/' + image} alt="ImageCard" classNames={{
+          wrapper: 'w-full',
+          img: 'max-h-[266px] object-cover aspect-video'
+        }}/>
       </div>
 
-      <div className="space-y-2 flex justify-center flex-col items-center">
-        <div id="name">
-          <p className="font-bold text-pretty text-2xl">{name}</p>
-        </div>
-
-        <div id="description">
-          <p className="text-pretty">{description}</p>
-        </div>
+      <div className="space-y-2 p-2">
+        <h1 className="font-bold text-2xl text-nowrap truncate">{name}</h1>
+        <p className="truncate">{description}</p>
       </div>
 
     </Link>
