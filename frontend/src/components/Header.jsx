@@ -2,6 +2,7 @@ import { Link } from "wouter"
 import AuthButtons from './Auth/AuthButtons'
 import Search from "./Search"
 import { Image } from "@nextui-org/react"
+import CartButton from "./Cart/CartButton"
 
 export default function Header({typeSearch, children}) {
   
@@ -27,7 +28,8 @@ export default function Header({typeSearch, children}) {
               && <Search type={typeSearch}/>
           }
 
-        <div>
+        <div className="flex justify-center items-center gap-x-2">
+          <CartButton/>
           <AuthButtons/>
         </div>
       </header>

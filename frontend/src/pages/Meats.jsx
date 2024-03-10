@@ -85,7 +85,8 @@ export default function Meats() {
 
 
       <div className="p-10 flex flex-col gap-y-16">
-        { !isError && !search && !category_id && !isLoading && !user?.is_superuser && <MeatSlider/> }
+        { !isError && !search && !category_id && !isLoading && !user?.is_superuser 
+            && <MeatSlider/> }
 
         {
           !isError && search && <div>

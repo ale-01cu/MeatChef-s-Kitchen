@@ -5,6 +5,7 @@ import Meats from "../pages/Meats"
 import MeatDetail from "../pages/MeatDetail"
 import CourseDetail from "../pages/CourseDetail"
 import Courses from "../pages/Courses"
+import Cart from '../pages/Cart'
 
 const ROUTES = [
   {
@@ -60,6 +61,13 @@ const ROUTES = [
     component: Courses,
     layout: Header,
     layoutProps: { typeSearch: 'cursos' }
+  },
+
+  {
+    path: '/carrito',
+    component: Cart,
+    layout: Header,
+    layoutProps: { typeSearch: 'carnicos' }
   },
 
   {

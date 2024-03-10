@@ -1,13 +1,13 @@
 import { useParams } from "wouter"
 import { retrieveMeats } from "../services/meats"
 import { useEffect, useState } from "react"
-import Header from "../components/Header"
 import { Image, Input, Button } from "@nextui-org/react"
 import { BASE_URL } from "../utils/constants"
 import CardChipStatus from '../components/CardChipStatus'
 import ActiveIcon from '../components/Icons/ActiveIcon'
 import CloseIcon from '../components/Icons/CloseIcon'
 import useAuth from "../hooks/useAuth"
+import { addToCart } from '../services/cart'
 
 export default function MeatDetail() {
   const { user } = useAuth()
@@ -29,6 +29,17 @@ export default function MeatDetail() {
         setIsLoading(false)
       })
   }, [meat_id])
+
+  const handleAddToCart = () => {
+    try {
+      addToCart(meat)
+      alert('Producto agregado al carrito')
+      
+    }catch(e) {
+      console.error(e);
+      alert('El producto ya esta en el carrito')
+    }
+  }
 
   if(isLoading) return <h1>Cargando</h1>
   else if(isError) return <h1>Revento esta talla</h1>
@@ -90,8 +101,9 @@ export default function MeatDetail() {
                 type='submit'
                 color="success" 
                 isLoading={false}
+                onPress={handleAddToCart}
               >
-                  Comprar
+                  Agregar al Carrito
               </Button>
             </div>
           </section>
