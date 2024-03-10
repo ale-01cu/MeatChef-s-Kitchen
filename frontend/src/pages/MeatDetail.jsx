@@ -8,6 +8,9 @@ import ActiveIcon from '../components/Icons/ActiveIcon'
 import CloseIcon from '../components/Icons/CloseIcon'
 import useAuth from "../hooks/useAuth"
 import { addToCart } from '../services/cart'
+import CartIcon from '../components/Icons/CartIcon'
+import { productIsInCart } from "../services/cart"
+import MeatMenu from "../components/MeatMenu"
 
 export default function MeatDetail() {
   const { user } = useAuth()
@@ -16,6 +19,7 @@ export default function MeatDetail() {
   const [ amount, setAmount ] = useState(0)
   const [ isLoading, setIsLoading ] = useState(false)
   const [ isError, setIsError ] = useState()
+  const [ isInCart, setIsInCart ] = useState(false)
 
   useEffect(() => {
     setIsLoading(true)
@@ -30,14 +34,18 @@ export default function MeatDetail() {
       })
   }, [meat_id])
 
+  useEffect(() => {
+    const is = productIsInCart(meat_id)
+    setIsInCart(is)
+  }, [meat_id])
+
   const handleAddToCart = () => {
     try {
       addToCart(meat)
-      alert('Producto agregado al carrito')
+      setIsInCart(true)
       
     }catch(e) {
       console.error(e);
-      alert('El producto ya esta en el carrito')
     }
   }
 
@@ -48,6 +56,9 @@ export default function MeatDetail() {
 
   return (
     <div>
+      
+      <MeatMenu/>
+            
       <div className="">
         <div className="flex p-20 justify-center items-center">
           <section className="w-1/2 flex justify-center">
@@ -97,14 +108,30 @@ export default function MeatDetail() {
                 }}
               />
 
-              <Button 
-                type='submit'
-                color="success" 
-                isLoading={false}
-                onPress={handleAddToCart}
-              >
-                  Agregar al Carrito
-              </Button>
+              {
+                isInCart
+                  ? <Button 
+                      type='submit'
+                      color="success" 
+                      isLoading={false}
+                      onPress={handleAddToCart}
+                      startContent={<CartIcon/>}
+                      isDisabled
+                    >
+                        Ya esta en el carrito
+                    </Button>
+
+                  : <Button 
+                      type='submit'
+                      color="success" 
+                      isLoading={false}
+                      onPress={handleAddToCart}
+                      startContent={<CartIcon/>}
+                    >
+                        Agregar al Carrito
+                    </Button>
+
+              }
             </div>
           </section>
 

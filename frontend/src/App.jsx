@@ -1,16 +1,10 @@
-import Home from './pages/Home'
 import {NextUIProvider} from "@nextui-org/react";
-import { Route, Switch } from "wouter";
 import { useState, useMemo, useCallback } from 'react';
 import AuthContext from './contexts/AuthContext'
 import useVerifyToken from './hooks/useVerifyToken';
 import { useEffect } from 'react';
 import {ToastContainer} from 'react-toastify'
-import Meats from './pages/Meats';
-import Courses from './pages/Courses';
-import CourseDetail from './pages/CourseDetail';
 import { getFullUser } from './services/auth';
-import MeatDetail from './pages/MeatDetail';
 import Navegate from './routes/Navegate';
 
 function App() {
@@ -21,7 +15,7 @@ function App() {
   const setMyUser = useCallback(() => {
     getFullUser()
       .then(({response, data}) => {
-        if(response.status != 200) setUser(null)
+        if(!response.ok) setUser(null)
         else setUser(data)} 
       )
   }, [])
@@ -35,9 +29,10 @@ function App() {
 
   const authData = useMemo(() => ({
     auth,
-    setAuth,
     user,
-    setMyUser
+    setAuth,
+    setMyUser,
+    setUser
   }),[ auth, user, setMyUser ])
 
   return (

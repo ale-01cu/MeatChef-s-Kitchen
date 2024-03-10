@@ -18,7 +18,6 @@ export default function ConfirmDeleteModal (props) {
     isLoadingDelete } = props
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
 
-
   return (
     <>
       <Button className="px-0 min-w-unit-10" color="danger" onClick={onOpen} startContent={<DeleteIcon/>}/>
@@ -26,6 +25,26 @@ export default function ConfirmDeleteModal (props) {
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
           placement="center"
+          motionProps={{
+            variants: {
+              enter: {
+                y: 0,
+                opacity: 1,
+                transition: {
+                  duration: 0.3,
+                  ease: "easeOut",
+                },
+              },
+              exit: {
+                y: -20,
+                opacity: 0,
+                transition: {
+                  duration: 0.2,
+                  ease: "easeIn",
+                },
+              },
+            }
+          }}
         >
           <ModalContent>
             {() => (

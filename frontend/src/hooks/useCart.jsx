@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { addToCart, getCart } from "../services/cart"
+import { getCart, deleteProductFromCart } from "../services/cart"
 
 export default function useCart() {
   const [ cart, setCart ] = useState([])
@@ -9,17 +9,13 @@ export default function useCart() {
     setCart(cart)
   }, [])
 
-  const addProduct = (prod) => {
-    addToCart(prod)
-    const newCart = [
-      ...cart,
-      prod
-    ]
-    setCart(newCart)
+  const deleteProduct = (id) => {
+    setCart(prev => prev.filter((prod) => prod.id !== id))
+    deleteProductFromCart(id)
   }
 
   return {
     cart,
-    addProduct
+    deleteProduct
   }
 }

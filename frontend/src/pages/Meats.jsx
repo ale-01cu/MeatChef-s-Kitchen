@@ -2,11 +2,9 @@ import ListMeats from "../components/Meats/ListMeats"
 import { useParams } from "wouter"
 import { listMeats, listSearchMeats, listMeatsByCategory, retrieveMeats } from "../services/meats"
 import { useEffect, useState } from "react"
-import AddMeatForm from "../components/Meats/AddMeatForm"
-import CustomModal from "../components/CustomModal"
 import useAuth from "../hooks/useAuth"
-import CategoryParent from "../components/Category/CategoryParent"
 import MeatSlider from "../components/Meats/MeatSlider"
+import MeatMenu from "../components/MeatMenu"
 
 export default function Meats() {
   const { user } = useAuth()
@@ -37,7 +35,10 @@ export default function Meats() {
     setIsLoading(true)
     if(search){
       listSearchMeats(search)
-        .then(data => setMeatsData(data))
+        .then(data => {
+          setMeatsData(data)
+          setIsError(null)
+        })
         .catch(e => {
           console.error(e)
           setIsError(e)
@@ -48,6 +49,7 @@ export default function Meats() {
       listMeatsByCategory(category_id)
         .then(data => {
           setMeatsData(data)
+          setIsError(null)
         })
         .catch(e => {
           console.error(e);
@@ -57,7 +59,10 @@ export default function Meats() {
 
     }else {
       listMeats()
-        .then(data => setMeatsData(data))
+        .then(data => {
+          setMeatsData(data)
+          setIsError(null)
+        })
         .catch(e => {
           console.error(e);
           setIsError(e)
@@ -69,19 +74,10 @@ export default function Meats() {
   return (
     <>
 
-      <div className="flex w-full justify-end items-center px-5 gap-x-2">
-        {
-          user?.is_superuser 
-          && <CustomModal
-          btnText='Nuevo Producto'
-          headerText='Nuevo Producto'
-          >
-              <AddMeatForm refreshParent={setRefreshComponent}/>
-            </CustomModal>
-        }
-        <CategoryParent user={user} categoryId={category_id}/>
-
-      </div>
+      <MeatMenu
+        setRefreshComponent={setRefreshComponent}
+        category_id={category_id}
+      />
 
 
       <div className="p-10 flex flex-col gap-y-16">
@@ -114,16 +110,14 @@ export default function Meats() {
         {
           meatData.length > 0 && !isError && !isLoading
             && <ListMeats 
-              data={meatData} 
-              user={user} 
-              refreshParent={setRefreshComponent}
-              refreshOneElement={reRenderOneElement}
-            />
+                data={meatData} 
+                user={user} 
+                refreshParent={setRefreshComponent}
+                refreshOneElement={reRenderOneElement}
+              />
         }
 
-        {
-          isLoading && <h1>Cargando</h1>
-        }
+        { isLoading && <h1>Cargando</h1> }
 
         {
           isError &&

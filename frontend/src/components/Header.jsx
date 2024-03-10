@@ -3,8 +3,9 @@ import AuthButtons from './Auth/AuthButtons'
 import Search from "./Search"
 import { Image } from "@nextui-org/react"
 import CartButton from "./Cart/CartButton"
+import BtnCustomOrder from "./CustomOrder/BtnCustomOrder"
 
-export default function Header({typeSearch, children}) {
+export default function Header({typeSearch, children, options}) {
   
   return (
     <>
@@ -29,10 +30,15 @@ export default function Header({typeSearch, children}) {
           }
 
         <div className="flex justify-center items-center gap-x-2">
+          <BtnCustomOrder/>
           <CartButton/>
           <AuthButtons/>
         </div>
       </header>
+      
+      <aside>
+        { options }
+      </aside>
     
       <main>
         { children }

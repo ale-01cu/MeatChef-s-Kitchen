@@ -28,7 +28,7 @@ export default function MeatSlider({ meats }) {
       <Swiper
         slidesPerView={1}
         spaceBetween={30}
-        loop={true}
+        loop={false}
         pagination={{
           clickable: true,
         }}

@@ -6,6 +6,8 @@ import MeatDetail from "../pages/MeatDetail"
 import CourseDetail from "../pages/CourseDetail"
 import Courses from "../pages/Courses"
 import Cart from '../pages/Cart'
+import CustomOrder from "../pages/CustomOrder"
+import Profile from "../pages/Profile"
 
 const ROUTES = [
   {
@@ -66,6 +68,20 @@ const ROUTES = [
   {
     path: '/carrito',
     component: Cart,
+    layout: Header,
+    layoutProps: { typeSearch: 'carnicos' }
+  },
+
+  {
+    path: '/orden-personalizada',
+    component: CustomOrder,
+    layout: Header,
+    layoutProps: { typeSearch: 'carnicos' }
+  },
+
+  {
+    path: '/perfil',
+    component: Profile,
     layout: Header,
     layoutProps: { typeSearch: 'carnicos' }
   },

@@ -1,4 +1,4 @@
-from fastapi import Request, HTTPException, status, Depends
+from fastapi import Request, Depends
 from app.utils.token import verify_token
 from app.cruds.user import get_user_by_email
 from sqlalchemy.orm import Session

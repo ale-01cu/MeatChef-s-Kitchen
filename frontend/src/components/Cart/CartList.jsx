@@ -1,12 +1,19 @@
 import useCart from "../../hooks/useCart"
-import Card from '../Card'
 import { Image, Input } from "@nextui-org/react"
-import { Link } from "wouter"
 import { BASE_URL } from "../../utils/constants"
 import ConfirmDeleteModal from "../ConfirmDeleteModal"
+import { updateAmountCart } from "../../services/cart"
 
 export default function CartList() {
-  const { cart } = useCart()
+  const { cart, deleteProduct } = useCart()
+
+  const handleChangeAmount = (id, value) => {
+    updateAmountCart(id, value)
+  }
+
+  const handelDelete = (id) => {
+    deleteProduct(id)
+  }
 
   if(!cart) return <h1>El carrito esta vacio</h1>
   return (
@@ -34,8 +41,20 @@ export default function CartList() {
                   name="amount"
                   type="number"
                   placeholder="Cantidad"
+                  onChange={(e) => handleChangeAmount(prod.id, e.target.value)}
+                  defaultValue={prod.amount}
+                  variant="bordered"
+                  classNames={{
+                    label: 'group-data-[filled-within=true]:text-black',
+                    input: 'text-black'
+                  }}
                 />
-                <ConfirmDeleteModal/>
+                <div className="self-end">
+                  <ConfirmDeleteModal 
+                    text='Desea eliminar el producto del carrito ?'
+                    handleclickDelete={() => handelDelete(prod.id)}
+                  />
+                </div>
               </div>
 
             </div>

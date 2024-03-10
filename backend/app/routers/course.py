@@ -40,8 +40,10 @@ async def list_courses(db: Session = Depends(get_db),
     user: UserSchema | None = Depends(get_user)
 ) -> list[CourseListSchema]:
     try:
-        if user and user.is_teacher: 
-            return list_courses_admin_db(db)
+
+        if user:
+            if user.is_teacher: 
+                return list_courses_admin_db(db)
         courses = list_courses_db(db)
         return courses
 
@@ -59,8 +61,9 @@ async def search_courses(name: str, db: Session = Depends(get_db),
 ) -> list[CourseListSchema]:
     try:
 
-        if user and user.is_teacher: 
-            return list_course_admin_by_name(db, name)
+        if user:
+            if user.is_teacher: 
+                return list_course_admin_by_name(db, name)
         courses = list_course_by_name(db, name)
         return courses
 
@@ -174,8 +177,9 @@ async def update_course(
     try:
         # Comprueba si existe ya la foto o el video
         # y si existe los elimina
-        if user and user.is_teacher: course = get_course_admin_by_id(db, course_id)
-        else: course = get_course_by_id(db, course_id)
+        if user:
+            if user.is_teacher: course = get_course_admin_by_id(db, course_id)
+            else: course = get_course_by_id(db, course_id)
 
         if photo.filename:
             path = f'media/courses/{name}'

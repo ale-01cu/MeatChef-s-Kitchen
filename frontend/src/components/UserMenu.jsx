@@ -3,6 +3,7 @@ import Logout from "./Auth/Logout";
 import useAuth from "../hooks/useAuth";
 import { BASE_URL } from "../utils/constants";
 import AvatarIcon from './Icons/AvatarIcon'
+import { Link } from "wouter";
 
 export default function UserMenu() {
   const { user } = useAuth()
@@ -74,7 +75,11 @@ export default function UserMenu() {
               }}
             />
           </DropdownItem>
-          <DropdownItem key="settings" textValue="Profile">Mi Perfil</DropdownItem>
+          <DropdownItem key="settings" textValue="Profile">
+            <Link to="/perfil" className="w-full flex">
+              Mi Perfil
+            </Link>
+          </DropdownItem>
         </DropdownSection> 
 
         <DropdownSection aria-label="Help & Feedback">

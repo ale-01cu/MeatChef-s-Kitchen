@@ -35,8 +35,10 @@ async def list_meat_products(db: Session = Depends(get_db),
     user: UserSchema | None = Depends(get_user)
 ) -> list[MeatProduct]:
     try:
-        if user and (user.is_staff or user.is_superuser): 
-            return list_meat_products_admin_db(db)
+
+        if user:
+            if user.is_staff or user.is_superuser: 
+                return list_meat_products_admin_db(db)
         products = list_meat_products_db(db)
         return products
 
@@ -54,8 +56,9 @@ async def list_meat_products_by_category(category_id: str, db: Session = Depends
 ) -> list[MeatProduct]:
     try:
 
-        if user and user.is_staff or user.is_superuser:
-            return list_meat_product_admin_by_category(db, category_id)
+        if user:
+            if user.is_staff or user.is_superuser:
+                return list_meat_product_admin_by_category(db, category_id)
         products = list_meat_product_by_category(db, category_id)
         return products
 
@@ -101,8 +104,9 @@ async def search_meat_products(product_name: str, db: Session = Depends(get_db),
 ) -> list[MeatProduct]:
     try:
 
-        if user and user.is_staff:
-            return list_meat_product_admin_by_name(db, product_name)
+        if user:
+            if user.is_staff:
+                return list_meat_product_admin_by_name(db, product_name)
         product = list_meat_product_by_name(db, product_name)
         if not product: raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -192,8 +196,9 @@ async def update_meat_products(
     try:
         # Comprueba si existe ya la foto
         # y si existe los elimina
-        if user and user.is_staff or user.is_superuser: product = get_meat_product_admin_by_id(db, product_id)
-        else: product = get_meat_product_by_id(db, product_id)
+        if user:
+            if user.is_staff or user.is_superuser: product = get_meat_product_admin_by_id(db, product_id)
+            else: product = get_meat_product_by_id(db, product_id)
 
         if photo.filename:
             path = f'media/meat-products/{name_of_the_cut_of_meat}'

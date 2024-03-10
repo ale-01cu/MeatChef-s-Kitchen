@@ -1,15 +1,17 @@
 import { deleteToken } from "../../utils/token"
 import useAuth from '../../hooks/useAuth'
-import { Button } from "@nextui-org/react"
+import { useLocation } from 'wouter'
 
 export default function Logout() {
-  const { setAuth, setMyUser } = useAuth()
+  const { setAuth, setUser } = useAuth()
+  const [ location, navegate ] = useLocation()
 
   const handleClick = () => {
     const isDelete = deleteToken()
     if(isDelete) {
       setAuth(null)
-      setMyUser()
+      setUser(null)
+      if(location === '/perfil') navegate('/')
     }
   }
   

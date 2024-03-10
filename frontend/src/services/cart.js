@@ -2,6 +2,7 @@ const CART = 'cart'
 
 export const addToCart = (product) => {
   const cart = window.localStorage.getItem(CART)
+  product.amount = 0
 
   if(!cart) {
     window.localStorage.setItem(
@@ -26,6 +27,35 @@ export const addToCart = (product) => {
 
   }
 }
+
+export const updateAmountCart = (id, amount) => {
+  const cartObject = getCart()
+
+  const newCart = cartObject.map(prod => {
+    if(prod.id === id) prod.amount = amount
+    return prod
+  })
+
+  window.localStorage.setItem(CART, JSON.stringify(newCart))
+}
+
+
+export const deleteProductFromCart = (id) => {
+  const cartObject = getCart()
+  const newCart = cartObject.filter((prod) => prod.id !== id)
+  window.localStorage.setItem(CART, JSON.stringify(newCart))
+
+}
+
+
+export const productIsInCart = (prodId) => {
+  const cart = getCart()
+  const found = cart.find((prod) => prod.id === prodId)
+  if(found) return true
+  return false
+
+}
+
 
 export const getCart = () => {
   const cart = window.localStorage.getItem(CART)

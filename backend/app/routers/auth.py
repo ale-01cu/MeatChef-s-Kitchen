@@ -98,5 +98,6 @@ async def verify_token_controller(token: str) -> TokenIsValid:
         only_token = get_token_within_bearer(token)
         verify_token(only_token)
         return TokenIsValid(is_valid=True)
-    except JWTError:
+    except Exception as e:
+        print(e)
         return TokenIsValid(is_valid=False)

@@ -1,15 +1,12 @@
-import CategoryList from "../components/Category/CategoryList"
-import useListCategories from "../hooks/useListCategories"
 import OrderForm from "../components/Order/OrderForm"
 import CartList from "../components/Cart/CartList"
 import { Button } from "@nextui-org/react"
+import MeatMenu from "../components/MeatMenu"
 
 export default function Cart() {
-  const { categories } = useListCategories()
-
   return (
     <div>
-      <CategoryList categories={categories}/>
+      <MeatMenu/>
 
       <div className="py-8 px-1 sm:px-4 md:p-8">
 
@@ -17,15 +14,16 @@ export default function Cart() {
           Carrito de Compras
         </h1>
 
-        <div className="flex flex-col-reverse sm:flex-row p-4 gap-8">
-          <section className="xl:w-1/5 sm:w-1/3 lg:w-1/4 border-t border-stone-300 py-8 sm:py-0 border-dashed sm:border-none">
+        <div className="flex flex-col md:flex-row p-4 gap-8 justify-center">
+          <section className="xl:w-1/5 md:w-1/3 lg:w-1/4 w-full">
             <OrderForm/>
           </section>
 
-          <section className="xl:w-4/5 sm:w-2/3 lg:w-3/4 flex flex-col gap-y-10">
+          <section className="xl:w-4/5 md:w-2/3 lg:w-3/4 flex flex-col gap-y-10">
             <CartList/>
             <Button color="success" variant="solid" className="self-end">Ordenar</Button>
           </section>
+
 
         </div>
 

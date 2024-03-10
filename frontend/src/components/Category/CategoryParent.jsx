@@ -12,7 +12,7 @@ export default function CategoryParent({ user, categoryId, location }) {
     setCategories 
   } = useListCategories()
 
-  if(user && user.is_superuser) 
+  if(user && user?.is_superuser) 
     return (
       <>
         <CategoriesSelect 
@@ -27,11 +27,11 @@ export default function CategoryParent({ user, categoryId, location }) {
         {
           user?.is_superuser 
             && <CustomModal
-              btnOpen={<BtnAddCategory/>}
-              headerText='Nueva Categoria'
-            >
-              <CategoryForm setCategories={setCategories}/>
-            </CustomModal>
+                btnOpen={<BtnAddCategory/>}
+                headerText='Nueva Categoria'
+              >
+                <CategoryForm setCategories={setCategories}/>
+              </CustomModal>
         }
       </>
     )
