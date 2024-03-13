@@ -1,11 +1,9 @@
-import useCart from "../../hooks/useCart"
 import { Image, Input } from "@nextui-org/react"
 import { BASE_URL } from "../../utils/constants"
 import ConfirmDeleteModal from "../ConfirmDeleteModal"
 import { updateAmountCart } from "../../services/cart"
 
-export default function CartList() {
-  const { cart, deleteProduct } = useCart()
+export default function CartList({ cart, deleteProduct }) {
 
   const handleChangeAmount = (id, value) => {
     updateAmountCart(id, value)
@@ -42,8 +40,9 @@ export default function CartList() {
                   type="number"
                   placeholder="Cantidad"
                   onChange={(e) => handleChangeAmount(prod.id, e.target.value)}
-                  defaultValue={prod.amount}
+                  defaultValue={prod?.amount ? prod.amount : 1}
                   variant="bordered"
+                  min={1}
                   classNames={{
                     label: 'group-data-[filled-within=true]:text-black',
                     input: 'text-black'

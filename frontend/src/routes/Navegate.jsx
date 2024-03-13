@@ -8,6 +8,8 @@ import Courses from "../pages/Courses"
 import Cart from '../pages/Cart'
 import CustomOrder from "../pages/CustomOrder"
 import Profile from "../pages/Profile"
+import MyOrders from "../pages/MyOrders"
+import FavoriteCourses from "../pages/FavoriteCourses"
 
 const ROUTES = [
   {
@@ -84,6 +86,20 @@ const ROUTES = [
     component: Profile,
     layout: Header,
     layoutProps: { typeSearch: 'carnicos' }
+  },
+
+  {
+    path: '/mis-pedidos',
+    component: MyOrders,
+    layout: Header,
+    layoutProps: { typeSearch: 'carnicos' }
+  },
+
+  {
+    path: '/favoritos',
+    component: FavoriteCourses,
+    layout: Header,
+    layoutProps: { typeSearch: 'cursos' }
   },
 
   {

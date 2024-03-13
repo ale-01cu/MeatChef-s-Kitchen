@@ -2,6 +2,8 @@ from pydantic import BaseModel
 from datetime import date
 from app.schemas.meat_product import MeatProduct
 from app.schemas.user import UserSchema
+from typing import Optional
+from datetime import datetime
 
 # Order Item
 class OrderItemSchema(BaseModel):
@@ -17,19 +19,19 @@ class OrderItemInputSchema(BaseModel):
 class OrderInputSchema(BaseModel):
     delivery_type: str
     payment_method: str
-    is_custom_order: bool
+    address: Optional[str] = None
     order_items: list[OrderItemInputSchema]
 
 class OrderListSchema(BaseModel):
     id: str
-    user: UserSchema
+    delivery_type: str
+    payment_method: str
     status: str
-    is_custom_order: bool
-    createAt: date
+    createAt: datetime
+
 
 class OrderSchema(OrderListSchema):
-    payment_method: str
-    delivery_type: str
+    address: Optional[str] = None
     total_price: float
     amount: int
     order_items: list[OrderItemSchema]

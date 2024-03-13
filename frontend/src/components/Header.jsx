@@ -4,9 +4,10 @@ import Search from "./Search"
 import { Image } from "@nextui-org/react"
 import CartButton from "./Cart/CartButton"
 import BtnCustomOrder from "./CustomOrder/BtnCustomOrder"
+import MyOrdersButton from "./Order/MyOrdersButton"
+import BtnFavorite from "./Favorite/BtnFavorite"
 
 export default function Header({typeSearch, children, options}) {
-  
   return (
     <>
       <header className="p-5 px-8 py-6 flex justify-between items-center">
@@ -30,8 +31,16 @@ export default function Header({typeSearch, children, options}) {
           }
 
         <div className="flex justify-center items-center gap-x-2">
-          <BtnCustomOrder/>
-          <CartButton/>
+          {
+            typeSearch === 'cursos'
+              ? <BtnFavorite/>
+              : <>
+                  <MyOrdersButton/>
+                  <BtnCustomOrder/>
+                  <CartButton/>
+                </>
+
+          }
           <AuthButtons/>
         </div>
       </header>

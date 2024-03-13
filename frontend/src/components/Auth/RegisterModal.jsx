@@ -1,21 +1,15 @@
-import {  
-  Modal, 
-  ModalContent, 
-  ModalHeader, 
-  ModalBody, 
-  useDisclosure
-} from "@nextui-org/modal";
+import { useDisclosure } from "@nextui-org/modal";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { REGISTER_URL } from "../../utils/constants";
 import { toast } from 'react-toastify'
 import { Image, Input, Button } from "@nextui-org/react";
 import { useState } from "react";
 import { register } from "../../services/auth";
 import CustomModal from "../CustomModal";
+import RegisterForm from "./RegisterForm";
 
 export default function RegisterModal(){
-  const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
+  const { onOpen, onClose } = useDisclosure();
   const [ isLoading, setIsLoading ] = useState(false)
   const [ isError, setIsError ] = useState()
 
@@ -95,78 +89,7 @@ export default function RegisterModal(){
           </Button>
         }
       >
-
-        {
-          isError &&
-            <h1>Revento esta talla</h1>
-        }
-        <form 
-          id="form-register" 
-          className="flex flex-col gap-y-2 py-4"
-          onSubmit={formik.handleSubmit}
-        >
-          <Input
-            label="Nombre"
-            placeholder="Escriba su nombre y apellidos"
-            name="full_name"
-            onChange={formik.handleChange}
-            value={formik.values.full_name}
-            isInvalid={formik.errors.full_name ? true : false}
-            errorMessage={formik.errors.full_name}
-
-          />
-          <Input
-            label="Numero de Telefono"
-            placeholder="Escriba su Numero de Telefono"
-            name="phone_number"
-            onChange={formik.handleChange}
-            value={formik.values.phone_number}
-            isInvalid={formik.errors.phone_number ? true : false}
-            errorMessage={formik.errors.phone_number}
-
-          />
-          <Input
-            label="Email"
-            placeholder="Enter your email"
-            name="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-            isInvalid={formik.errors.email ? true : false}
-            errorMessage={formik.errors.email}
-            
-          />
-          <Input
-            label="Password"
-            placeholder="Escriba su password"
-            type="password"
-            name="password"
-            onChange={formik.handleChange}
-            value={formik.values.passwrod}
-            isInvalid={formik.errors.password ? true : false}
-            errorMessage={formik.errors.password}
-
-          />
-          <Input
-            label="Repeat Password"
-            placeholder="Escriba su password una vez mas"
-            type="password"
-            name="repeatPassword"
-            onChange={formik.handleChange}
-            value={formik.values.repeatPassword}
-            isInvalid={formik.errors.repeatPassword ? true : false}
-            errorMessage={formik.errors.repeatPassword}
-
-          />
-          <Button 
-            color="primary"
-            type='submit' 
-            className="mt-6"
-            isLoading={isLoading}
-          >
-            Registrarme
-          </Button>  
-        </form>
-
+        <RegisterForm/>
       </CustomModal>
     </>
   )

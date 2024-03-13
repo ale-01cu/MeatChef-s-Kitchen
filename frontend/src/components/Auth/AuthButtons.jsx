@@ -7,7 +7,7 @@ import UserMenu from '../UserMenu'
 export default function AuthButtons() {
   const { auth } = useAuth()
   
-  if(getLocalStorageToken() && !auth) return null
+  // if(getLocalStorageToken() && !auth) return null
 
   return (
     <div className="flex gap-2">

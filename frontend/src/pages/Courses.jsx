@@ -1,5 +1,4 @@
 import ListCourses from "../components/Course/ListCourses"
-import Header from "../components/Header"
 import { useEffect, useState } from "react"
 import { useParams } from "wouter"
 import { listSearchCourses, listCourses } from "../services/courses"
@@ -7,6 +6,7 @@ import useAuth from "../hooks/useAuth"
 import CustomModal from "../components/CustomModal"
 import AddCourseForm from "../components/Course/AddCourseForm"
 import { retrieveCourses } from "../services/courses"
+import CourseMenu from "../components/Course/CourseMenu"
 
 export default function Courses() {
   const { search } = useParams()
@@ -60,19 +60,8 @@ export default function Courses() {
 
   return (
     <>
+      <CourseMenu setRefreshComponent={setRefreshComponent}/>
       <div className="p-10">
-        {
-          user?.is_teacher
-          && <div className="w-full flex justify-end">
-                <CustomModal
-                  btnText='Nuevo Curso'
-                  headerText='Crear Curso'
-                  >
-                  <AddCourseForm refreshParent={setRefreshComponent}/>
-                </CustomModal>
-              </div>
-        }
-
         {
           !isError && search && <div>
             <h1 className="text-4xl font-extrabold text-center p-2">Resultados de la Busqueda</h1>
@@ -99,14 +88,8 @@ export default function Courses() {
               />
         }
 
-        {
-          isLoading && <h1>Cargando</h1>
-        }
-
-        {
-          isError &&
-            <h1>Exploto esta talla</h1>
-        }
+        { isLoading && <h1>Cargando</h1> }
+        { isError && <h1>Exploto esta talla</h1> }
 
       </div>
     </>

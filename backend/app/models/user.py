@@ -47,6 +47,11 @@ class UserModel(Base):
         back_populates='user'
     )
 
+    custom_orders = relationship(
+        'CustomOrder',
+        back_populates='user'
+    )
+
     is_active = Column(
         Boolean, 
         default=True,

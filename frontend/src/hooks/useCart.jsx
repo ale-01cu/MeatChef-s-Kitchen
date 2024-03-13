@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getCart, deleteProductFromCart } from "../services/cart"
+import { getCart, deleteProductFromCart, clearCart } from "../services/cart"
 
 export default function useCart() {
   const [ cart, setCart ] = useState([])
@@ -14,8 +14,14 @@ export default function useCart() {
     deleteProductFromCart(id)
   }
 
+  const clear = () => {
+    clearCart()
+    setCart([])
+  }
+
   return {
     cart,
-    deleteProduct
+    deleteProduct,
+    clear
   }
 }

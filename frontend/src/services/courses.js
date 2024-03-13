@@ -4,7 +4,7 @@ import { getSessionStorageToken } from '../utils/token'
 
 export const listCourses = async () => {
 
-  const { response, data }  = await fetching({
+  const { data }  = await fetching({
     url: COURSES_URL,
     method: 'GET',
     headers: {
@@ -13,20 +13,18 @@ export const listCourses = async () => {
     },
   })
 
-  if(!response.ok) throw new Error(data.detail)
   return data
 }
 
 export const listSearchCourses = async (query) => {
 
-  const { response, data }  = await fetching({
+  const { data }  = await fetching({
     url: COURSES_URL + '/search/' + query,
     method: 'GET',
     headers: {'authorization': getSessionStorageToken()}
 
   })
 
-  if(!response.ok) throw new Error(data.detail)
   return data
 }
 
@@ -54,7 +52,6 @@ export const updateCourse = async (course_id, formData) => {
 
   })
 
-  if(!response.ok) throw new Error(data.detail)
   return {
     res: response,  
     data
@@ -70,7 +67,6 @@ export const createCourse = async (formData) => {
     headers: {'authorization': getSessionStorageToken()}
   })
 
-  if(!response.ok) throw new Error(data.detail)
   return {
     res: response,  
     data
@@ -80,7 +76,7 @@ export const createCourse = async (formData) => {
 
 
 export const retrieveCourses = async (courseId) => {
-  const { response, data }  = await fetching({
+  const { data }  = await fetching({
     url: COURSES_URL + '/' + courseId,
     method: 'GET',
     headers: {
@@ -89,6 +85,5 @@ export const retrieveCourses = async (courseId) => {
     },
   })
 
-  if(!response.ok) throw new Error(data.detail)
   return data
 }

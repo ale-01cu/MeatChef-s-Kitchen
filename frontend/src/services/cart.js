@@ -2,7 +2,7 @@ const CART = 'cart'
 
 export const addToCart = (product) => {
   const cart = window.localStorage.getItem(CART)
-  product.amount = 0
+  product.amount = 1
 
   if(!cart) {
     window.localStorage.setItem(
@@ -47,6 +47,10 @@ export const deleteProductFromCart = (id) => {
 
 }
 
+
+export const clearCart = () => {
+  window.localStorage.removeItem(CART)
+}
 
 export const productIsInCart = (prodId) => {
   const cart = getCart()

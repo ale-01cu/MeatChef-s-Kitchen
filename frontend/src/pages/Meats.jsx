@@ -97,7 +97,7 @@ export default function Meats() {
 
         {
           !search && meatData.length === 0 && !isError && !isLoading
-            && <h1>No hay Cursos</h1>
+            && <h1>No hay Carnes</h1>
         }
 
         {

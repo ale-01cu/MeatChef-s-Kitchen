@@ -1,7 +1,8 @@
 from sqlalchemy import (
     Column, String, 
-    Boolean, Date, 
-    ForeignKey, Integer   
+    Boolean, 
+    ForeignKey, Integer,
+    DateTime,
 )
 from sqlalchemy.orm import relationship
 from settings.db import Base
@@ -31,7 +32,7 @@ class DeliveryType:
     ]
 
 class PaymentMethod:
-    MAGNETIC_CARD = 'targeta magnetica'
+    MAGNETIC_CARD = 'targeta_magnetica'
     CASH = 'efectivo'
     PAYMENT_METHOD_LIST = [
        MAGNETIC_CARD,
@@ -71,6 +72,12 @@ class Order(Base):
         comment='Tipo de entrega.'
     )
 
+    address = Column(
+        String,
+        comment='Direccion de envio',
+        nullable=True
+    )
+
 
     payment_method = Column(
         String,
@@ -95,7 +102,7 @@ class Order(Base):
     )
 
     createAt = Column(
-        Date, 
+        DateTime, 
         default=datetime.utcnow,
         comment='Fecha de creado'
     )

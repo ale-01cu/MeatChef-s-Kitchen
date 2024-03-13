@@ -3,9 +3,12 @@ import { useState, useMemo, useCallback } from 'react';
 import AuthContext from './contexts/AuthContext'
 import useVerifyToken from './hooks/useVerifyToken';
 import { useEffect } from 'react';
-import {ToastContainer} from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import { getFullUser } from './services/auth';
 import Navegate from './routes/Navegate';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   const { isValid } = useVerifyToken()
@@ -40,19 +43,19 @@ function App() {
 
       <NextUIProvider>
         <Navegate/>
-        {/* <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          // theme={"light"}
-        /> */}
       </NextUIProvider>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={"dark"}
+      />
     </AuthContext.Provider>
 
   )

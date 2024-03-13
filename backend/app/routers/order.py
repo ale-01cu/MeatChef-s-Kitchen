@@ -14,7 +14,7 @@ from app.schemas.order import (
     OrderInputSchema,
     OrderSchema,
     OrderUpdateStatusSchema,
-    OrderListSchema
+    OrderListSchema,
 )
 from settings.db import get_db
 from sqlalchemy.orm import Session
@@ -26,19 +26,16 @@ from app.schemas.user import UserSchema
 router = APIRouter()
 
 
-@router.get('/order', tags=['list-order'])
-async def list_order(
-    user: UserSchema = Depends(authorization),
-    db: Session = Depends(get_db)
-) -> list[OrderListSchema]:
+@router.get('/order', tags=['list-orders'])
+async def list_order(user: UserSchema = Depends(authorization),
+    db: Session = Depends(get_db) ) -> list[OrderListSchema]:
     try:
-
-        if user.is_superuser:
-            orders = list_order_db(db)
-            return orders
-        else:
-            orders = list_order_by_user_db(db, user.id)
-            return orders
+        if user:
+            if user.is_superuser or user.is_staff:
+                orders = list_order_db(db)
+                return orders
+        orders = list_order_by_user_db(db, user.id)
+        return orders
 
     except Exception as e:
         print(e)
@@ -73,16 +70,15 @@ async def get_order(order_id: str, db: Session = Depends(get_db)
         )
 
 
-@router.post('/order', tags=['create-order'])
+@router.post('/order', 
+    tags=['create-order'], status_code=status.HTTP_201_CREATED)
 async def create_order(
     order : OrderInputSchema, 
     user: UserSchema = Depends(authorization), 
     db: Session = Depends(get_db),
-) -> OrderSchema:
+) -> None:
     try:
-
-        order = create_order_db(db, order, user.id)
-        return order
+        create_order_db(db, order, user.id)
 
     except Exception as e:
         print(e)

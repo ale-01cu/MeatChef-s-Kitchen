@@ -1,22 +1,68 @@
 import { RadioGroup, Radio, Textarea } from "@nextui-org/react"
+import { Formik, useFormik } from "formik"
+import * as Yup from 'yup'
 
-export default function OrderForm({ isCustom }) {
+const deliveryTypeOptions = [ 'recogida', 'envio' ]
+const paymentMethodOptions = [ 'efectivo', 'targeta_magnetica' ]
+
+export default function OrderForm({ handleSubmit }) {
+  
+  const formik = useFormik({
+    initialValues: {
+      delivery_type: '',
+      address: '',
+      payment_method: '',
+    },
+    validationSchema: Yup.object().shape({
+      delivery_type: Yup
+        .string('Este campo debe de ser un texto.')
+        .oneOf(deliveryTypeOptions, 'Debe seleccionar una opción válida')
+        .required(true, 'Este campo es obligatorio'),
+      address: Yup
+        .string('Este campo debe de ser un texto.'),
+      payment_method: Yup
+        .string('Este campo debe de ser un texto.')
+        .oneOf(paymentMethodOptions, 'Debe seleccionar una opción válida')
+        .required(true, 'Este campo es obligatorio')
+    }),
+    onSubmit: (formDaTA) => handleSubmit(formDaTA, formik.values)
+  })
+
   return (
-    <form id="form-order" className="">
+    <form id="form-order" onSubmit={formik.handleSubmit}>
       <div className="flex md:flex-col justify-center gap-x-2 gap-y-2">
         <div className="p-8 flex flex-col gap-y-5 bg-white rounded-xl">
-          <RadioGroup label="Tipo de Entrega" classNames={{
-            label: 'text-black text-xl font-semibold'
-          }}>
-            <Radio value="recogida=tienda" classNames={{
-              label: 'text-black'
-            }}>Recogida en Tienda</Radio>
-            <Radio value="envio" classNames={{
-              label: 'text-black'
-            }}>Envio</Radio>
+          <RadioGroup 
+            name="delivery_type"
+            label="Tipo de Entrega" 
+            value={formik.values.delivery_type}
+            onChange={formik.handleChange}
+            classNames={{
+              label: 'text-black text-xl font-semibold'
+            }}
+          >
+            <Radio 
+              value="recogida" 
+              classNames={{
+                label: 'text-black'
+              }}
+            >
+              Recogida en Tienda
+            </Radio>
+            <Radio 
+              value="envio" 
+              classNames={{
+                label: 'text-black'
+              }}
+            >
+              Envio
+            </Radio>
           </RadioGroup>
 
           <Textarea
+            name="address"
+            value={formik.values.address}
+            onChange={formik.handleChange}
             isRequired
             label="Dirección"
             labelPlacement="outside"
@@ -24,6 +70,7 @@ export default function OrderForm({ isCustom }) {
             className="max-w-xs"
             maxRows={3}
             variant="bordered"
+            isDisabled={formik.values.delivery_type === 'envio' ? false : true}
             classNames={{
               label: 'group-data-[filled-within=true]:text-black',
               input: 'text-black'
@@ -34,21 +81,24 @@ export default function OrderForm({ isCustom }) {
 
         <div className="p-8 flex flex-col gap-y-5 bg-white rounded-xl">
           <RadioGroup 
+            name="payment_method"
+            value={formik.values.payment_method}
+            onChange={formik.handleChange}
             label="Metodo de Pago"
             classNames={{
               label: 'text-black text-xl font-semibold'
             }}
           >
             <Radio 
-              value="buenos-aires"
+              value="efectivo"
               classNames={{
                 label: 'text-black'
               }}
             >
-                Efectivo en Tienda
+                Efectivo
               </Radio>
             <Radio 
-              value="tokyo"
+              value="targeta_magnetica"
               classNames={{
                 label: 'text-black'
               }}
@@ -58,29 +108,6 @@ export default function OrderForm({ isCustom }) {
           </RadioGroup>
         </div>
       </div>
-
-      {
-
-        isCustom &&
-          <div className="w-full bg-white">
-            <Textarea
-              isRequired
-              label="Dirección"
-              labelPlacement="outside"
-              placeholder="Escriba su dirección"
-              className="max-w-xs"
-              maxRows={3}
-              variant="bordered"
-              classNames={{
-                label: 'group-data-[filled-within=true]:text-black',
-                input: 'text-black'
-              }}
-            />
-          </div>
-
-      }
-
-
     </form>
   )
 }

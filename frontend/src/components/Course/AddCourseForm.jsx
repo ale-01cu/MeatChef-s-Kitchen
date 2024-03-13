@@ -61,7 +61,8 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
       .then(() => {
           clearStates()
           closeModal()
-          refreshParent(prev => prev+=1)
+          if(refreshParent) 
+            refreshParent(prev => prev+=1)
       })
       .catch(e => {
         console.error(e);

@@ -9,7 +9,6 @@ import EditIcon from '../Icons/EditIcon.jsx'
 import ActiveIcon from '../Icons/ActiveIcon.jsx'
 import CloseIcon from '../Icons/CloseIcon.jsx'
 import CardChipStatus from '../CardChipStatus.jsx'
-import { COURSES_URL } from '../../utils/constants.js'
 
 export default function ListCourses(props) {
   const { data, user, refreshParent, refreshOneElement } = props
@@ -19,7 +18,7 @@ export default function ListCourses(props) {
 
 
   useEffect(() => {
-    if(user) setIsTeacher(user?.is_teacher || user?.is_superuser)
+    setIsTeacher(user?.is_teacher || user?.is_superuser)
   }, [user])
 
   const handleclick = (course_id, onClose) => {

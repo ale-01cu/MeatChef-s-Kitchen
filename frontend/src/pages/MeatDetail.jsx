@@ -16,7 +16,7 @@ export default function MeatDetail() {
   const { user } = useAuth()
   const { meat_id } = useParams()
   const [ meat, setMeat ] = useState()
-  const [ amount, setAmount ] = useState(0)
+  const [ amount, setAmount ] = useState(1)
   const [ isLoading, setIsLoading ] = useState(false)
   const [ isError, setIsError ] = useState()
   const [ isInCart, setIsInCart ] = useState(false)
@@ -103,6 +103,7 @@ export default function MeatDetail() {
                 placeholder="Cantidad de producto"
                 onChange={(value) => setAmount(value.target.value)}
                 value={amount}
+                min={1}
                 classNames={{
                   base: 'w-52'
                 }}

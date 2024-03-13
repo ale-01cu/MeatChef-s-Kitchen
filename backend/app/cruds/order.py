@@ -29,7 +29,7 @@ def get_order_by_id(db: Session, id: str) -> OrderSchema:
 
 
 def create_order_db(db: Session, order: OrderInputSchema, user_id: str
-) -> list[OrderSchema]:
+) -> None:
     order_items = order.order_items.copy()
     del order.order_items
     new_order = Order(**order.model_dump(), user_id=user_id)
@@ -38,14 +38,8 @@ def create_order_db(db: Session, order: OrderInputSchema, user_id: str
 
     for item in order_items:
         new_order_item = OrderItem(**item.model_dump(), order_id=new_order.id)
-        print(new_order_item)
         db.add(new_order_item)
         db.commit()
-
-    return db\
-        .query(Order)\
-        .filter(Order.id == new_order.id)\
-        .first()
 
 
 def update_order_db(db: Session, order_id: str, order: OrderSchema,

@@ -15,6 +15,7 @@ import MailIcon from "../Icons/MailIcon";
 import LockIcon from "../Icons/LockIcon";
 import { login } from "../../services/auth";
 import CustomModal from "../CustomModal";
+import LoginForm from "./LoginForm";
 
 export default function LoginModal(){
   const { onOpen, onClose } = useDisclosure();
@@ -84,73 +85,7 @@ export default function LoginModal(){
           </Button>
         }
       >
-        {
-          isError &&
-            <h1>Revento esta talla</h1>
-        }
-         <form 
-            id="form-login" 
-            className="flex flex-col gap-y-2 py-4" 
-            onSubmit={formik.handleSubmit}
-          >
-            <Input
-              label="Email"
-              name="email"
-              placeholder="Introduzca su Correo..."
-              onChange={formik.handleChange}
-              value={formik.values.email}
-              endContent={
-                <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-              }
-              classNames={{
-                input: [
-                  "bg-transparent",
-                  "text-black/90 dark:text-white/90",
-                  "placeholder:text-default-700/50", 
-                  "dark:placeholder:text-white/60",
-                ]
-              }}
-              isInvalid={formik.errors.email ? true : false}
-              errorMessage={formik.errors.email}
-
-            />
-            <Input
-              label="Contraseña"
-              name="password"
-              placeholder="Introduzca su Constraseña..."
-              type="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
-              endContent={
-                <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-              }
-              isInvalid={formik.errors.password ? true : false}
-              errorMessage={formik.errors.password}
-
-            />
-            <div className="flex justify-end mb-5 py-2">
-              <Checkbox
-                name="remember"
-                classNames={{
-                  label: "text-small",
-                }}
-                onChange={() => setIsRemember(!isRemember)}
-                value={isRemember}
-
-              >
-                Recordarme
-              </Checkbox>
-                
-            </div>
-            <Button 
-              color="primary"
-              type='submit' 
-              isLoading={isLoading}
-            >
-                Iniciar Sesion
-            </Button>
-          </form>
-      
+        <LoginForm/>
       </CustomModal>
     </>
   )

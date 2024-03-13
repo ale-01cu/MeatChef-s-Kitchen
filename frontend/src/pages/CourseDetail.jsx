@@ -1,14 +1,11 @@
 import { useParams } from "wouter"
 import { retrieveCourses } from "../services/courses"
 import { useEffect, useState } from "react"
-import Header from "../components/Header"
-import useAuth from "../hooks/useAuth"
 import { BASE_URL } from "../utils/constants"
-import { Button } from "@nextui-org/react"
-import StarIcon from '../components/Icons/StarIcon'
+import BtnAddFavorite from "../components/Favorite/BtnAddFavorite"
+import CourseMenu from "../components/Course/CourseMenu"
 
 export default function CourseDetail() {
-  const { user } = useAuth()
   const { course_id } = useParams()
   const [ course, setCourse ] = useState()
   const [ isLoading, setIsLoading ] = useState(false)
@@ -33,6 +30,7 @@ export default function CourseDetail() {
 
   return (
     <div>
+      <CourseMenu/>
       <div className="flex py-20 px-52 justify-center gap-x-12">
         <section className="w-1/2">
           <video controls>
@@ -48,15 +46,7 @@ export default function CourseDetail() {
           <div className="flex flex-col gap-y-4 items-start w-max">
             <h1 className="font-bold text-5xl">{course.name}</h1>
             <p className="max-w-96">{course.description}</p>
-            <Button 
-              type='submit'
-              color="warning" 
-              isLoading={false}
-              startContent={<StarIcon/>}
-            >
-                Favorito
-            </Button>
-            
+            <BtnAddFavorite course={course}/>
           </div>
         </section>
 
