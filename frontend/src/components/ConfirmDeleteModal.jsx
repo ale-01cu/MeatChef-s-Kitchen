@@ -1,26 +1,33 @@
 import {  
   Modal, 
   ModalContent, 
-  ModalHeader, 
+  ModalHeader,
   ModalBody, 
   ModalFooter,
   useDisclosure,
   Button
 } from "@nextui-org/react";
 import DeleteIcon from './Icons/DeleteIcon'
+import { useState } from "react";
 
 export default function ConfirmDeleteModal (props) {
   const { 
     itemId, 
     text, 
-    handleclickDelete, 
-    deleteIsError,
-    isLoadingDelete } = props
+    handleclickDelete } = props
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
+  const [ isLoadingDelete, setIsLoadingDelete ] = useState(false)
+  const [ deleteIsError, setDeleteIsError ] = useState(null)
+
 
   return (
     <>
-      <Button className="px-0 min-w-unit-10" color="danger" onClick={onOpen} startContent={<DeleteIcon/>}/>
+      <Button 
+        className="px-0 min-w-unit-10" 
+        color="danger" 
+        onClick={onOpen} 
+        startContent={<DeleteIcon/>}
+      />
       <Modal 
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
@@ -49,9 +56,8 @@ export default function ConfirmDeleteModal (props) {
           <ModalContent>
             {() => (
               <>
-                <ModalHeader className=""></ModalHeader>
                 <ModalBody>
-                  <p className="text-center">{text}</p>
+                  <p className="text-center p-4">{text}</p>
                   {
 
                     deleteIsError &&
@@ -61,9 +67,15 @@ export default function ConfirmDeleteModal (props) {
                 </ModalBody>
                 <ModalFooter>
                   <div className="w-full flex justify-center gap-x-10">
-                    <Button type="button" color="warning">Cancelar</Button>
+                    <Button type="button" color="warning">
+                      Cancelar
+                    </Button>
                     <Button 
-                      onClick={() => handleclickDelete(itemId, onClose)} 
+                      onClick={() => handleclickDelete(
+                        itemId, 
+                        onClose, 
+                        setIsLoadingDelete, 
+                        setDeleteIsError)} 
                       className=""
                       isLoading={isLoadingDelete}
                       color="danger"

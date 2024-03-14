@@ -1,6 +1,6 @@
 import AuthButtons from "../components/Auth/AuthButtons.jsx"
 import { Image, Button } from "@nextui-org/react"
-import CardHome from "../components/CardHome.jsx"
+import CardHome from "../components/Card/CardHome.jsx"
 
 export default function Home() {
   return (

@@ -1,39 +1,13 @@
-import Card from '../Card.jsx'
-import { useEffect, useState } from 'react'
-import { deleteCourse } from '../../services/courses.js'
-import CardMenu from '../CardMenu.jsx'
-import CustomModal from '../CustomModal.jsx'
-import UpdateCourseForm from './UpdateCourseForm.jsx.jsx'
-import { Button } from '@nextui-org/react'
-import EditIcon from '../Icons/EditIcon.jsx'
-import ActiveIcon from '../Icons/ActiveIcon.jsx'
-import CloseIcon from '../Icons/CloseIcon.jsx'
-import CardChipStatus from '../CardChipStatus.jsx'
+import Card from '../Card/Card.jsx'
 
 export default function ListCourses(props) {
-  const { data, user, refreshParent, refreshOneElement } = props
-  const [ isTeacher, setIsTeacher ] = useState(false)
-  const [ deleteIsError, setDeleteIsError ] = useState(null)
-  const [ isLoadingDelete, setIsLoadingDelete ] = useState(false)
+  const { 
+    data, 
+    refreshOneElement, 
+    CardMenu,
+    handleclickDelete,
+    textModalDelete } = props
 
-
-  useEffect(() => {
-    setIsTeacher(user?.is_teacher || user?.is_superuser)
-  }, [user])
-
-  const handleclick = (course_id, onClose) => {
-    setIsLoadingDelete(true)
-    deleteCourse(course_id)
-      .then(() => {
-        onClose()
-        refreshParent(prev => prev+=1)
-      })
-      .catch(e => {
-        console.error(e)
-        setDeleteIsError(e)
-      })
-      .finally(() => setIsLoadingDelete(false))
-  }
 
   return (
     <section className='py-5'>
@@ -47,43 +21,14 @@ export default function ListCourses(props) {
                 description={course.description}
                 path={'/cursos/' + course.id}
               />
-              {
-                isTeacher &&
-                  <div className='absolute z-10 flex justify-between w-full'>
-                    {
-                      course.is_active 
-                        ? <CardChipStatus startContentIcon={<ActiveIcon/>} text='Activo' color='success'/>
-                        : <CardChipStatus startContentIcon={<CloseIcon/>} text='Inactivo' color='danger'/>
-                    }
+              <CardMenu
+                itemId={course.id}
+                isActive={course.is_active}
+                handleclickDelete={handleclickDelete}
+                textModalDelete={textModalDelete}
+                refreshOneElement={refreshOneElement}
+              />
 
-                    <div className='flex flex-col gap-2'>
-                      <CardMenu
-                        itemId={course.id}
-                        courseIsActive={course.is_active}
-                        handleclickDelete={handleclick}
-                        textModalDelete='Desea eliminar el curso seleccionado ?'
-                        deleteIsError={deleteIsError}
-                        isLoadingDelete={isLoadingDelete}
-                      >
-                        <CustomModal
-                          btnText='Editar' 
-                          headerText='Editar Curso'
-                          btnOpen={<Button className='px-0 min-w-unit-10' color='warning' startContent={<EditIcon/>}/>}
-
-                        >
-
-                          <UpdateCourseForm 
-                            courseId={course.id}
-                            refreshOneElement={refreshOneElement}
-                          />
-                          
-                        </CustomModal>
-                      </CardMenu>
-
-                    </div>
-
-                  </div>
-              }
             </li>
           ))
         }

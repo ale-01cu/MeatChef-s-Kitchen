@@ -3,10 +3,10 @@ import { useEffect, useState } from "react"
 import { useParams } from "wouter"
 import { listSearchCourses, listCourses } from "../services/courses"
 import useAuth from "../hooks/useAuth"
-import CustomModal from "../components/CustomModal"
-import AddCourseForm from "../components/Course/AddCourseForm"
 import { retrieveCourses } from "../services/courses"
 import CourseMenu from "../components/Course/CourseMenu"
+import CardMenuCourse from "../components/Card/CardMenuCourse"
+import { deleteCourse } from "../services/courses"
 
 export default function Courses() {
   const { search } = useParams()
@@ -15,24 +15,7 @@ export default function Courses() {
   const [ refreshComponent, setRefreshComponent ] = useState(0)
   const [ isError, setIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
-
-  const reRenderOneElement = (courseId) => {
-    retrieveCourses(courseId)
-      .then((data) => {
-
-        const newCourseData = coursesData.map((course) => {
-          if(course.id === courseId) return data
-          else return course
-        })
-
-        setCoursesData([
-          ...newCourseData
-        ])
-
-      })
-      .catch(e => console.error(e))
-  }
-
+  
   useEffect(() => {
     setIsLoading(true)
     if(search){
@@ -58,6 +41,41 @@ export default function Courses() {
     }
   }, [search, refreshComponent])
 
+  const reRenderOneElement = (courseId) => {
+    retrieveCourses(courseId)
+      .then((data) => {
+
+        const newCourseData = coursesData.map((course) => {
+          if(course.id === courseId) return data
+          else return course
+        })
+
+        setCoursesData([
+          ...newCourseData
+        ])
+
+      })
+      .catch(e => console.error(e))
+  }
+
+   const handleclickDelete = (courseId, onClose, setIsLoadingDelete, setDeleteIsError) => {
+    setIsLoadingDelete(true)
+    deleteCourse(courseId)
+      .then(() => {
+        onClose()
+        setCoursesData(coursesData.map((course) => {
+          if(course.id === courseId) course.is_active = false
+          return course
+        }))
+      })
+      .catch(e => {
+        console.error(e)
+        setDeleteIsError(e)
+      })
+      .finally(() => setIsLoadingDelete(false))
+  }
+
+
   return (
     <>
       <CourseMenu setRefreshComponent={setRefreshComponent}/>
@@ -81,11 +99,13 @@ export default function Courses() {
         {
             coursesData.length > 0 && !isError && !isLoading
               && <ListCourses 
-                data={coursesData} 
-                user={user}
-                refreshParent={setRefreshComponent}
-                refreshOneElement={reRenderOneElement}
-              />
+                  data={coursesData} 
+                  user={user}
+                  refreshOneElement={reRenderOneElement}
+                  CardMenu={CardMenuCourse}
+                  handleclickDelete={handleclickDelete}
+                  textModalDelete='Desea Eliminar el Curso ?'
+                />
         }
 
         { isLoading && <h1>Cargando</h1> }

@@ -1,5 +1,5 @@
 import { Link } from "wouter" 
-import { BASE_URL } from "../utils/constants" 
+import { BASE_URL } from "../../utils/constants" 
 import { Image } from "@nextui-org/react"
 
 export default function Card(props) {

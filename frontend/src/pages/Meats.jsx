@@ -5,6 +5,8 @@ import { useEffect, useState } from "react"
 import useAuth from "../hooks/useAuth"
 import MeatSlider from "../components/Meats/MeatSlider"
 import MeatMenu from "../components/MeatMenu"
+import CardMenuMeat from "../components/Card/CardMenuMeat"
+import { deleteMeat } from "../services/meats"
 
 export default function Meats() {
   const { user } = useAuth()
@@ -13,24 +15,7 @@ export default function Meats() {
   const [ refreshComponent, setRefreshComponent ] = useState(0)
   const [ isError, setIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
-
-  const reRenderOneElement = (meatId) => {
-    retrieveMeats(meatId)
-      .then((data) => {
-
-        const newMeatData = meatData.map((course) => {
-          if(course.id === meatId) return data
-          else return course
-        })
-
-        setMeatsData([
-          ...newMeatData
-        ])
-
-      })
-      .catch(e => console.error(e))
-  }
-
+  
   useEffect(() => {
     setIsLoading(true)
     if(search){
@@ -70,6 +55,41 @@ export default function Meats() {
         .finally(() => setIsLoading(false))
     }
   }, [search, category_id, refreshComponent])
+
+  const handleclickDelete = (meatId, onClose, setIsLoadingDelete, setDeleteIsError) => {
+    setIsLoadingDelete(true)
+    deleteMeat(meatId)
+      .then(() => {
+        onClose()
+        setMeatsData(meatData.map((meat) => {
+          if(meat.id === meatId) meat.is_active = false
+          return meat
+        }))
+      })
+      .catch(e => {
+        console.error(e)
+        setDeleteIsError(e)
+      })
+      .finally(() => setIsLoadingDelete(false))
+  }
+
+  const reRenderOneElement = (meatId) => {
+    retrieveMeats(meatId)
+      .then((data) => {
+
+        const newMeatData = meatData.map((course) => {
+          if(course.id === meatId) return data
+          else return course
+        })
+
+        setMeatsData([
+          ...newMeatData
+        ])
+
+      })
+      .catch(e => console.error(e))
+  }
+
 
   return (
     <>
@@ -114,6 +134,9 @@ export default function Meats() {
                 user={user} 
                 refreshParent={setRefreshComponent}
                 refreshOneElement={reRenderOneElement}
+                CardMenu={CardMenuMeat}
+                handleclickDelete={handleclickDelete}
+                textModalDelete='Desea Eliminar el Producto ?.'
               />
         }
 

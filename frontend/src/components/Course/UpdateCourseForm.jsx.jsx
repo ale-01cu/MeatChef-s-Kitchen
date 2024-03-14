@@ -18,6 +18,7 @@ export default function UpdateCourseForm(props) {
   const [ updateIsError, setUpdateIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
 
+
   useEffect(() => {
     retrieveCourses(courseId)
       .then(data => setCoursesData(data))

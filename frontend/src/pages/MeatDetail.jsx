@@ -3,7 +3,7 @@ import { retrieveMeats } from "../services/meats"
 import { useEffect, useState } from "react"
 import { Image, Input, Button } from "@nextui-org/react"
 import { BASE_URL } from "../utils/constants"
-import CardChipStatus from '../components/CardChipStatus'
+import CardChipStatus from '../components/Card/CardChipStatus'
 import ActiveIcon from '../components/Icons/ActiveIcon'
 import CloseIcon from '../components/Icons/CloseIcon'
 import useAuth from "../hooks/useAuth"
