@@ -20,8 +20,16 @@ export default function CardMenu (props) {
     <div className='absolute z-10 flex justify-between w-full p-1'>
       {
         isActive 
-          ? <CardChipStatus startContentIcon={<ActiveIcon/>} text='Activo' color='success'/>
-          : <CardChipStatus startContentIcon={<CloseIcon/>} text='Inactivo' color='danger'/>
+          ? <CardChipStatus 
+              startContentIcon={<ActiveIcon/>} 
+              text='Activo' 
+              color='success'
+            />
+          : <CardChipStatus 
+              startContentIcon={<CloseIcon/>} 
+              text='Inactivo' 
+              color='danger'
+            />
       }
       <div className='flex flex-col gap-2'>
         <CustomModal

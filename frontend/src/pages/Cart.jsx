@@ -3,7 +3,7 @@ import CartList from "../components/Cart/CartList"
 import { Button } from "@nextui-org/react"
 import MeatMenu from "../components/MeatMenu"
 import { useState } from "react"
-import { createOrder } from "../services/order"
+import { createStandardOrder } from "../services/standardOrder"
 import useCart from "../hooks/useCart"
 import { toast } from 'react-toastify'
 import useAuth from "../hooks/useAuth"
@@ -26,7 +26,7 @@ export default function Cart() {
         }
       })
       newFormData.order_items = orderItems
-      createOrder(newFormData)
+      createStandardOrder(newFormData)
         .then(() => {
           clear()
           values.delivery_type = ''

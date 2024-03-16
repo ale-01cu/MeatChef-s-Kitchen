@@ -1,12 +1,13 @@
 from sqlalchemy.orm import Session
-from app.models.order import Order, OrderItem, Statuslist
-from app.schemas.order import OrderSchema, OrderListSchema, OrderInputSchema
+from app.models.standard_order import StandardOrder
+from app.models.order import Statuslist
+from app.schemas.standard_order import StandardOrderListSchema
 
 def list_sales_db(db: Session, skip: int = 0, limit: int = 100 
-) -> list[OrderListSchema]:
+) -> list[StandardOrderListSchema]:
     return db\
-        .query(Order)\
+        .query(StandardOrder)\
         .filter(
-            Order.status == Statuslist.COMPLETED,
-            Order.is_active == True)\
+            StandardOrder.status == Statuslist.COMPLETED,
+            StandardOrder.is_active == True)\
         .offset(skip).limit(limit).all()

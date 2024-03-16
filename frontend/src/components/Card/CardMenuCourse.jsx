@@ -1,6 +1,6 @@
 import CardMenu from "./CardMenu"
 import UpdateCourseForm from "../Course/UpdateCourseForm.jsx"
-import useAuth from '../../hooks/useAuth.jsx'
+import useRoles from '../../hooks/useRoles.jsx'
 
 export default function CardMenuCourse(props) {
   const { 
@@ -11,9 +11,9 @@ export default function CardMenuCourse(props) {
     deleteIsError, 
     isLoadingDelete,
     refreshOneElement } = props
-  const { user } = useAuth()
+    const { isTeacher } = useRoles()
   
-  if(!user || !user.is_teacher) return null
+  if(isTeacher) return null
   return <CardMenu
           itemId={itemId}
           isActive={isActive}

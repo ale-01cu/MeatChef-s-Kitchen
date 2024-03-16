@@ -43,7 +43,7 @@ export default function CategoryForm ({ closeModal, setCategories }) {
       }
       <form 
         id="create-category-form" 
-        className="flex flex-col gap-y-2" 
+        className="flex flex-col gap-y-5" 
         onSubmit={formik.handleSubmit}
       >
         <Input

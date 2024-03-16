@@ -1,7 +1,7 @@
 from .authorization import authorization
 from fastapi import Depends, HTTPException, status
 from app.schemas.user import UserSchema
-from app.cruds.order import get_order_by_id
+from app.cruds.standard_order import get_standard_order_by_id
 from sqlalchemy.orm import Session
 from settings.db import get_db
 
@@ -34,7 +34,7 @@ def order_owner_permissions(
     )
 
     try:
-        order = get_order_by_id(db, order_id)
+        order = get_standard_order_by_id(db, order_id)
         if user.id != order.user_id and not user.is_superuser:
             raise exception
 

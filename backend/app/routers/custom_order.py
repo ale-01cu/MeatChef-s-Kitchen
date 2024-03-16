@@ -5,24 +5,26 @@ from fastapi import (
 from app.cruds.custom_order import (
     create_custom_order_db,
     list_custom_order_by_user_db,
-    list_custom_order_db
+    list_custom_order_db,
+    update_custom_order_status_db,
+    list_processed_custom_order_db
 )
 from app.schemas.custom_order import (
     CustomOrderCreateSchema,
-    CustomOrderListSchema
+    CustomOrderListSchema,
+    CustomOrderUpdateStatusSchema
 )
 from settings.db import get_db
 from sqlalchemy.orm import Session
 from app.middlewares.authorization import authorization
-from app.middlewares.owner_permissions import order_owner_permissions
-from app.middlewares.role_permisisons import if_is_superuser
+from app.middlewares.role_permisisons import if_is_staff
 from app.schemas.user import UserSchema
 
 router = APIRouter()
 
 
 @router.get('/custom-order', tags=['list-order'])
-async def list_order(user: UserSchema = Depends(authorization),
+async def list_custom_order(user: UserSchema = Depends(authorization),
     db: Session = Depends(get_db) ) -> list[CustomOrderListSchema]:
     try:
         if user:
@@ -30,6 +32,23 @@ async def list_order(user: UserSchema = Depends(authorization),
                 orders = list_custom_order_db(db)
                 return orders
         orders = list_custom_order_by_user_db(db, user.id)
+        return orders
+        
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='No se pudo listar las ordenes.'
+        )
+    
+
+@router.get('/custom-order-processed', tags=['list-processed-order'],
+    dependencies=[Depends(if_is_staff)])
+async def list_processed_custom_order(db: Session = Depends(get_db) 
+) -> list[CustomOrderListSchema]:
+    try:
+        orders = list_processed_custom_order_db(db)
         return orders
 
     except Exception as e:
@@ -39,6 +58,26 @@ async def list_order(user: UserSchema = Depends(authorization),
             detail='No se pudo listar las ordenes.'
         )
 
+
+@router.put('/custom-order', tags=['update-custom-order--list-status'],
+    dependencies=[Depends(if_is_staff)])
+async def opdate_custom_order_list_status(
+    custom_order_list: list[CustomOrderUpdateStatusSchema], 
+    db: Session = Depends(get_db)
+) -> None:
+    try:
+        
+        update_custom_order_status_db(
+            db, 
+            custom_order_list
+        )
+    
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='No se pudo actualizar orden.'
+        )
 
 # @router.get('/order/{order_id}', tags=['get-order'], 
 #     dependencies=[Depends(order_owner_permissions)])

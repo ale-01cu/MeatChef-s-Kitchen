@@ -17,9 +17,10 @@ export default function CustomModal({btnOpen, btnText, headerText, children}) {
       {
         !btnOpen 
           ? <Button 
-            onClick={onOpen} 
-            color="success" 
-            startContent={<AddIcon/>}>
+              onClick={onOpen} 
+              color="success"
+              startContent={<AddIcon/>}
+            >
               { btnText }
             </Button>
           : React.cloneElement(btnOpen, { onClick: onOpen }) 
@@ -57,7 +58,7 @@ export default function CustomModal({btnOpen, btnText, headerText, children}) {
                 <ModalHeader className="flex justify-center">
                   { headerText }
                 </ModalHeader>
-                <ModalBody>
+                <ModalBody className="p-5">
                   {React.Children.map(children, child => {
                     if (React.isValidElement(child)) {
                       return React.cloneElement(

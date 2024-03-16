@@ -22,3 +22,8 @@ class CustomOrderListSchema(BaseModel):
     payment_method: str
     status: str
     createAt: datetime
+
+
+class CustomOrderUpdateStatusSchema(BaseModel):
+    id: str
+    status: str

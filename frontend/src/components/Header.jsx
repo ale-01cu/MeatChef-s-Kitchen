@@ -7,7 +7,7 @@ import BtnCustomOrder from "./CustomOrder/BtnCustomOrder"
 import MyOrdersButton from "./Order/MyOrdersButton"
 import BtnFavorite from "./Favorite/BtnFavorite"
 
-export default function Header({typeSearch, children, options}) {
+export default function Header({ typeSearch, children, SubLayout }) {
   return (
     <>
       <header className="p-5 px-8 py-6 flex justify-between items-center">
@@ -43,10 +43,11 @@ export default function Header({typeSearch, children, options}) {
           }
           <AuthButtons/>
         </div>
+        
       </header>
       
       <aside>
-        { options }
+        { SubLayout && <SubLayout/> }
       </aside>
     
       <main>

@@ -43,7 +43,7 @@ class UserModel(Base):
     )
 
     order = relationship(
-        'Order',
+        'StandardOrder',
         back_populates='user'
     )
 

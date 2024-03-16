@@ -2,12 +2,7 @@ from fastapi import (
     APIRouter, Depends, 
     HTTPException, status
 )
-from app.schemas.order import (
-    OrderInputSchema,
-    OrderSchema,
-    OrderUpdateStatusSchema,
-    OrderListSchema
-)
+
 from app.cruds.sales import list_sales_db
 from settings.db import get_db
 from sqlalchemy.orm import Session

@@ -1,24 +1,24 @@
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
-import useAuth from '../../hooks/useAuth'
-import { getLocalStorageToken } from "../../utils/token";
 import UserMenu from '../UserMenu'
+import useRoles from '../../hooks/useRoles'
 
 export default function AuthButtons() {
-  const { auth } = useAuth()
+  const { isAuthenticated, isLoading } = useRoles()
   
   // if(getLocalStorageToken() && !auth) return null
 
+  if(isLoading) return null
+  if(!isAuthenticated) 
+    return (
+      <div className="flex gap-2">
+        <LoginModal/>
+        <RegisterModal/>
+      </div>
+    )
   return (
     <div className="flex gap-2">
-      {
-        !auth 
-          ? <>
-            <LoginModal/>
-            <RegisterModal/>
-          </>
-          : <UserMenu/>
-      }
+      <UserMenu/>
     </div>
   )
 }

@@ -7,8 +7,10 @@ import {
   deleteCourseFromFavorites, 
   addToFavorites 
 } from '../../services/favorite'
+import useRoles from '../../hooks/useRoles'
 
 export default function BtnAddFavorite({ course }) {
+  const { isClient } = useRoles()
   const [ isInFav, setIsInFav ] = useState(false)
 
   useEffect(() => {
@@ -28,6 +30,7 @@ export default function BtnAddFavorite({ course }) {
     }
   }
 
+  if(!isClient) return null
   return (
     <Button 
       color='warning' 

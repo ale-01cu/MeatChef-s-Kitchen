@@ -1,12 +1,15 @@
 import { Link } from "wouter"
-import useAuth from "../../hooks/useAuth"
+import useRoles from "../../hooks/useRoles"
 
 export default function BtnCustomOrder() {
-  const { user } = useAuth()
+  const { isTeacher, isAuthenticated, isSuperUser, isStaff } = useRoles()
 
-  if(!user || user?.is_superuser) return null
+  if(!isAuthenticated || isTeacher || isSuperUser || isStaff) return null
   return (
-    <Link to="/orden-personalizada" className="text-black bg-warning-400 p-2 rounded-xl hover:bg-warning-500 hover:scale-105 transition">
+    <Link 
+      to="/orden-personalizada" 
+      className="text-black bg-warning-400 p-2 rounded-xl hover:bg-warning-500 hover:scale-105 transition"
+    >
       <span>
         Pedido Personalizado
       </span>

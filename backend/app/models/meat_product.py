@@ -54,8 +54,8 @@ class MeatProduct(Base):
         back_populates="meat_product"
     )
 
-    order_item = relationship(
-        "OrderItem", 
+    standard_order_items = relationship(
+        "StandardOrderItem", 
         back_populates="meat_product"
     )
 

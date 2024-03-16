@@ -5,7 +5,7 @@ import useAuth from '../../hooks/useAuth'
 export default function BtnFavorite() {
   const { user } = useAuth()
 
-  if(user?.is_teacher) return null
+  if(!user || user?.is_teacher) return null
   return (
     <Link 
       to='/favoritos' 

@@ -1,26 +1,12 @@
 import { ORDER_URL } from "../utils/constants"
-import fetching from "../utils/fetching"
 import { getSessionStorageToken } from "../utils/token"
+import fetching from "../utils/fetching"
 
-export const createOrder = async (formData) => {
+export const updateOrderListStatus = async (formData) => {
   const { data } = await fetching({
     url: ORDER_URL,
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(formData),
-    headers: {
-      'Content-Type': 'application/json',
-      'authorization': getSessionStorageToken()
-    },
-  })
-
-  return data
-}
-
-export const listOrders = async () => {
-
-  const { data }  = await fetching({
-    url: ORDER_URL,
-    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'authorization': getSessionStorageToken()

@@ -1,5 +1,6 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { useLocation } from "wouter";
+import useRoles from "../../hooks/useRoles";
 
 const NONE_SELECTED_VALUE = 'NONE'
 const LOCATIONS = {
@@ -15,7 +16,7 @@ export default function CategoriesSelect (props) {
     defaultValue, 
     location } = props
   const [ _, navegate ] = useLocation()
-  
+  const { isSuperUser } = useRoles()
 
   const handleChange = (e) => {
     if(!(location === LOCATIONS.form)) {
@@ -26,6 +27,7 @@ export default function CategoriesSelect (props) {
     }
   }
 
+  if( !isSuperUser ) return null
   return (
     <Select
       isRequired

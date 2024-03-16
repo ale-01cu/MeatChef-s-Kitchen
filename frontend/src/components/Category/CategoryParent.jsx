@@ -4,36 +4,38 @@ import CategoryForm from "./CategoryForm"
 import BtnAddCategory from "./BtnAddCategory"
 import useListCategories from "../../hooks/useListCategories"
 import CategoryList from "./CategoryList"
+import useRoles from "../../hooks/useRoles"
 
-export default function CategoryParent({ user, categoryId, location }) {
+export default function CategoryParent({ categoryId, location }) {
   const { 
     categories, 
     isLoading, 
     setCategories 
   } = useListCategories()
+  const { isClientOrAny, isSuperUser } = useRoles()
 
-  if(user && user?.is_superuser) 
-    return (
-      <>
-        <CategoriesSelect 
-          className='max-w-xs' 
-          placeholder='Filtrar por Categoria'
-          categories={categories}
-          isLoading={isLoading}
-          defaultValue={categoryId}
-          location={location}
-        />
-        
-        {
-          user?.is_superuser 
-            && <CustomModal
-                btnOpen={<BtnAddCategory/>}
-                headerText='Nueva Categoria'
-              >
-                <CategoryForm setCategories={setCategories}/>
-              </CustomModal>
-        }
-      </>
-    )
-  else return <CategoryList categories={categories}/>
+  if(isClientOrAny) 
+    return <CategoryList categories={categories}/>
+  return (
+    <>
+      <CategoriesSelect 
+        className='max-w-xs' 
+        placeholder='Filtrar por Categoria'
+        categories={categories}
+        isLoading={isLoading}
+        defaultValue={categoryId}
+        location={location}
+      />
+      
+      {
+        isSuperUser
+          && <CustomModal
+              btnOpen={<BtnAddCategory/>}
+              headerText='Nueva Categoria'
+            >
+              <CategoryForm setCategories={setCategories}/>
+            </CustomModal>
+      }
+    </>
+  )
 }

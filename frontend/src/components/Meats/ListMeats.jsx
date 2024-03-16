@@ -27,14 +27,16 @@ export default function ListMeats(props) {
                 btnText='Comprar'
                 path={'/carnicos/' + meat.id}
               />
-
-              <CardMenu
-                itemId={meat.id}
-                isActive={meat.is_active}
-                handleclickDelete={handleclickDelete}
-                textModalDelete={textModalDelete}
-                refreshOneElement={refreshOneElement}
-              />
+              {
+                CardMenu &&
+                  <CardMenu
+                    itemId={meat.id}
+                    isActive={meat.is_active}
+                    handleclickDelete={handleclickDelete}
+                    textModalDelete={textModalDelete}
+                    refreshOneElement={refreshOneElement}
+                  />
+              }
 
             </li>
           ))

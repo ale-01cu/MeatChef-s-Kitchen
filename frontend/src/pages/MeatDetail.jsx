@@ -11,6 +11,7 @@ import { addToCart } from '../services/cart'
 import CartIcon from '../components/Icons/CartIcon'
 import { productIsInCart } from "../services/cart"
 import MeatMenu from "../components/MeatMenu"
+import BtnAddToCart from "../components/Cart/BtnAddToCart"
 
 export default function MeatDetail() {
   const { user } = useAuth()
@@ -111,27 +112,16 @@ export default function MeatDetail() {
 
               {
                 isInCart
-                  ? <Button 
-                      type='submit'
-                      color="success" 
-                      isLoading={false}
-                      onPress={handleAddToCart}
-                      startContent={<CartIcon/>}
-                      isDisabled
-                    >
-                        Ya esta en el carrito
-                    </Button>
-
-                  : <Button 
-                      type='submit'
-                      color="success" 
-                      isLoading={false}
-                      onPress={handleAddToCart}
-                      startContent={<CartIcon/>}
-                    >
-                        Agregar al Carrito
-                    </Button>
-
+                  ? <BtnAddToCart 
+                      text='Ya esta en el carrito'
+                      handleAddToCart={handleAddToCart}
+                      isDisable={true}
+                    />
+                  : <BtnAddToCart 
+                      text='Agregar al Carrito'
+                      handleAddToCart={handleAddToCart}
+                      isDisable={false}
+                    />
               }
             </div>
           </section>

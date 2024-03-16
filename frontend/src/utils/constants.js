@@ -11,6 +11,7 @@ export const CATEGORIES_URL = `${BASE_URL}/category`
 export const IS_TEACHER_URL = `${BASE_URL}/is-teacher`
 export const USER_URL = `${BASE_URL}/user`
 export const ORDER_URL = `${BASE_URL}/order`
+export const STANDARD_ORDER_URL = `${BASE_URL}/standard-order`
 export const CUSTOM_ORDER_URL = `${BASE_URL}/custom-order`
 
 export const TOKEN = "token"

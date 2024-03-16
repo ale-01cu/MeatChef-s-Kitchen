@@ -1,6 +1,6 @@
 import CardMenu from "./CardMenu"
 import UpdateMeatForm from "../Meats/UpdateMeatForm"
-import useAuth from "../../hooks/useAuth"
+import useRoles from "../../hooks/useRoles"
 
 export default function CardMenuMeat(props) {
   const { 
@@ -11,9 +11,9 @@ export default function CardMenuMeat(props) {
     deleteIsError, 
     isLoadingDelete,
     refreshOneElement } = props
-  const { user } = useAuth()
-  
-  if(!user || !user.is_superuser) return null
+    const { isSuperUser } = useRoles()
+
+  if(isSuperUser) return null
   return <CardMenu
           itemId={itemId}
           isActive={isActive}
