@@ -25,12 +25,21 @@ export default function Header({ typeSearch, children, SubLayout }) {
           }
         </div>
 
-          {
-            typeSearch === 'cursos' 
-              && <Search type={typeSearch}/>
-          }
+        {
+          typeSearch === 'cursos' 
+            && <Search type={typeSearch}/>
+        }
+
 
         <div className="flex justify-center items-center gap-x-2">
+          <div className="flex gap-x-2">
+            <Link to="/carnicos">
+              Carnicos
+            </Link>
+            <Link to="/cursos">
+              Cursos
+            </Link>
+          </div>
           {
             typeSearch === 'cursos'
               ? <BtnFavorite/>

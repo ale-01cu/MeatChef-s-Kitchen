@@ -8,7 +8,9 @@ def list_meat_products_db(db: Session, skip: int = 0, limit: int = 100
 ) -> list[MeatProduct]:
     return db.query(MeatProduct).filter(
         MeatProduct.is_active == True
-    ).offset(skip).limit(limit).all()
+    )\
+    .order_by(MeatProduct.createAt.desc())\
+    .offset(skip).limit(limit).all()
 
 def list_meat_products_admin_db(db: Session, skip: int = 0, limit: int = 100 
 ) -> list[MeatProduct]:

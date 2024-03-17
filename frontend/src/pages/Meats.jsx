@@ -7,6 +7,7 @@ import MeatSlider from "../components/Meats/MeatSlider"
 import MeatMenu from "../components/MeatMenu"
 import CardMenuMeat from "../components/Card/CardMenuMeat"
 import { deleteMeat } from "../services/meats"
+import { BASE_URL } from "../utils/constants"
 
 export default function Meats() {
   const { user } = useAuth()
@@ -102,11 +103,21 @@ export default function Meats() {
 
       <div className="p-10 flex flex-col gap-y-16">
         { !isError && !search && !category_id && !isLoading && !user?.is_superuser 
-            && <MeatSlider/> }
+            &&  <MeatSlider 
+                  meatData={meatData.map((meat) => {
+                    return {
+                      ...meat,
+                      photo: BASE_URL + '/' + meat.photo
+                    }
+                  })}
+                /> 
+        }
 
         {
           !isError && search && <div>
-            <h1 className="text-4xl font-extrabold text-center p-2">Resultados de la Busqueda</h1>
+            <h1 className="text-4xl font-extrabold text-center p-2">
+              Resultados de la Busqueda
+            </h1>
           </div>
         }
 
@@ -131,8 +142,6 @@ export default function Meats() {
           meatData.length > 0 && !isError && !isLoading
             && <ListMeats 
                 data={meatData} 
-                user={user} 
-                refreshParent={setRefreshComponent}
                 refreshOneElement={reRenderOneElement}
                 CardMenu={CardMenuMeat}
                 handleclickDelete={handleclickDelete}

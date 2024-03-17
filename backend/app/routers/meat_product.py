@@ -49,6 +49,20 @@ async def list_meat_products(db: Session = Depends(get_db),
             detail='No se pudo listar los productos carnicos.'
         )
     
+@router.get('/meat-products-last', tags=['list-last-meat-products'])
+async def list_last_meat_products(db: Session = Depends(get_db),
+) -> list[MeatProduct]:
+    try:
+        products = list_meat_products_db(db, limit=4)
+        return products
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='No se pudo listar los productos carnicos.'
+        )
+    
 
 @router.get('/meat-products/category/{category_id}', tags=['list-meat-products'])
 async def list_meat_products_by_category(category_id: str, db: Session = Depends(get_db),

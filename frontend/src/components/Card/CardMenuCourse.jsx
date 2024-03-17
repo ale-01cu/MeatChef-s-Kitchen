@@ -13,7 +13,7 @@ export default function CardMenuCourse(props) {
     refreshOneElement } = props
     const { isTeacher } = useRoles()
   
-  if(isTeacher) return null
+  if(!isTeacher) return null
   return <CardMenu
           itemId={itemId}
           isActive={isActive}

@@ -15,6 +15,19 @@ export const listMeats = async () => {
   return data
 }
 
+export const listLastMeats = async () => {
+
+  const { data }  = await fetching({
+    url: MEATS_URL + '-last',
+    method: 'GET',
+    headers: {
+      'content-type': 'aplication/json',
+      'authorization': getSessionStorageToken()
+    },
+  })
+  return data
+}
+
 
 export const listSearchMeats = async (query) => {
 

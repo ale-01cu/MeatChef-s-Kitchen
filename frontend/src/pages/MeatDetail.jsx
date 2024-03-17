@@ -58,7 +58,7 @@ export default function MeatDetail() {
   return (
     <div>
       
-      <MeatMenu/>
+      {/* <MeatMenu/> */}
             
       <div className="">
         <div className="flex p-20 justify-center items-center">

@@ -10,19 +10,10 @@ import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
 import { Image } from '@nextui-org/react'
 import { BASE_URL } from '../../utils/constants';
-import { useEffect, useState } from 'react';
-import { listMeats } from '../../services/meats';
 
-export default function MeatSlider({ meats }) {
-  const [ meatData, setMeatsData ] = useState([])
+export default function MeatSlider({ meatData }) {
 
-  useEffect(() => {
-    listMeats()
-      .then(data => setMeatsData(data.slice(0, 10)))
-      .catch(e => {console.error(e)})
-  }, [])
-
-
+  if(!meatData) return null
   return (
     <div className=''>
       <Swiper
@@ -37,14 +28,14 @@ export default function MeatSlider({ meats }) {
         className="mySwiper"
       >
         {
-          meatData.map(( meat ) => (
-            <SwiperSlide className='w-full px-12' key={meat.id}>
+          meatData?.map(( meat ) => (
+            <SwiperSlide className='w-full' key={meat.id}>
               <Image
-                src={BASE_URL + '/' + meat.photo} 
+                src={meat.photo} 
                 alt="ImageCard"
                 classNames={{
                   wrapper: 'w-full img-container',
-                  img: 'max-h-[420px] object-cover aspect-video w-full'
+                  img: 'max-h-[600px] object-cover aspect-video w-full'
                 }}
               />
             </SwiperSlide>

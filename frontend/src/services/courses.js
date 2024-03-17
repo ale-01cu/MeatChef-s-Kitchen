@@ -16,6 +16,20 @@ export const listCourses = async () => {
   return data
 }
 
+export const listLastCourses = async () => {
+
+  const { data }  = await fetching({
+    url: COURSES_URL + '-last',
+    method: 'GET',
+    headers: {
+      'content-type': 'aplication/json',
+      'authorization': getSessionStorageToken()
+    },
+  })
+
+  return data
+}
+
 export const listSearchCourses = async (query) => {
 
   const { data }  = await fetching({

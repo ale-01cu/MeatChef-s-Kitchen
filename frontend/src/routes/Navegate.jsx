@@ -23,6 +23,9 @@ const ROUTES = [
   {
     path: '/',
     component: Home,
+    layout: Header,
+    layoutProps: { typeSearch: 'carnicos' },
+    subLayout: MeatMenu,
     permissions: isAny
   },
 
@@ -41,6 +44,7 @@ const ROUTES = [
     component: MeatDetail,
     layout: Header,
     layoutProps: { typeSearch: 'carnicos' },
+    subLayout: MeatMenu,
     permissions: isAny
 
 
@@ -185,7 +189,7 @@ export default function Navegate() {
         ROUTES.map((route) => (
           <Route key={route.path} path={route.path}>
             {() => {
-              const { path, layout, layoutProps, permissions } = route
+              const { path, layout, layoutProps, subLayout, permissions } = route
 
               if(!permissions(user))
                 return <Redirect to="/acceso-denegado"/>
@@ -200,7 +204,7 @@ export default function Navegate() {
               
               return (
                 <Route key={path} path={path}>
-                  <route.layout {...layoutProps}>
+                  <route.layout {...layoutProps} SubLayout={subLayout}>
                     <route.component/>
                   </route.layout>
                 </Route>

@@ -53,6 +53,20 @@ async def list_courses(db: Session = Depends(get_db),
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail='No se pudo listar los cursos.'
         )
+    
+@router.get('/course-last', tags=['list-last-course'])
+async def list_last_courses(db: Session = Depends(get_db),
+) -> list[CourseListSchema]:
+    try:
+        courses = list_courses_db(db, limit=3)
+        return courses
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='No se pudo listar los cursos.'
+        )
 
 
 @router.get('/course/search/{name}', tags=['search-course'])

@@ -13,7 +13,7 @@ export default function CardMenuMeat(props) {
     refreshOneElement } = props
     const { isSuperUser } = useRoles()
 
-  if(isSuperUser) return null
+  if(!isSuperUser) return null
   return <CardMenu
           itemId={itemId}
           isActive={isActive}
