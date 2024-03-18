@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
-  const { isValid } = useVerifyToken()
+  const { isValid, authIsLoading } = useVerifyToken()
   const [ auth, setAuth ] = useState(false)
   const [ user, setUser ] = useState()
 
@@ -35,8 +35,9 @@ function App() {
     user,
     setAuth,
     setMyUser,
-    setUser
-  }),[ auth, user, setMyUser ])
+    setUser,
+    authIsLoading
+  }),[ auth, user, setMyUser, authIsLoading ])
 
   return (
     <AuthContext.Provider value={authData}>

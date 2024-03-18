@@ -11,6 +11,7 @@ export default function OrdersList(props) {
     setSelectedRowsState(selectedRows)
   };
  
+  console.log(orders);
   return (
     <div className='w-full'>
       <DataTable

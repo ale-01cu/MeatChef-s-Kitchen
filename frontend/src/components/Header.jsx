@@ -31,25 +31,27 @@ export default function Header({ typeSearch, children, SubLayout }) {
         }
 
 
-        <div className="flex justify-center items-center gap-x-2">
-          <div className="flex gap-x-2">
+        <div className="flex justify-center items-center gap-x-8">
+          <div className="flex justify-center items-center gap-x-5">
             <Link to="/carnicos">
               Carnicos
             </Link>
             <Link to="/cursos">
               Cursos
             </Link>
-          </div>
-          {
-            typeSearch === 'cursos'
-              ? <BtnFavorite/>
-              : <>
-                  <MyOrdersButton/>
-                  <BtnCustomOrder/>
-                  <CartButton/>
-                </>
+            {
+              typeSearch === 'cursos'
+                ? <BtnFavorite/>
+                : <>
+                    <MyOrdersButton/>
+                    <BtnCustomOrder/>
+                    <CartButton/>
+                  </>
 
-          }
+            }
+
+          </div>
+
           <AuthButtons/>
         </div>
         

@@ -2,7 +2,8 @@ const CART = 'cart'
 
 export const addToCart = (product) => {
   const cart = window.localStorage.getItem(CART)
-  product.amount = 1
+  const { amount } = product
+  if(!amount) product.amount = 1
 
   if(!cart) {
     window.localStorage.setItem(

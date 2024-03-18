@@ -59,9 +59,9 @@ export default function MyOrders() {
       <div className="flex flex-col gap-y-5 p-10">
         {
 
-          orders.length > 0 && customOrders.length > 0 
-            ? <h1 className="text-3xl font-bold text-center">No hay Pedidos Realizados</h1>
-            : <h1 className="text-3xl font-bold text-center">Mis Pedidos</h1>
+          orders.length > 0 || customOrders.length > 0 
+            ? <h1 className="text-3xl font-bold text-center">Mis Pedidos</h1>
+            : <h1 className="text-3xl font-bold text-center">No hay Pedidos Realizados</h1>
 
         }
         

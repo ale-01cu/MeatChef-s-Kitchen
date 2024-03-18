@@ -5,3 +5,14 @@
 .img-container {
     max-width: 100% !important;
 }
+
+.swiper-button-next{
+    @apply bg-stone-800
+    w-12
+    right-0
+}
+.swiper-button-prev{
+    @apply bg-stone-800
+    w-12
+    left-0
+}

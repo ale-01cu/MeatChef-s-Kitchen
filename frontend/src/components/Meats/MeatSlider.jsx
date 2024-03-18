@@ -7,9 +7,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 // import required modules
-import { Pagination, Navigation } from 'swiper/modules';
+import { Pagination, Autoplay } from 'swiper/modules';
 import { Image } from '@nextui-org/react'
-import { BASE_URL } from '../../utils/constants';
 
 export default function MeatSlider({ meatData }) {
 
@@ -23,9 +22,15 @@ export default function MeatSlider({ meatData }) {
         pagination={{
           clickable: true,
         }}
-        navigation={true}
-        modules={[Pagination, Navigation]}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        modules={[Autoplay, Pagination]}
         className="mySwiper"
+        style={{
+          '--swiper-pagination-color' : '#f1c40f'
+        }}
       >
         {
           meatData?.map(( meat ) => (

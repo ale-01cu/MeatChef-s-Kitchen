@@ -100,18 +100,7 @@ export default function Meats() {
         category_id={category_id}
       />
 
-
       <div className="p-10 flex flex-col gap-y-16">
-        { !isError && !search && !category_id && !isLoading && !user?.is_superuser 
-            &&  <MeatSlider 
-                  meatData={meatData.map((meat) => {
-                    return {
-                      ...meat,
-                      photo: BASE_URL + '/' + meat.photo
-                    }
-                  })}
-                /> 
-        }
 
         {
           !isError && search && <div>
@@ -131,23 +120,27 @@ export default function Meats() {
             && <h1>No hay Carnes</h1>
         }
 
-        {
-          !isLoading && !isError && !search && !category_id
-            && <h5 className="text-xl font-semibold text-center">
-              Compra Online la mejor seleccion de carne.
-            </h5>
-        }
+        <div className='py-8 space-y-4'>
 
-        {
-          meatData.length > 0 && !isError && !isLoading
-            && <ListMeats 
-                data={meatData} 
-                refreshOneElement={reRenderOneElement}
-                CardMenu={CardMenuMeat}
-                handleclickDelete={handleclickDelete}
-                textModalDelete='Desea Eliminar el Producto ?.'
-              />
-        }
+          {
+            !isLoading && !isError && !search && !category_id
+              && <h5 className="text-xl font-semibold text-center">
+                Compra Online la mejor seleccion de carne.
+              </h5>
+          }
+
+          {
+            meatData.length > 0 && !isError && !isLoading
+              && <ListMeats 
+                  data={meatData} 
+                  refreshOneElement={reRenderOneElement}
+                  CardMenu={CardMenuMeat}
+                  handleclickDelete={handleclickDelete}
+                  textModalDelete='Desea Eliminar el Producto ?.'
+                />
+          }
+
+        </div>
 
         { isLoading && <h1>Cargando</h1> }
 

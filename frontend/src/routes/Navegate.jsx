@@ -181,8 +181,9 @@ const ROUTES = [
 ]
 
 export default function Navegate() {
-  const { user } = useAuth()
+  const { user, authIsLoading } = useAuth()
 
+  if(authIsLoading) return <h1>Cargando</h1>
   return (
     <Switch>
       {
@@ -192,7 +193,7 @@ export default function Navegate() {
               const { path, layout, layoutProps, subLayout, permissions } = route
 
               if(!permissions(user))
-                return <Redirect to="/acceso-denegado"/>
+                return <h1>Acceso denegado</h1>
 
               if(!layout) return <route.component/>
               // else if(!layoutProps) 

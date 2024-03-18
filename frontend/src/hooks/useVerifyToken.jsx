@@ -8,13 +8,15 @@ import { verifyToken } from "../services/auth"
 export default function useVerifyToken() {
   const [ tokenInMemory, setTokenInMemory ] = useState()
   const [ isValid, setIsValid ] = useState(false)
+  const [ isLoading, setIsLoading ] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
     const token = getLocalStorageToken()
     setTokenInMemory(token)
     setToken(token, false)
 
-    if(tokenInMemory) verifyToken()
+    verifyToken()
       .then(({data}) => {
           const { is_valid } = data
           if(!is_valid) {
@@ -22,9 +24,20 @@ export default function useVerifyToken() {
             deleteToken()
           }
           else setIsValid(is_valid)
-    })
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
 
   }, [tokenInMemory, isValid])
 
-  return { isValid, tokenInMemory, token: getLocalStorageToken() }
+  return { 
+    isValid, 
+    tokenInMemory, 
+    token: getLocalStorageToken(),
+    authIsLoading: isLoading
+  }
 }

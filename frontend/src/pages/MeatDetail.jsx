@@ -42,7 +42,10 @@ export default function MeatDetail() {
 
   const handleAddToCart = () => {
     try {
-      addToCart(meat)
+      addToCart({
+        ...meat,
+        amount
+      })
       setIsInCart(true)
       
     }catch(e) {
@@ -105,24 +108,18 @@ export default function MeatDetail() {
                 onChange={(value) => setAmount(value.target.value)}
                 value={amount}
                 min={1}
+                isDisabled={isInCart}
                 classNames={{
                   base: 'w-52'
                 }}
               />
 
-              {
-                isInCart
-                  ? <BtnAddToCart 
-                      text='Ya esta en el carrito'
-                      handleAddToCart={handleAddToCart}
-                      isDisable={true}
-                    />
-                  : <BtnAddToCart 
-                      text='Agregar al Carrito'
-                      handleAddToCart={handleAddToCart}
-                      isDisable={false}
-                    />
-              }
+              <BtnAddToCart 
+                text={isInCart ? 'Ya esta en el carrito' : 'Agregar al Carrito'}
+                handleAddToCart={handleAddToCart}
+                isDisable={isInCart}
+              />
+
             </div>
           </section>
 

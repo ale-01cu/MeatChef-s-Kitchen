@@ -10,9 +10,14 @@ export default function CartButton() {
     <Link 
       to="/carrito"
       // className="bg-warning-400 p-2 rounded-xl hover:bg-warning-500 hover:scale-105 transition"
+      className="flex justify-center items-center gap-x-2"
+      
     >
       <span>
-        <CartIcon/>
+        <CartIcon fill='#f1c40f'/>
+      </span>
+      <span>
+        Carrito
       </span>
     </Link>
   )

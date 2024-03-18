@@ -16,7 +16,9 @@ export default function Profile() {
         <div className='flex flex-col'>
           <h1 className='pb-12 text-3xl font-bold flex justify-center items-center gap-x-2'>
             <span className='bg-warning-400 p-2 rounded-xl'><AvatarIcon/></span>
-            Perfil de Usuario
+            <span>
+              Mi Perfil
+            </span>
           </h1>
           <div className='flex flex-col-reverse sm:flex-row gap-24'>
             <section className='flex flex-col gap-y-3 justify-center items-start'>
