@@ -7,10 +7,10 @@ import BtnCustomOrder from "./CustomOrder/BtnCustomOrder"
 import MyOrdersButton from "./Order/MyOrdersButton"
 import BtnFavorite from "./Favorite/BtnFavorite"
 
-export default function Header({ typeSearch, children, SubLayout }) {
+export default function Header({ typeSearch }) {
   return (
     <>
-      <header className="p-5 px-8 py-6 flex justify-between items-center">
+      <div className="p-5 px-8 py-6 flex justify-between items-center">
         <div className="flex gap-x-5 justify-center items-center">
           <Link to="/">
             <Image
@@ -37,7 +37,7 @@ export default function Header({ typeSearch, children, SubLayout }) {
               Carnicos
             </Link>
             <Link to="/cursos">
-              Cursos
+              <Image src="/Imagen5.png" width={96} height={96}/>
             </Link>
             {
               typeSearch === 'cursos'
@@ -55,15 +55,8 @@ export default function Header({ typeSearch, children, SubLayout }) {
           <AuthButtons/>
         </div>
         
-      </header>
-      
-      <aside>
-        { SubLayout && <SubLayout/> }
-      </aside>
-    
-      <main>
-        { children }
-      </main>
+      </div>
+
     </>
   )
 }

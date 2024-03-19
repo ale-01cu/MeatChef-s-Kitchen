@@ -1,16 +1,14 @@
 import { useParams } from "wouter"
 import { retrieveMeats } from "../services/meats"
 import { useEffect, useState } from "react"
-import { Image, Input, Button } from "@nextui-org/react"
+import { Image, Input } from "@nextui-org/react"
 import { BASE_URL } from "../utils/constants"
 import CardChipStatus from '../components/Card/CardChipStatus'
 import ActiveIcon from '../components/Icons/ActiveIcon'
 import CloseIcon from '../components/Icons/CloseIcon'
 import useAuth from "../hooks/useAuth"
 import { addToCart } from '../services/cart'
-import CartIcon from '../components/Icons/CartIcon'
 import { productIsInCart } from "../services/cart"
-import MeatMenu from "../components/MeatMenu"
 import BtnAddToCart from "../components/Cart/BtnAddToCart"
 
 export default function MeatDetail() {

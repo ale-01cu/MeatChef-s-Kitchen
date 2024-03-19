@@ -32,8 +32,8 @@ class StandardOrderListSchema(BaseModel):
 
 class StandardOrderSchema(StandardOrderListSchema):
     address: Optional[str] = None
-    total_price: float
-    amount: int
+    # total_price: float
+    # amount: int
 
 
 class StandardOrderStatusSchema(BaseModel):

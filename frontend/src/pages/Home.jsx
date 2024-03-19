@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react"
 import MeatSlider from "../components/Meats/MeatSlider.jsx"
 import { listLastMeats } from "../services/meats.js"
-import CustomCard from "../components/Card/Card.jsx"
 import { Link } from "wouter"
 import { BASE_URL } from "../utils/constants.js"
-import { Button, Image } from "@nextui-org/react"
+import { Image } from "@nextui-org/react"
 import { listLastCourses } from '../services/courses.js'
 import { Card, CardBody, CardFooter } from '@nextui-org/react'
-import CallIcon from '../components/Icons/CallIcon.jsx'
-import WhatAppIcon from '../components/Icons/WhatAppIcon.jsx'
-import XIcon from '../components/Icons/XIcon.jsx'
-import Instagramicon from '../components/Icons/InstagramIcon.jsx'
-import GpsIcon from '../components/Icons/GpsIcon.jsx'
-
+import Footer from '../components/Footer.jsx'
 
 const data = [
   {
@@ -188,31 +182,7 @@ export default function Home() {
       </div>
 
 
-      <footer className="w-full h-60 bg-black flex justify-between items-center p-8">
-
-        <div className="flex flex-col gap-y-3">
-          <span className="font-bold text-lg hover:scale-105 transition cursor-pointer">Mapa del Sitio</span>
-          <span className="font-bold text-lg hover:scale-105 transition cursor-pointer">Cursos</span>
-          <span className="font-bold text-lg hover:scale-105 transition cursor-pointer">Acerca de</span>
-        </div>
-
-        <dir>
-          <Image src="/Recurso 5.png" width={300}/>
-        </dir>
-
-        <div className="flex flex-col gap-y-4">
-          <div className="grid grid-cols-3 gap-x-4">
-            <span className="hover:scale-110 transition cursor-pointer"><CallIcon width={48}/></span>
-            <span className="hover:scale-110 transition cursor-pointer"><WhatAppIcon width={48}/></span>
-            <span className="hover:scale-110 transition cursor-pointer"><XIcon width={48}/></span>
-          </div>
-          <div className="flex justify-center gap-x-4">
-            <span className="hover:scale-110 transition cursor-pointer"><Instagramicon width={48}/></span>
-            <span className="hover:scale-110 transition cursor-pointer"><GpsIcon width={48}/></span>
-          </div>
-        </div>
-
-      </footer>
+      <Footer/>
     </div>
   )
 }

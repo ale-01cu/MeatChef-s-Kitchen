@@ -1,7 +1,7 @@
 import OrderForm from "../components/Order/OrderForm"
 import { Button } from "@nextui-org/react"
 import { Textarea, Input } from "@nextui-org/react"
-import MeatMenu from "../components/MeatMenu"
+import MeatMenu from "../components/Meats/MeatMenu"
 import { useState } from "react"
 import { createCustomOrder } from '../services/customOrder'
 import { toast } from "react-toastify"

@@ -44,6 +44,7 @@ export default function CategoryList({ categories }) {
         style={{
           '--swiper-navigation-color': '#fff',
           '--swiper-pagination-color': '#fff',
+          '--swiper-navigation-size' : '20px',
         }}
         // pagination={{
         //   clickable: true,

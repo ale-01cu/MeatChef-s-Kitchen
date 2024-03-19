@@ -12,16 +12,16 @@ def list_custom_order_db(db: Session, skip: int = 0, limit: int = 100
 ) -> list[CustomOrderListSchema]:
     return db\
         .query(CustomOrder)\
-        .filter(
-            CustomOrder.status == Statuslist.RECEIVED,
-
-        )\
+        .filter(CustomOrder.status == Statuslist.RECEIVED)\
+        .order_by(CustomOrder.createAt.desc())\
         .offset(skip).limit(limit).all()
 
 def list_processed_custom_order_db(db: Session, skip: int = 0, limit: int = 100 
 ) -> list[CustomOrderListSchema]:
     return db\
         .query(CustomOrder)\
+        .filter(CustomOrder.status != Statuslist.RECEIVED)\
+        .order_by(CustomOrder.createAt.desc())\
         .offset(skip).limit(limit).all()
 
 
@@ -33,6 +33,7 @@ def list_custom_order_by_user_db(
         .filter(
             CustomOrder.user_id == user_id,
             CustomOrder.is_active == True)\
+        .order_by(CustomOrder.createAt.desc())\
         .offset(skip).limit(limit).all()
 
 def create_custom_order_db(

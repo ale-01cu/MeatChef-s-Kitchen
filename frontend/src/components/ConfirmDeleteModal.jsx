@@ -1,7 +1,6 @@
 import {  
   Modal, 
   ModalContent, 
-  ModalHeader,
   ModalBody, 
   ModalFooter,
   useDisclosure,
@@ -9,6 +8,7 @@ import {
 } from "@nextui-org/react";
 import DeleteIcon from './Icons/DeleteIcon'
 import { useState } from "react";
+import CustomModal from "./CustomModal";
 
 export default function ConfirmDeleteModal (props) {
   const { 

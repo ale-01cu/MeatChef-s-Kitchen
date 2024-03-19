@@ -2,15 +2,11 @@ import ListMeats from "../components/Meats/ListMeats"
 import { useParams } from "wouter"
 import { listMeats, listSearchMeats, listMeatsByCategory, retrieveMeats } from "../services/meats"
 import { useEffect, useState } from "react"
-import useAuth from "../hooks/useAuth"
-import MeatSlider from "../components/Meats/MeatSlider"
-import MeatMenu from "../components/MeatMenu"
+import MeatMenu from "../components/Meats/MeatMenu"
 import CardMenuMeat from "../components/Card/CardMenuMeat"
 import { deleteMeat } from "../services/meats"
-import { BASE_URL } from "../utils/constants"
 
 export default function Meats() {
-  const { user } = useAuth()
   const { category_id, search } = useParams()
   const [ meatData, setMeatsData ] = useState([])
   const [ refreshComponent, setRefreshComponent ] = useState(0)
@@ -100,7 +96,7 @@ export default function Meats() {
         category_id={category_id}
       />
 
-      <div className="p-10 flex flex-col gap-y-16">
+      <div className="p-10 flex flex-col gap-y-16 min-h-screen">
 
         {
           !isError && search && <div>
@@ -149,6 +145,7 @@ export default function Meats() {
             <h1>Exploto esta talla</h1>
         }
       </div>
+
     </>
   )
 }

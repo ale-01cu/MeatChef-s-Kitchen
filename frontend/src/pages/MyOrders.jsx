@@ -1,8 +1,9 @@
 import OrdersList from "../components/Order/OrdersList"
-import MeatMenu from "../components/MeatMenu"
+import MeatMenu from "../components/Meats/MeatMenu"
 import { useState, useEffect } from "react"
 import { listStandardOrders } from "../services/standardOrder"
 import { listCustomOrders } from "../services/customOrder"
+import { ORDER_STATUS } from "../utils/order"
 
 const opciones = { 
   year: 'numeric', 
@@ -18,6 +19,8 @@ export default function MyOrders() {
   const [ isError, setIsError ] = useState()
   const [ orders, setOrders ] = useState([])
   const [ customOrders, setCustomOrders ] = useState([])
+
+  console.log(orders);
 
   useEffect(() => {
     setIsLoading(true)
@@ -75,9 +78,10 @@ export default function MyOrders() {
                 orders={orders}
                 columns={[
                   { name: 'Id', selector: row => row.id },
-                  { name: 'Estado', selector: row => row.status },
+                  { name: 'Estado', selector: row => row.status, cell: row => <span className={`text-[${ORDER_STATUS[row.status]}]`}>{row.status}</span> },
                   { name: 'Tipo de Envio', selector: row => row.delivery_type },
                   { name: 'Metodo de Pago', selector: row => row.payment_method },
+                  { name: 'Direccion', selector: row => row.address },
                   { name: 'Fecha de Creado', selector: row => new Date(row.createAt).toLocaleDateString('es-ES', opciones)},
                 ]}
                 atributes={{ expandableRows: true }}
@@ -95,9 +99,11 @@ export default function MyOrders() {
                 orders={customOrders}
                 columns={[
                   { name: 'Id', selector: row => row.id },
-                  { name: 'Estado', selector: row => row.status },
+                  { name: 'Estado', selector: row => row.status, cell: row => <span className={`text-[${ORDER_STATUS[row.status]}]`}>{row.status}</span> },
                   { name: 'Tipo de Envio', selector: row => row.delivery_type },
                   { name: 'Metodo de Pago', selector: row => row.payment_method },
+                  { name: 'Direccion', selector: row => row.address },
+                  { name: 'Descripcion', selector: row => row.description, cell: row => <p className="p-2">{row.description}</p>, },
                   { name: 'Fecha de Creado', selector: row => new Date(row.createAt).toLocaleDateString('es-ES', opciones)},
                 ]}
               />

@@ -3,7 +3,7 @@ import { Button } from "@nextui-org/react";
 
 
 export default function InputFile(props) {
-  const { fileAccept, handleChange, text, name, value, startContentIcon } = props
+  const { fileAccept, handleChange, text, name, startContentIcon } = props
   const inputFileRef = useRef(null)
 
   const handleButtonClick = () => {

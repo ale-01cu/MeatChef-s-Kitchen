@@ -9,7 +9,8 @@ import {
 import React from "react";
 import AddIcon from './Icons/AddIcon'
 
-export default function CustomModal({btnOpen, btnText, headerText, children}) {
+export default function CustomModal(props) {
+  const { btnOpen, btnText, headerText, children } = props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (

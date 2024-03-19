@@ -13,11 +13,16 @@ export default function BtnCustomOrder() {
       className="flex justify-center items-center gap-x-2"
     >
       <span>
-        <Image width={16} height={16} src='/RealizarPedidoPersonalizado.png' radius="none"/>
+        <Image 
+          width={16} 
+          height={16} 
+          src='/RealizarPedidoPersonalizado.png' 
+          radius="none"
+        />
       </span>
-      <span>
+      {/* <span>
         Pedido Personalizado
-      </span>
+      </span> */}
     </Link>
   )
 }

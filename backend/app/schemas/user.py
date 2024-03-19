@@ -3,6 +3,8 @@ from pydantic import BaseModel
 class UserBaseSchema(BaseModel):
     id: str
 
+class UserFullNameSchema(BaseModel):
+    full_name: str
 
 class UserCreateSchema(BaseModel):
     email: str

@@ -22,13 +22,14 @@ from app.middlewares.authorization import authorization
 from app.middlewares.owner_permissions import order_owner_permissions
 from app.middlewares.role_permisisons import if_is_superuser, if_is_staff
 from app.schemas.user import UserSchema
+from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
 ENDPOINT = '/standard-order'
 
 @router.get(ENDPOINT, tags=['list-orders'])
 async def list_order(user: UserSchema = Depends(authorization),
-    db: Session = Depends(get_db) ) -> list[StandardOrderListSchema]:
+    db: Session = Depends(get_db) ) -> list[StandardOrderSchema]:
     try:
         if user:
             if user.is_superuser or user.is_staff:

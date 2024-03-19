@@ -4,7 +4,7 @@ import { listStandardOrders } from "../services/standardOrder"
 import { listCustomOrders } from "../services/customOrder"
 import { Button } from "@nextui-org/react"
 import { updateOrderListStatus } from '../services/order'
-import MeatMenu from "../components/MeatMenu"
+import MeatMenu from "../components/Meats/MeatMenu"
 
 const opciones = { 
   year: 'numeric', 
@@ -98,6 +98,8 @@ export default function PendingOrders() {
             { name: 'Estado', selector: row => row.status },
             { name: 'Tipo de Envio', selector: row => row.delivery_type },
             { name: 'Metodo de Pago', selector: row => row.payment_method },
+            { name: 'Direccion', selector: row => row.address },
+            { name: 'Descripcion', selector: row => row.description, cell: row => <p className="p-2">{row.description}</p>, },
             { name: 'Fecha de Creado', selector: row => new Date(row.createAt).toLocaleDateString('es-ES', opciones)},
             { name: 'Tipo de Pedido', selector: row => row.type },
           ]}

@@ -2,7 +2,7 @@ import useAuth from '../hooks/useAuth'
 import { Avatar } from '@nextui-org/react'
 import AvatarIcon from '../components/Icons/AvatarIcon'
 import { BASE_URL } from '../utils/constants'
-import MeatMenu from '../components/MeatMenu'
+import MeatMenu from '../components/Meats/MeatMenu'
 
 export default function Profile() {
   const { user, auth } = useAuth()

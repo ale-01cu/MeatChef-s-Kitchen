@@ -18,6 +18,7 @@ export default function ListCourses(props) {
               <Card 
                 image={course.photo}
                 name={course.name}
+                author={course.teacher.full_name}
                 description={course.description}
                 path={'/cursos/' + course.id}
               />

@@ -35,7 +35,10 @@ def list_meat_product_by_name(db: Session, name: str, skip: int = 0, limit: int 
     return db.query(MeatProduct).filter(
         MeatProduct.name_of_the_cut_of_meat.ilike(f"%{name}%"), 
         MeatProduct.is_active == True
-    ).offset(skip).limit(limit).all()
+    )\
+    .order_by(MeatProduct.createAt.desc())\
+    .offset(skip).limit(limit).all()
+
 
 def list_meat_product_admin_by_name(db: Session, name: str, skip: int = 0, limit: int = 100
 ) -> list[MeatProduct]:
@@ -51,7 +54,9 @@ def list_meat_product_by_category(db: Session, cat: str, skip: int = 0, limit: i
     return db.query(MeatProduct).filter(
         MeatProduct.category_id == cat, 
         MeatProduct.is_active == True
-    ).offset(skip).limit(limit).all()
+    )\
+    .order_by(MeatProduct.createAt.desc())\
+    .offset(skip).limit(limit).all()
 
 
 def list_meat_product_admin_by_category(db: Session, cat: str, skip: int = 0, limit: int = 100

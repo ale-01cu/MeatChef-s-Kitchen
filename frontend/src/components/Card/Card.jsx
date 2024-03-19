@@ -3,7 +3,7 @@ import { BASE_URL } from "../../utils/constants"
 import { Image } from "@nextui-org/react"
 
 export default function Card(props) {
-  const { image, name, description, path } = props
+  const { image, name, author, description, path } = props
   
   return (
     <Link to={path} className="w-full">
@@ -15,7 +15,10 @@ export default function Card(props) {
       </div>
 
       <div className="space-y-2 p-2">
-        <h1 className="font-bold text-2xl text-nowrap truncate">{name}</h1>
+        <div>
+          <h1 className="font-bold text-2xl text-nowrap truncate">{name}</h1>
+          { author && <span className="truncate">Profesor: {author}</span> } 
+        </div>
         <p className="truncate">{description}</p>
       </div>
 

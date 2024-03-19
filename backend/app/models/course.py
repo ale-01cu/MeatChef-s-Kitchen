@@ -1,5 +1,6 @@
 from settings.db import Base
 from sqlalchemy import Column, String, DateTime, Boolean, Text, ForeignKey
+from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
 
@@ -30,6 +31,11 @@ class Course(Base):
         ForeignKey('users.id', ondelete='SET DEFAULT'),
         default='',
         comment='Profesor'
+    )
+
+    teacher = relationship(
+        'UserModel',
+        back_populates='course'
     )
 
     photo = Column(

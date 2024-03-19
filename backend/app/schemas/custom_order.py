@@ -20,6 +20,7 @@ class CustomOrderListSchema(BaseModel):
     id: str
     delivery_type: str
     payment_method: str
+    description: str
     status: str
     createAt: datetime
 

@@ -1,7 +1,7 @@
 import OrderForm from "../components/Order/OrderForm"
 import CartList from "../components/Cart/CartList"
 import { Button } from "@nextui-org/react"
-import MeatMenu from "../components/MeatMenu"
+import MeatMenu from "../components/Meats/MeatMenu"
 import { useState } from "react"
 import { createStandardOrder } from "../services/standardOrder"
 import useCart from "../hooks/useCart"

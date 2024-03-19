@@ -51,6 +51,11 @@ class UserModel(Base):
         'CustomOrder',
         back_populates='user'
     )
+    
+    course = relationship(
+        'Course',
+        back_populates='teacher'
+    )
 
     is_active = Column(
         Boolean, 

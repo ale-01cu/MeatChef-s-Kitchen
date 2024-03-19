@@ -3,7 +3,8 @@ import { useState, useEffect } from "react"
 import { listProcessedStandardOrders } from "../services/standardOrder"
 import { listProcessedCustomOrders } from "../services/customOrder"
 import { updateOrderListStatus } from '../services/order'
-import MeatMenu from "../components/MeatMenu"
+import MeatMenu from "../components//Meats/MeatMenu"
+import StatusSelect from "../components/OrdersFulfilled/StatusSelect"
 
 const opciones = { 
   year: 'numeric', 
@@ -13,6 +14,7 @@ const opciones = {
   minute: 'numeric', 
   second: 'numeric' 
 };
+
 
 export default function OrdersFulfilled() {
   const [ isLoading, setIsLoading ] = useState(false)
@@ -94,10 +96,23 @@ export default function OrdersFulfilled() {
           orders={[...orders, ...customOrders]}
           columns={[
             { name: 'Id', selector: row => row.id },
-            { name: 'Estado', selector: row => row.status },
+            { 
+              name: 'Estado', 
+              selector: row => row.status, 
+              cell: row => <StatusSelect orderId={row.id} statusDefault={row.status}/> 
+            },
             { name: 'Tipo de Envio', selector: row => row.delivery_type },
             { name: 'Metodo de Pago', selector: row => row.payment_method },
-            { name: 'Fecha de Creado', selector: row => new Date(row.createAt).toLocaleDateString('es-ES', opciones)},
+            { name: 'Direccion', selector: row => row.address },
+            { 
+              name: 'Descripcion', 
+              selector: row => row.description, 
+              cell: row => <p className="p-2">{row.description}</p>,
+             },
+            { 
+              name: 'Fecha de Creado', 
+              selector: row => new Date(row.createAt).toLocaleDateString('es-ES', opciones)
+            },
             { name: 'Tipo de Pedido', selector: row => row.type },
           ]}
           atributes={{

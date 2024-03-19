@@ -11,9 +11,8 @@ def list_standard_order_db(db: Session, skip: int = 0, limit: int = 100
 ) -> list[StandardOrderListSchema]:
     return db\
         .query(StandardOrder)\
-        .filter(
-            StandardOrder.status == Statuslist.RECEIVED,
-        )\
+        .filter(StandardOrder.status == Statuslist.RECEIVED)\
+        .order_by(StandardOrder.createAt.desc())\
         .offset(skip).limit(limit).all()
 
 
@@ -21,6 +20,8 @@ def list_processed_standard_order_db(db: Session, skip: int = 0, limit: int = 10
 ) -> list[StandardOrderListSchema]:
     return db\
         .query(StandardOrder)\
+        .filter(StandardOrder.status != Statuslist.RECEIVED)\
+        .order_by(StandardOrder.createAt.desc())\
         .offset(skip).limit(limit).all()
 
 
@@ -31,6 +32,7 @@ def list_standard_order_by_user_db(db: Session, user_id: str, skip: int = 0, lim
         .filter(
             StandardOrder.user_id == user_id,
             StandardOrder.is_active == True)\
+        .order_by(StandardOrder.createAt.desc())\
         .offset(skip).limit(limit).all()
 
 

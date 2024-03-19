@@ -8,14 +8,14 @@ export default function BtnAddToCart({ text, handleAddToCart, isDisable }) {
   if(!isClient) return null
   return (
     <Button 
-        type='submit'
-        color="warning" 
-        isLoading={false}
-        onPress={handleAddToCart}
-        startContent={<CartIcon/>}
-        isDisabled={isDisable}
-      >
-          { text }
-      </Button>
+      type='submit'
+      color="warning" 
+      isLoading={false}
+      onPress={handleAddToCart}
+      startContent={<CartIcon/>}
+      isDisabled={isDisable}
+    >
+      { text }
+    </Button>
   )
 }

@@ -17,9 +17,9 @@ export default function MyOrdersButton() {
       <span>
         <Image width={16} height={16} src='/PedidosPendientes.png'/>
       </span>
-      <span>
+      {/* <span>
         Mis Pedidos
-      </span>
+      </span> */}
     </Link>
   )
 }

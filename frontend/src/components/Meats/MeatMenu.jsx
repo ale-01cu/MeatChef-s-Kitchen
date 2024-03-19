@@ -1,7 +1,7 @@
-import CategoryParent from "./Category/CategoryParent"
-import OrderManageMenu from "./OrderManage/OrderManageMenu"
-import AddMeatFormModal from "./Meats/AddMeatFormModal"
-import useRoles from "../hooks/useRoles"
+import CategoryParent from "../Category/CategoryParent"
+import OrderManageMenu from "../OrderManage/OrderManageMenu"
+import AddMeatFormModal from "./AddMeatFormModal"
+import useRoles from "../../hooks/useRoles"
 
 export default function MeatMenu({ setRefreshComponent, category_id }) {
   const { isSuperUser, isClientOrAny } = useRoles()

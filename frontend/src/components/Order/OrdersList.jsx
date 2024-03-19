@@ -11,7 +11,6 @@ export default function OrdersList(props) {
     setSelectedRowsState(selectedRows)
   };
  
-  console.log(orders);
   return (
     <div className='w-full'>
       <DataTable
@@ -30,9 +29,11 @@ export default function OrdersList(props) {
                 />
               </div>
             )
-          return <h3 className='p-5 text-yellow-500'>
-                    Los Pedidos Personalizados no tienen Productos.
-                  </h3>
+          return (
+            <h3 className='p-5 text-yellow-500'>
+              Los Pedidos Personalizados no tienen Productos.
+            </h3>
+          )
         }}
       />
       <div className='p-5 flex justify-end'>
