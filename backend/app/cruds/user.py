@@ -15,6 +15,12 @@ def get_user_by_id(db: Session, user_id: str) -> UserFull:
     ).first()
     return user
 
+def get_user_by_admin_by_id(db: Session, user_id: str) -> UserFull:
+    user = db.query(UserModel).filter(
+        UserModel.id == user_id,
+    ).first()
+    return user
+
 def get_user_by_email(db: Session, email: str) -> UserCreateSchema:
     return db.query(UserModel).filter(
         UserModel.email == email, UserModel.is_active == True).first()
@@ -34,11 +40,10 @@ def get_user_by_full_name(db: Session, full_name: str) -> list[UserSchema]:
 
 
 def list_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(UserModel).filter(
-        UserModel.is_active == True).offset(skip).limit(limit).all()
+    return db.query(UserModel).offset(skip).limit(limit).all()
 
 
-def create_user(db: Session, user: UserCreateSchema) -> UserSchema:
+def create_user_db(db: Session, user: UserCreateSchema) -> UserSchema:
     db_user = UserModel(**user.model_dump())
     db.add(db_user)
     db.commit()
@@ -58,9 +63,7 @@ def update_user(user_id: str, user: UserUpdate, db: Session) -> None:
 
 def update_user_by_superuser_db(user_id: str, user: UserFull, db: Session) -> None:
     db.query(UserModel)\
-        .filter(
-            UserModel.id == user_id,
-            UserModel.is_active == True)\
+        .filter(UserModel.id == user_id)\
         .update(values=user.model_dump())
     db.commit()
 

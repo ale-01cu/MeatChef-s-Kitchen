@@ -6,8 +6,9 @@ import CartButton from "./Cart/CartButton"
 import BtnCustomOrder from "./CustomOrder/BtnCustomOrder"
 import MyOrdersButton from "./Order/MyOrdersButton"
 import BtnFavorite from "./Favorite/BtnFavorite"
+import React from "react"
 
-export default function Header({ typeSearch }) {
+function Header({ typeSearch }) {
   return (
     <>
       <div className="p-5 px-8 py-6 flex justify-between items-center">
@@ -17,6 +18,7 @@ export default function Header({ typeSearch }) {
               src={typeSearch === 'cursos' ? "/Imagen4.png" : '/Recurso 3.png'}
               alt="Logo"
               width={typeSearch === 'cursos' ? 200 : 50}
+              className="min-w-[50px]"
             />
           </Link>
           {
@@ -60,3 +62,5 @@ export default function Header({ typeSearch }) {
     </>
   )
 }
+
+export default React.memo(Header)

@@ -6,7 +6,8 @@ import os
 async def save_file(file: UploadFile, path: str, filename: str = None
 ) -> FileSchema:
     global file_name
-    if not file:
+    
+    if file.size == 0:
         return FileSchema(
             path='',
             filename=''

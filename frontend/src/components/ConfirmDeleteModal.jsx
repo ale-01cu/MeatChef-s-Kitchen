@@ -14,7 +14,8 @@ export default function ConfirmDeleteModal (props) {
   const { 
     itemId, 
     text, 
-    handleclickDelete } = props
+    handleclickDelete,
+    btnText } = props
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
   const [ isLoadingDelete, setIsLoadingDelete ] = useState(false)
   const [ deleteIsError, setDeleteIsError ] = useState(null)
@@ -22,12 +23,25 @@ export default function ConfirmDeleteModal (props) {
 
   return (
     <>
-      <Button 
-        className="px-0 min-w-unit-10" 
-        color="danger" 
-        onClick={onOpen} 
-        startContent={<DeleteIcon/>}
-      />
+      {
+        btnText
+          ? (
+            <Button 
+              className="px-0 min-w-unit-10 hover:scale-110" 
+              color="danger"
+              variant="light" 
+              onClick={onOpen} 
+              startContent={<DeleteIcon/>}
+            />
+          )
+          : <Button 
+              className="px-0 min-w-unit-10 hover:scale-110" 
+              color="danger" 
+              onClick={onOpen} 
+              startContent={<DeleteIcon/>}
+            />
+      }
+
       <Modal 
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
@@ -67,7 +81,11 @@ export default function ConfirmDeleteModal (props) {
                 </ModalBody>
                 <ModalFooter>
                   <div className="w-full flex justify-center gap-x-10">
-                    <Button type="button" color="warning">
+                    <Button 
+                      type="button" 
+                      color="warning"
+                      onPress={() => onClose()}
+                      >
                       Cancelar
                     </Button>
                     <Button 

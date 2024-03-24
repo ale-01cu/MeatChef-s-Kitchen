@@ -12,12 +12,14 @@ import FavoriteCourses from "../pages/FavoriteCourses"
 import PendingOrders from "../pages/PendingOrders"
 import OrdersFulfilled from "../pages/OrdersFulfilled"
 import isStaff from "../permissions/isStaff"
+import isSuperUser from '../permissions/isSuperUser'
 import isAuthenticated from "../permissions/isAuthenticated"
 import isAny from '../permissions/isAny'
 import useAuth from "../hooks/useAuth"
 import AccessDenied from "../pages/AccessDenied"
 import MeatMenu from "../components/Meats/MeatMenu"
 import BaseLayout from "../layout/baseLayout"
+import Users from "../pages/Users"
 
 const ROUTES = [
   {
@@ -165,6 +167,14 @@ const ROUTES = [
   },
 
   {
+    path: '/user',
+    component: Users,
+    layout: BaseLayout,
+    layoutProps: { typeSearch: 'usuarios' },
+    permissions: isSuperUser
+  },
+
+  {
     path: '/acceso-denegado',
     component: AccessDenied,
     layout: BaseLayout,
@@ -181,9 +191,9 @@ const ROUTES = [
 ]
 
 export default function Navegate() {
-  const { user, authIsLoading } = useAuth()
+  const { user } = useAuth()
 
-  if(authIsLoading) return <h1>Cargando</h1>
+  // if(authIsLoading) return <h1>Cargando</h1>
   return (
     <Switch>
       {

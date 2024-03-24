@@ -5,57 +5,45 @@ import {
   Image,
   Button
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import InputFile from "../InputFile";
 import { createMeat } from '../../services/meats'
 import CategoriesSelect from "../Category/CategoriesSelect";
 import useListCategories from "../../hooks/useListCategories";
+import meatValidation from "../../validations/meat";
+import { useFormik } from 'formik'
 
 export default function AddMeatForm ({ closeModal, refreshParent }) {
-  const [ meatData, setMeatData ] = useState({
-    type_of_meat: '',
-    name_of_the_cut_of_meat: '',
-    price: 0,
-    category_id: '',
-    description: '',
-  })
   const [ photoFile, setPhotoFile ] = useState()
-  const [ isSelected, setIsSelected ] = useState(true);
   const [ addIsError, setAddIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
   const { categories } = useListCategories()
 
+  const formik = useFormik({
+    initialValues: meatValidation.initialValues,
+    validationSchema: meatValidation.validationSchema
+  })
 
-  const handleChange = (e, field) => {
-    const value = e.target.value
-    let newMeatData = {
-      ...meatData
-    }
-    newMeatData[field] = value 
-    setMeatData(newMeatData)
-  }
-
-  const photoHandleChange = (e) => {
+  const photoHandleChange = useCallback((e) => {
     const file = e.target.files[0]
     setPhotoFile(file)
-  }
+  }, [])
 
-  const clearStates = () => {
-    setMeatData({
-      type_of_meat: '',
-      name_of_the_cut_of_meat: '',
-      price: 0,
-      category_id: '',
-      description: '',
-    })
+  const clearStates = useCallback(() => {
+    formik.values.type_of_meat = ''
+    formik.values.name_of_the_cut_of_meat = ''
+    formik.values.price = 0
+    formik.values.category_id = ''
+    formik.values.description = ''
+    formik.values.isActive = true
     setPhotoFile(null)
-  }
+  }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault()
     setIsLoading(true)
     const formData = new FormData(e.target)
-    formData.set('is_active', isSelected)
+    formData.set('is_active', formik.values.isActive)
     createMeat(formData)
       .then(() => {
           clearStates()
@@ -69,7 +57,7 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
       })
       .finally(() => setIsLoading(false))
 
-  }
+  }, [])
 
 
   return (
@@ -87,16 +75,16 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           label="Tipo de Carne"
           name="type_of_meat"
           placeholder="Tipo de Carne"
-          onChange={(e) => handleChange(e, 'type_of_meat')}
-          value={meatData.type_of_meat}
+          onChange={formik.handleChange}
+          value={formik.values.type_of_meat}
         />
 
         <Input
           label="Nombre del Corte"
           name="name_of_the_cut_of_meat"
           placeholder="Nombre del Corte"
-          onChange={(e) => handleChange(e, 'name_of_the_cut_of_meat')}
-          value={meatData.name_of_the_cut_of_meat}
+          onChange={formik.handleChange}
+          value={formik.values.name_of_the_cut_of_meat}
         />
 
         <Input
@@ -104,8 +92,8 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           name="price"
           type="number"
           placeholder="Precio"
-          onChange={(e) => handleChange(e, 'price')}
-          value={meatData.price}
+          onChange={formik.handleChange}
+          value={formik.values.price}
         />
 
         <CategoriesSelect 
@@ -121,8 +109,8 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           name="description"
           placeholder="Descripcion del Corte"
           type="text"
-          onChange={(e) => handleChange(e, 'description')}
-          value={meatData.description}
+          onChange={formik.handleChange}
+          value={formik.values.description}
         />
 
         <InputFile 
@@ -144,9 +132,9 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
 
         <Checkbox 
           defaultSelected 
-          name="is_active" 
-          isSelected={isSelected} 
-          onValueChange={setIsSelected}
+          name="isActive" 
+          isSelected={formik.values.isActive} 
+          onValueChange={formik.handleChange}
         >
           Activo
         </Checkbox>

@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, String, Date
+from sqlalchemy import Boolean, Column, String, Date, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from settings.db import Base
@@ -86,7 +86,7 @@ class UserModel(Base):
     )
     
     createAt = Column(
-        Date, 
+        DateTime, 
         default=datetime.utcnow,
         comment='Fecha de registrado el usuario.'
     )

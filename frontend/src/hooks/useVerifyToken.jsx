@@ -1,43 +1,62 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { getLocalStorageToken, deleteToken, setToken } from "../utils/token"
 import { verifyToken } from "../services/auth"
+import { getFullUser } from "../services/auth"
 
 // Verifica si el token es valido
 // para saber si el usuario esta 
 // logueado o no
 export default function useVerifyToken() {
-  const [ tokenInMemory, setTokenInMemory ] = useState()
-  const [ isValid, setIsValid ] = useState(false)
-  const [ isLoading, setIsLoading ] = useState(false)
+  const [ isLoading, setIsLoading ] = useState(true)
+  const [ user, setUser ] = useState()
+
+  const setMyUser = useCallback(() => {
+    getFullUser()
+      .then(({response, data}) => {
+        if(!response.ok) setUser(null)
+        else setUser(data)} 
+      )
+  }, [])
 
   useEffect(() => {
-    setIsLoading(true)
     const token = getLocalStorageToken()
-    setTokenInMemory(token)
     setToken(token, false)
 
     verifyToken()
       .then(({data}) => {
           const { is_valid } = data
           if(!is_valid) {
-            setIsValid(false)
+            // setIsValid(false)
             deleteToken()
           }
-          else setIsValid(is_valid)
+          else {
+            setMyUser()
+            // setIsValid(is_valid)
+          }
       })
       .catch((e) => {
         console.error(e);
       })
       .finally(() => {
+        console.log('llegue al final por tanto le quito el loading');
         setIsLoading(false)
       })
 
-  }, [tokenInMemory, isValid])
+  }, [])
+
+  // useEffect(() => {
+  //   if(isValid) {
+
+
+  //   } else setAuth(false)
+  // }, [ isValid, setMyUser ])
+
 
   return { 
-    isValid, 
-    tokenInMemory, 
     token: getLocalStorageToken(),
-    authIsLoading: isLoading
+    authIsLoading: isLoading,
+    user,
+    setUser,
+    setMyUser
   }
 }

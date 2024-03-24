@@ -30,7 +30,7 @@ export default function CardMenu (props) {
           headerText={modalHeaderText}
           btnOpen={
             <Button 
-              className='px-0 min-w-unit-10' 
+              className='px-0 min-w-unit-10 hover:scale-110' 
               color='warning'
               startContent={<EditIcon/>}
             />

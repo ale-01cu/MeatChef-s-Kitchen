@@ -1,7 +1,7 @@
 import InputFile from "../InputFile";
 import { Image } from "@nextui-org/react";
 import { BASE_URL } from "../../utils/constants";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {  
   Textarea,
   Input,
@@ -30,28 +30,28 @@ export default function UpdateMeatForm(props) {
   }, [meatId])
 
 
-  const handleChange = (e, field) => {
+  const handleChange = useCallback((e, field) => {
     const value = e.target.value
     let newMeatData = {
       ...meatData
     }
     newMeatData[field] = value 
     setMeatData(newMeatData)
-  }
+  }, [])
 
-  const photoHandleChange = (e) => {
+  const photoHandleChange = useCallback((e) => {
     const file = e.target.files[0]
     setPhotoFile(file)
-  }
+  }, [])
 
-  const handleSelect = () => {
+  const handleSelect = useCallback(() => {
     setMeatData({
       ...meatData,
       is_active: !meatData.is_active
     })
-  }
+  }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault()
     setIsLoading(true)
     const formData = new FormData(e.target)
@@ -67,7 +67,7 @@ export default function UpdateMeatForm(props) {
         setUpdateIsError(e)
       })
       .finally(() => setIsLoading(false))
-  }
+  }, [])
 
 
   if(!meatData) return null
@@ -114,6 +114,7 @@ export default function UpdateMeatForm(props) {
           categories={categories}
           isLoading={false}
           defaultValue={meatData?.category?.id}
+          location='FORM'
         />
 
         <Textarea

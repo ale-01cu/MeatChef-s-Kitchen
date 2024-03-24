@@ -1,9 +1,10 @@
 import * as Yup from 'yup'
 
-export const courseSchema = {
+export const courseValidation = {
     initialValues: {
       name: '',
       description: '',
+      isActive: true
 
     },
     validationSchema: Yup.object({
@@ -17,5 +18,7 @@ export const courseSchema = {
         .min(20, 'Descripcion muy pequeña.')
         .max(160, "La Descripcion es muy grande.")
         .required('La Descripcion es obligatoria.'), 
+      isActive: Yup 
+        .boolean('El campo debe de ser un booleano.')
     }),
   }

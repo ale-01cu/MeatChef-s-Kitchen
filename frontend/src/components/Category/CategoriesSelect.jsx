@@ -1,6 +1,7 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { useLocation } from "wouter";
 import useRoles from "../../hooks/useRoles";
+import { useCallback } from "react";
 
 const NONE_SELECTED_VALUE = 'NONE'
 const LOCATIONS = {
@@ -18,14 +19,14 @@ export default function CategoriesSelect (props) {
   const [ _, navegate ] = useLocation()
   const { isSuperUser } = useRoles()
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     if(!(location === LOCATIONS.form)) {
       const categoryId = e.target.value
       if(categoryId !== NONE_SELECTED_VALUE) 
         navegate('/carnicos/category/' + categoryId)
       else navegate('/carnicos')
     }
-  }
+  }, [])
 
   if( !isSuperUser ) return null
   return (

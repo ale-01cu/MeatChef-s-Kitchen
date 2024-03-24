@@ -1,7 +1,7 @@
 import InputFile from "../InputFile";
 import { Image } from "@nextui-org/react";
 import { BASE_URL } from "../../utils/constants";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { retrieveCourses, updateCourse } from "../../services/courses";
 import {  
   Textarea,
@@ -29,33 +29,33 @@ export default function UpdateCourseForm(props) {
   }, [courseId])
 
 
-  const handleChange = (e, field) => {
+  const handleChange = useCallback((e, field) => {
     const value = e.target.value
     let newCourseData = {
       ...courseData
     }
     newCourseData[field] = value 
     setCoursesData(newCourseData)
-  }
+  }, [])
 
-  const photoHandleChange = (e) => {
+  const photoHandleChange = useCallback((e) => {
     const file = e.target.files[0]
     setPhotoFile(file)
-  }
+  }, [])
 
-  const videoHandleChange = (e) => {
+  const videoHandleChange = useCallback((e) => {
     const file = e.target.files[0]
     setVideoFile(file)
-  }
+  }, [])
 
-  const handleSelect = () => {
+  const handleSelect = useCallback(() => {
     setCoursesData({
       ...courseData,
       is_active: !courseData.is_active
     })
-  }
+  }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault()
     setIsLoading(true)
     const formData = new FormData(e.target)
@@ -71,7 +71,7 @@ export default function UpdateCourseForm(props) {
         setUpdateIsError(e)
       })
       .finally(() => setIsLoading(false))
-  }
+  }, [])
 
 
   if(!courseData) return null

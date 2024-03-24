@@ -1,6 +1,7 @@
 import Header from "../components/Header"
+import React from "react"
 
-export default function BaseLayout({ typeSearch, children, SubLayout }) {
+function BaseLayout({ typeSearch, children, SubLayout }) {
   return (
     <>
       <header>
@@ -18,3 +19,6 @@ export default function BaseLayout({ typeSearch, children, SubLayout }) {
     </>
   )
 }
+
+
+export default React.memo(BaseLayout)

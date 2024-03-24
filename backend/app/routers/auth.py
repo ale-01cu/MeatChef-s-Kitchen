@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.schemas.user import UserLogin, UserCreateSchema, UserSchema
-from app.schemas.token import Token, TokenInput, TokenIsValid
+from app.schemas.token import Token, TokenIsValid
 from settings.db import get_db
 from app.cruds.user import (
-    create_user, 
+    create_user_db, 
     get_user_by_email, 
     get_user_by_phone_number
 )
@@ -36,7 +36,7 @@ async def register(user: UserCreateSchema, db: Session = Depends(get_db)
 
         hashed_password = hash_password(user.password)
         user.password = hashed_password
-        new_user = create_user(db, user)
+        new_user = create_user_db(db, user)
         return new_user
     
     except HTTPException as e:

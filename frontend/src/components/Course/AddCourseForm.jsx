@@ -10,28 +10,19 @@ import { createCourse } from "../../services/courses";
 import InputFile from "../InputFile";
 import PhotoIcon from "../Icons/PhotoIcon";
 import VideoIcon from '../Icons/VideoIcon'
-
+import { useFormik } from 'formik'
+import { courseValidation } from "../../validations/course";
 
 export default function AddCourseForm ({ closeModal, refreshParent }) {
-  const [ courseData, setCoursesData ] = useState({
-    name: '',
-    description: '',
-  })
   const [ photoFile, setPhotoFile ] = useState()
   const [ videoFile, setVideoFile ] = useState()
-  const [ isSelected, setIsSelected ] = useState(true);
   const [ addIsError, setAddIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
 
-
-  const handleChange = (e, field) => {
-    const value = e.target.value
-    let newCourseData = {
-      ...courseData
-    }
-    newCourseData[field] = value 
-    setCoursesData(newCourseData)
-  }
+  const formik = useFormik({
+    initialValues: courseValidation.initialValues,
+    validationSchema: courseValidation.validationSchema,
+  })
 
   const photoHandleChange = (e) => {
     const file = e.target.files[0]
@@ -44,10 +35,9 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
   }
 
   const clearStates = () => {
-    setCoursesData({
-      name: '',
-      description: '',
-    })
+    formik.values.name = ''
+    formik.values.description = ''
+    formik.values.isActive = true
     setPhotoFile(null)
     setVideoFile(null)
   }
@@ -56,7 +46,7 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
     e.preventDefault()
     setIsLoading(true)
     const formData = new FormData(e.target)
-    formData.set('is_active', isSelected)
+    formData.set('is_active', formik.values.isActive)
     createCourse(formData)
       .then(() => {
           clearStates()
@@ -88,18 +78,17 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
           label="Nombre"
           name="name"
           placeholder="Nombre del Curso"
-          onChange={(e) => handleChange(e, 'name')}
-          value={courseData.name}
+          onChange={formik.handleChange}
+          value={formik.values.name}
         />
         <Textarea
           label='Descripcion'
           name="description"
           placeholder="Descripcion del curso"
           type="text"
-          onChange={(e) => handleChange(e, 'description')}
-          value={courseData.description}
+          onChange={formik.handleChange}
+          value={formik.values.description}
         />
-
 
         <InputFile 
           name='photo'
@@ -144,9 +133,9 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
         <div className="flex justify-end">
           <Checkbox 
             defaultSelected 
-            name="is_active" 
-            isSelected={isSelected} 
-            onValueChange={setIsSelected}
+            name="isActive" 
+            isSelected={formik.values.isActive} 
+            onValueChange={formik.handleChange}
           >
             Activo
           </Checkbox>

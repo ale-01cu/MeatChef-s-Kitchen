@@ -4,7 +4,6 @@ import {
   Checkbox,
 } from "@nextui-org/react";
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { useState } from "react";
 import { setToken } from "../../utils/token";
 import useAuth from '../../hooks/useAuth'
@@ -12,35 +11,23 @@ import { toast } from 'react-toastify'
 import MailIcon from "../Icons/MailIcon";
 import LockIcon from "../Icons/LockIcon";
 import { login } from "../../services/auth";
-
+import loginValidation from "../../validations/login";
 
 export default function LoginForm({ closeModal }){
   const [ isRemember, setIsRemember ] = useState(false)
-  const { setAuth, setMyUser } = useAuth()
+  const { setMyUser } = useAuth()
   const [ isLoading, setIsLoading ] = useState(false)
   const [ isError, setIsError ] = useState()
 
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: Yup.object({
-      email: Yup
-        .string('El email debe de ser un texto.')
-        .email("El email no es valido.")
-        .required(true, 'El password es obligatorio.'),
-      password: Yup
-        .string('La contraseña debe ser de tipo texto.')
-        .required(true, 'El password es obligatorio.')
-    }),
+    initialValues: loginValidation.initialValues,
+    validationSchema: loginValidation.validationSchema,
     onSubmit: async (formData) => {
       setIsLoading(true)
       login(formData)
         .then((data) => {
           const { access_token } = data
           setToken(`bearer ${access_token}`, isRemember)
-          setAuth(true)
           setMyUser()
           closeModal()
           toast.success('Se ha logueado correctamente.')

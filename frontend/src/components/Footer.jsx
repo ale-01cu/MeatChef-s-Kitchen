@@ -7,7 +7,7 @@ import { Image } from "@nextui-org/react"
 
 export default function Footer() {
   return (
-    <div className="w-full h-60 bg-black flex justify-between items-center p-8">
+    <div className="w-full h-60 bg-black flex flex-col sm:flex-row gap-y-12 justify-between items-center p-8">
 
       <div className="flex flex-col gap-y-3">
         <span className="font-bold text-lg hover:scale-105 transition cursor-pointer">Mapa del Sitio</span>
@@ -15,9 +15,9 @@ export default function Footer() {
         <span className="font-bold text-lg hover:scale-105 transition cursor-pointer">Acerca de</span>
       </div>
 
-      <dir>
+      <div>
         <Image src="/Recurso 5.png" width={300}/>
-      </dir>
+      </div>
 
       <div className="flex flex-col gap-y-4">
         <div className="grid grid-cols-3 gap-x-4">

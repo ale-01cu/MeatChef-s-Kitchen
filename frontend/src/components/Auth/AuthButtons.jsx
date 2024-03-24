@@ -9,16 +9,16 @@ export default function AuthButtons() {
   // if(getLocalStorageToken() && !auth) return null
 
   if(isLoading) return null
-  if(!isAuthenticated) 
-    return (
-      <div className="flex gap-2">
-        <LoginModal/>
-        <RegisterModal/>
-      </div>
-    )
   return (
     <div className="flex gap-2">
-      <UserMenu/>
+      {
+        !isAuthenticated
+          ? <>
+              <LoginModal/>
+              <RegisterModal/>
+            </>
+          : <UserMenu/>
+      }
     </div>
   )
 }
