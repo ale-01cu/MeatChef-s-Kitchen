@@ -6,12 +6,13 @@ import {
   Button
 } from "@nextui-org/react";
 import { useCallback, useState } from "react";
-import InputFile from "../InputFile";
+import InputFile from "../Inputs/InputFile";
 import { createMeat } from '../../services/meats'
 import CategoriesSelect from "../Category/CategoriesSelect";
 import useListCategories from "../../hooks/useListCategories";
 import meatValidation from "../../validations/meat";
 import { useFormik } from 'formik'
+import PhotoIcon from "../Icons/PhotoIcon";
 
 export default function AddMeatForm ({ closeModal, refreshParent }) {
   const [ photoFile, setPhotoFile ] = useState()
@@ -118,6 +119,9 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           fileAccept='image/jpeg, image/png' 
           text='Cambiar Foto'
           handleChange={photoHandleChange}
+          startContentIcon={<PhotoIcon/>}
+          spanClassName='flex justify-center items-center gap-x-2 p-2'
+
         />
 
         {

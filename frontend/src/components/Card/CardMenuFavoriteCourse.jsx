@@ -1,4 +1,4 @@
-import ConfirmDeleteModal from "../ConfirmDeleteModal"
+import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal"
 
 export default function CardMenuFavoriteCourse(props) {
   const { 

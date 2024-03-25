@@ -6,7 +6,7 @@ import {
   useDisclosure,
   Button
 } from "@nextui-org/react";
-import DeleteIcon from './Icons/DeleteIcon'
+import DeleteIcon from '../Icons/DeleteIcon'
 import { useState } from "react";
 import CustomModal from "./CustomModal";
 

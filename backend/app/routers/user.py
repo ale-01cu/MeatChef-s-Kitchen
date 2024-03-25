@@ -9,7 +9,8 @@ from app.cruds.user import (
     get_user_by_email,
     get_user_by_phone_number,
     create_user_db,
-    get_user_by_admin_by_id
+    get_user_by_admin_by_id,
+    update_avatar_db
 )
 from app.utils.password import hash_password
 from sqlalchemy.orm import Session
@@ -202,7 +203,9 @@ async def create_user(
 
 @router.put('/user/{user_id}', tags=['update-user-by-user'],
     dependencies=[Depends(owner_permissions)])
-async def update_user_by_user(user_id: str, user: UserUpdate,
+async def update_user_by_user(
+    user_id: str, 
+    user: UserUpdate,
     db: Session = Depends(get_db),
 ) -> UserSchema: 
     try:
@@ -264,6 +267,35 @@ async def update_user_by_superuser(
             UserModel.id == user_id,
         ).first()
     
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='No se pudo actualizar el usuario.'
+        )
+    
+@router.put('/update-avatar/{user_id}', tags=['update-user-avatar'],
+    dependencies=[Depends(owner_permissions)], status_code=status.HTTP_204_NO_CONTENT)
+async def update_avatar(
+    user_id: str,
+    avatar: UploadFile = File(),
+    db: Session = Depends(get_db),
+) -> None: 
+    try:
+
+        user = get_user_by_id(db, user_id)
+        if not user: raise Exception()
+
+        if avatar.filename:
+            path = f'media/avatar/{user_id}'
+            avatar_info = await save_file(avatar, path)
+            if user.avatar != avatar_info.path:
+                delete_file(user.avatar)
+            update_avatar_db(user_id, avatar_info.path, db)
+            return None
+
+        else: raise Exception()
+
     except Exception as e:
         print(e)
         raise HTTPException(

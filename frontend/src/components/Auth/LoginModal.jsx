@@ -3,12 +3,15 @@ import {
   Button,
   Image
 } from "@nextui-org/react";
-import CustomModal from "../CustomModal";
+import CustomModal from "../Modals/CustomModal";
 import LoginForm from "./LoginForm";
+import useRoles from "../../hooks/useRoles";
 
 export default function LoginModal(){
   const { onOpen } = useDisclosure();
+  const { isAuthenticated } = useRoles()
 
+  if(isAuthenticated || isAuthenticated == undefined) return null
   return (
     <>
       <CustomModal

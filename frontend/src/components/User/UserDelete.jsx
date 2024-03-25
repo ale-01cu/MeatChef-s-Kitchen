@@ -1,4 +1,4 @@
-import ConfirmDeleteModal from "../ConfirmDeleteModal"
+import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal"
 import { deleteUser } from "../../services/user";
 
 export default function UserDelete({ itemId, setUsers }) {

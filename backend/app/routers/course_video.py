@@ -1,9 +1,7 @@
 from fastapi import (
-    APIRouter, Depends, 
-    HTTPException, status,
+    APIRouter, 
     Header, Response
 )
-from pathlib import Path
 router = APIRouter()
 
 CHUNK_SIZE = 1024*1024

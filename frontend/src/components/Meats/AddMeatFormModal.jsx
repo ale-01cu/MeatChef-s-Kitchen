@@ -1,4 +1,4 @@
-import CustomModal from "../CustomModal"
+import CustomModal from "../Modals/CustomModal"
 import AddMeatForm from "./AddMeatForm"
 import useRoles from "../../hooks/useRoles"
 

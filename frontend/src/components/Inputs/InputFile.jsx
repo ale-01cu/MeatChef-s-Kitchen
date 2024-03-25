@@ -3,7 +3,16 @@ import { Button } from "@nextui-org/react";
 
 
 export default function InputFile(props) {
-  const { fileAccept, handleChange, text, name, startContentIcon } = props
+  const { 
+    fileAccept, 
+    handleChange, 
+    text, 
+    name, 
+    startContentIcon, 
+    className, 
+    spanClassName,
+    color,
+    isLoading } = props
   const inputFileRef = useRef(null)
 
   const handleButtonClick = () => {
@@ -23,12 +32,13 @@ export default function InputFile(props) {
       />
       <Button 
         type="button"
-        aria-label="add-publication" 
-        color='default'
+        aria-label="add-file" 
+        color={color}
         onClick={handleButtonClick}
-        className="w-full mb-1"
+        className={className}
+        isLoading={isLoading}
       >
-        <span className="flex justify-start items-center w-20 gap-x-2">
+        <span className={spanClassName}>
           { startContentIcon }
           {text}
         </span>

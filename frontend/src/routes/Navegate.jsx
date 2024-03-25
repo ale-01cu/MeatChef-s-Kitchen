@@ -18,7 +18,7 @@ import isAny from '../permissions/isAny'
 import useAuth from "../hooks/useAuth"
 import AccessDenied from "../pages/AccessDenied"
 import MeatMenu from "../components/Meats/MeatMenu"
-import BaseLayout from "../layout/baseLayout"
+import BaseLayout from "../components/layout/BaseLayout"
 import Users from "../pages/Users"
 
 const ROUTES = [
@@ -27,7 +27,6 @@ const ROUTES = [
     component: Home,
     layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
-    subLayout: MeatMenu,
     permissions: isAny
   },
 
@@ -46,7 +45,6 @@ const ROUTES = [
     component: MeatDetail,
     layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
-    subLayout: MeatMenu,
     permissions: isAny
 
 
@@ -123,6 +121,14 @@ const ROUTES = [
   },
 
   {
+    path: '/pedidos-pendientes',
+    component: PendingOrders,
+    layout: BaseLayout,
+    layoutProps: { typeSearch: 'carnicos' },
+    permissions: isStaff
+  },
+
+  {
     path: '/perfil',
     component: Profile,
     layout: BaseLayout,
@@ -149,13 +155,6 @@ const ROUTES = [
 
   },
 
-  {
-    path: '/pedidos-pendientes',
-    component: PendingOrders,
-    layout: BaseLayout,
-    layoutProps: { typeSearch: 'carnicos' },
-    permissions: isStaff
-  },
 
   {
     path: '/pedidos-atendidos',
@@ -191,16 +190,16 @@ const ROUTES = [
 ]
 
 export default function Navegate() {
-  const { user } = useAuth()
+  const { user, authIsLoading } = useAuth()
 
-  // if(authIsLoading) return <h1>Cargando</h1>
+  if(authIsLoading) return <h1>Cargando</h1>
   return (
     <Switch>
       {
         ROUTES.map((route) => (
           <Route key={route.path} path={route.path}>
             {() => {
-              const { path, layout, layoutProps, subLayout, permissions, footer } = route
+              const { layout, layoutProps, permissions } = route
 
               if(!permissions(user))
                 return <h1>Acceso denegado</h1>
@@ -214,11 +213,9 @@ export default function Navegate() {
               //   )
               
               return (
-                <Route key={path} path={path}>
-                  <route.layout {...layoutProps} SubLayout={subLayout}>
-                    <route.component/>
-                  </route.layout>
-                </Route>
+                <route.layout {...layoutProps}>
+                  <route.component/>
+                </route.layout>
               )
             }}
 

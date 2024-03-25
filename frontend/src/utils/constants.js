@@ -16,6 +16,7 @@ export const SEARCH_USERS_URL = `${BASE_URL}/search-users`
 export const ORDER_URL = `${BASE_URL}/order`
 export const STANDARD_ORDER_URL = `${BASE_URL}/standard-order`
 export const CUSTOM_ORDER_URL = `${BASE_URL}/custom-order`
+export const AVATAR_URL = `${BASE_URL}/update-avatar`
 
 export const TOKEN = "token"
 

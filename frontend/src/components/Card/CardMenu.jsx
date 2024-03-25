@@ -1,5 +1,5 @@
-import ConfirmDeleteModal from "../ConfirmDeleteModal"
-import CustomModal from '../CustomModal.jsx'
+import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal"
+import CustomModal from '../Modals/CustomModal.jsx'
 import { Button } from '@nextui-org/react'
 import EditIcon from '../Icons/EditIcon.jsx'
 import ActiveIcon from '../Icons/ActiveIcon.jsx'

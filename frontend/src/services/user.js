@@ -3,7 +3,8 @@ import {
   USER_URL, 
   LIST_USERS_URL, 
   UPDATE_USER_BY_ADMIN_URL, 
-  SEARCH_USERS_URL 
+  SEARCH_USERS_URL,
+  AVATAR_URL
 } from '../utils/constants'
 import {getSessionStorageToken} from '../utils/token'
 
@@ -84,6 +85,19 @@ export const updateUser = async (userId, formData) => {
 
   return data
 
+}
+
+export const updateAvatar = async (formData, userId) => {
+  const res = await fetch(AVATAR_URL + '/' + userId, {
+    method: 'PUT',
+    body: formData,
+    headers: { 'authorization': getSessionStorageToken() }
+  })
+
+  if(!res.ok) {
+    const data = await res.json()
+    throw new Error(data.detail)
+  }
 }
 
 

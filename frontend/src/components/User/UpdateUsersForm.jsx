@@ -1,6 +1,6 @@
 import { Input, Checkbox, Button } from "@nextui-org/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import InputFile from '../InputFile'
+import InputFile from '../Inputs/InputFile'
 import { getUser, updateUser } from "../../services/user"
 import { BASE_URL } from "../../utils/constants"
 import userValidation from "../../validations/user"

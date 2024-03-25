@@ -1,6 +1,6 @@
 import { Input, Checkbox, Button, Image } from "@nextui-org/react"
 import { useCallback, useMemo, useState } from "react"
-import InputFile from '../InputFile'
+import InputFile from '../Inputs/InputFile'
 import { createUser } from "../../services/user"
 
 export default function AddUsersForm({ setUsers, closeModal }) {

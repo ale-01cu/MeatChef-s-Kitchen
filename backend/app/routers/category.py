@@ -31,7 +31,7 @@ def list_categorys(db: Session = Depends(get_db)) -> list[CategorySchema]:
     
 
 @router.get('/category/{category_id}', tags=['get-category'])
-def get_category(category_id: str, db: Session = Depends(get_db)
+async def get_category(category_id: str, db: Session = Depends(get_db)
 ) -> CategorySchema:
     try:
 
@@ -74,7 +74,7 @@ async def create_category(category: CategoryCreate, db: Session = Depends(get_db
 
 @router.put('/category/{category_id}', tags=['update-category'],
     dependencies=[Depends(role_permisisons.if_is_staff)])
-def update_category(category_id: str, category: CategoryCreate,
+async def update_category(category_id: str, category: CategoryCreate,
     db: Session = Depends(get_db) 
 ) -> CategorySchema:
     try:
@@ -100,7 +100,7 @@ def update_category(category_id: str, category: CategoryCreate,
 @router.delete('/category/{category_id}', tags=['delete-category'], 
     status_code=status.HTTP_204_NO_CONTENT,
     dependencies=[Depends(role_permisisons.if_is_superuser)])
-def delete_category(category_id: str, db: Session = Depends(get_db)
+async def delete_category(category_id: str, db: Session = Depends(get_db)
 ) -> None:
     try:
 

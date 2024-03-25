@@ -1,6 +1,6 @@
 import { Image, Input } from "@nextui-org/react"
 import { BASE_URL } from "../../utils/constants"
-import ConfirmDeleteModal from "../ConfirmDeleteModal"
+import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal"
 
 export default function CartCard({ prod, handleChangeAmount, handelDelete }) {
   return (

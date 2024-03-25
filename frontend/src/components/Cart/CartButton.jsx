@@ -5,7 +5,7 @@ import useRoles from "../../hooks/useRoles"
 export default function CartButton() {
   const { isClient } = useRoles()
 
-  if(!isClient) return null
+  if(!isClient || isClient == undefined) return null
   return (
     <Link 
       to="/carrito"

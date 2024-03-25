@@ -1,6 +1,4 @@
 import Card from '../Card/Card'
-import { deleteMeat } from '../../services/meats'
-import { useState } from 'react'
 
 export default function ListMeats(props) {
   const { 
@@ -13,10 +11,10 @@ export default function ListMeats(props) {
 
   return (
     <section className='py-5'>
-      <ul className='grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
+      <ul className='flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
         {
           data?.map(meat => (
-            <li key={meat.id} className='relative flex justify-end hover:scale-105 transition'>
+            <li key={meat.id} className='w-full relative flex justify-end hover:scale-105 transition'>
               <Card 
                 image={meat.photo}
                 name={meat.name_of_the_cut_of_meat}

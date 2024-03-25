@@ -19,3 +19,9 @@ class MeatProduct(BaseModel):
     photo: str
     category: CategorySchema
     is_active: bool = True
+
+class MeatProductList(BaseModel):
+    id: str
+    name_of_the_cut_of_meat: str
+    description: str
+    photo: str

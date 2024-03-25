@@ -1,6 +1,6 @@
 import MeatSlider from "../components/Meats/MeatSlider.jsx"
 import { Image } from "@nextui-org/react"
-import Footer from '../components/Footer.jsx'
+import Footer from '../components/Footer/Footer.jsx'
 import LastMeatlist from "../components/HomeSections/LastMeatsList.jsx"
 import LastCourseList from "../components/HomeSections/LastCourseList.jsx"
 import HomeSkeleton from "../components/Skeletons/HomeSkeleton.jsx"

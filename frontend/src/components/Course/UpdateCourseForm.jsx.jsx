@@ -1,4 +1,4 @@
-import InputFile from "../InputFile";
+import InputFile from "../Inputs/InputFile";
 import { Image } from "@nextui-org/react";
 import { BASE_URL } from "../../utils/constants";
 import { useCallback, useEffect, useState } from "react";
@@ -9,6 +9,8 @@ import {
   Checkbox,
   Button
 } from "@nextui-org/react";
+import PhotoIcon from "../Icons/PhotoIcon";
+import VideoIcon from '../Icons/VideoIcon'
 
 export default function UpdateCourseForm(props) {
   const {courseId, closeModal, refreshOneElement } = props
@@ -109,7 +111,11 @@ export default function UpdateCourseForm(props) {
                   name='photo'
                   fileAccept='image/jpeg, image/png' 
                   text='Cambiar Foto'
+                  className='w-full'
                   handleChange={photoHandleChange}
+                  startContentIcon={<PhotoIcon/>}
+                  spanClassName='flex justify-center items-center gap-x-2 p-2'
+
                 />
 
                 <Image 
@@ -123,7 +129,11 @@ export default function UpdateCourseForm(props) {
                   name='photo'
                   fileAccept='image/jpeg, image/png' 
                   text='Cambiar Foto'
+                  className='w-full'
                   handleChange={photoHandleChange}
+                  startContentIcon={<PhotoIcon/>}
+                  spanClassName='flex justify-center items-center gap-x-2 p-2'
+
                 />
 
                 <Image 
@@ -141,7 +151,11 @@ export default function UpdateCourseForm(props) {
                   name='video'
                   fileAccept='video/mp4' 
                   text='Cambiar Video'
+                  className='w-full'
                   handleChange={videoHandleChange}
+                  startContentIcon={<VideoIcon/>}
+                  spanClassName='flex justify-center items-center gap-x-2 p-2'
+
                 />
 
                 <video controls>
@@ -158,7 +172,11 @@ export default function UpdateCourseForm(props) {
                   name='video'
                   fileAccept='video/mp4' 
                   text='Cambiar Video'
+                  className='w-full'
                   handleChange={videoHandleChange}
+                  startContentIcon={<VideoIcon/>}
+                  spanClassName='flex justify-center items-center gap-x-2 p-2'
+
                 />
 
                 <video controls>

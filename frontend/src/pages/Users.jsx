@@ -15,6 +15,7 @@ import { listUsers } from '../services/user'
 import { BASE_URL } from "../utils/constants";
 import UserDelete from "../components/User/UserDelete";
 import UpdateUsersModal from "../components/User/UpdateUsersModal";
+import AvatarIcon from "../components/Icons/AvatarIcon";
 
 const statusOptions = [
   {name: "Activo", uid: "active"},
@@ -64,14 +65,14 @@ export default function Users() {
 
   // Cantidad de paginas
   const pages = Math.ceil(users.length / rowsPerPage);
-
   const hasSearchFilter = Boolean(filterValue);
+
 
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return COLUMNS;
-
     return COLUMNS.filter((column) => Array.from(visibleColumns).includes(column.uid));
   }, [visibleColumns]);
+
 
   const filteredItems = React.useMemo(() => {
     let filteredUsers = [...users];
@@ -93,11 +94,7 @@ export default function Users() {
         filteredUsers = filteredUsers
           .filter((user) => !user?.is_active);
       }
-      // filteredUsers = filteredUsers.filter((user) =>
-      //   Array.from(statusFilter).includes(user.status),
-      // );
     }
-
     return filteredUsers
   }, [users, filterValue, statusFilter, hasSearchFilter]);
 
@@ -137,14 +134,26 @@ export default function Users() {
       case "email":
         return (
           <User
-            avatarProps={{radius: "full", size: "sm", src: BASE_URL + '/' + user.avatar}}
+            avatarProps={{
+              radius: "full", 
+              size: "sm", 
+              src: user?.avatar
+                  ? BASE_URL + '/' + user.avatar
+                  : undefined,
+                fallback: !user?.avatar && 
+                  <AvatarIcon 
+                    className="animate-pulse w-6 h-6 text-default-500" 
+                    fill="currentColor" 
+                    size={20} 
+                  />
+            }}
             classNames={{
               description: "text-default-500",
             }}
-            description={user.email}
+            description={user?.email}
             name={cellValue}
           >
-            {user.email}
+            {user?.email}
           </User>
         );
       case "role":
@@ -188,7 +197,7 @@ export default function Users() {
       default:
         return cellValue;
     }
-  }, []);
+  }, [statusColorMap, roleMap]);
 
   const onRowsPerPageChange = React.useCallback((e) => {
     setRowsPerPage(Number(e.target.value));

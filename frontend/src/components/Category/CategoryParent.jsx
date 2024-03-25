@@ -1,5 +1,5 @@
 import CategoriesSelect from "./CategoriesSelect"
-import CustomModal from "../CustomModal"
+import CustomModal from "../Modals/CustomModal"
 import CategoryForm from "./CategoryForm"
 import BtnAddCategory from "./BtnAddCategory"
 import useListCategories from "../../hooks/useListCategories"

@@ -1,4 +1,4 @@
-import CustomModal from "../CustomModal"
+import CustomModal from "../Modals/CustomModal"
 import AddCourseForm from "./AddCourseForm"
 import useAuth from "../../hooks/useAuth"
 

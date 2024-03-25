@@ -7,7 +7,7 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { createCourse } from "../../services/courses";
-import InputFile from "../InputFile";
+import InputFile from "../Inputs/InputFile";
 import PhotoIcon from "../Icons/PhotoIcon";
 import VideoIcon from '../Icons/VideoIcon'
 import { useFormik } from 'formik'
@@ -94,6 +94,7 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
           name='photo'
           fileAccept='image/jpeg, image/png' 
           text='Foto'
+          spanClassName='flex justify-center items-center gap-x-2 p-2'
           handleChange={photoHandleChange}
           startContentIcon={<PhotoIcon/>}
         />
@@ -112,6 +113,7 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
           name='video'
           fileAccept='video/mp4' 
           text='Video'
+          spanClassName='flex justify-center items-center gap-x-2 p-2'
           handleChange={videoHandleChange}
           startContentIcon={<VideoIcon/>}
         />

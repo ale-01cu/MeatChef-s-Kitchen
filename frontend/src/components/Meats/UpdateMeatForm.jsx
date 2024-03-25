@@ -1,4 +1,4 @@
-import InputFile from "../InputFile";
+import InputFile from "../Inputs/InputFile";
 import { Image } from "@nextui-org/react";
 import { BASE_URL } from "../../utils/constants";
 import { useCallback, useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import {
 import { updateMeat, retrieveMeats } from '../../services/meats'
 import CategoriesSelect from "../Category/CategoriesSelect";
 import useListCategories from "../../hooks/useListCategories";
+import PhotoIcon from "../Icons/PhotoIcon";
 
 export default function UpdateMeatForm(props) {
   const { meatId, closeModal, refreshOneElement } = props
@@ -133,6 +134,10 @@ export default function UpdateMeatForm(props) {
                   fileAccept='image/jpeg, image/png' 
                   text='Cambiar Foto'
                   handleChange={photoHandleChange}
+                  startContentIcon={<PhotoIcon/>}
+                  className='w-full'
+                  spanClassName='flex justify-center items-center gap-x-2 p-2'
+
                 />
 
                 <Image 
@@ -147,6 +152,10 @@ export default function UpdateMeatForm(props) {
                   fileAccept='image/jpeg, image/png' 
                   text='Cambiar Foto'
                   handleChange={photoHandleChange}
+                  startContentIcon={<PhotoIcon/>}
+                  className='w-full'
+                  spanClassName='flex justify-center items-center gap-x-2 p-2'
+
                 />
 
                 <Image 

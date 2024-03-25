@@ -96,7 +96,7 @@ export default function Meats() {
         category_id={category_id}
       />
 
-      <div className="p-10 flex flex-col gap-y-16 min-h-screen">
+      <div className="sm:p-10 flex flex-col gap-y-16 min-h-screen">
 
         {
           !isError && search && <div>

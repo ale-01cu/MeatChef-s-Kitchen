@@ -1,13 +1,16 @@
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User, DropdownSection} from "@nextui-org/react";
-import Logout from "./Auth/Logout";
-import useAuth from "../hooks/useAuth";
-import { BASE_URL } from "../utils/constants";
-import AvatarIcon from './Icons/AvatarIcon'
+import Logout from "../Auth/Logout";
+import useAuth from "../../hooks/useAuth";
+import { BASE_URL } from "../../utils/constants";
+import AvatarIcon from '../Icons/AvatarIcon'
 import { Link } from "wouter";
+import useRoles from "../../hooks/useRoles";
 
 export default function UserMenu() {
   const { user } = useAuth()
+  const { isAuthenticated } = useRoles()
 
+  if(!isAuthenticated || isAuthenticated == undefined) return null
   return (
     <div className="flex items-center gap-4">
       <Dropdown placement="bottom-start">

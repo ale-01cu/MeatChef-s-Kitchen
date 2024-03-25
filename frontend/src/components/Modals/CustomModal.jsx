@@ -7,7 +7,7 @@ import {
   Button
 } from "@nextui-org/react";
 import React from "react";
-import AddIcon from './Icons/AddIcon'
+import AddIcon from '../Icons/AddIcon'
 
 export default function CustomModal(props) {
   const { btnOpen, btnText, headerText, children } = props

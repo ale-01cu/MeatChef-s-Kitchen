@@ -60,6 +60,15 @@ def update_user(user_id: str, user: UserUpdate, db: Session) -> None:
 
     db.commit()
 
+def update_avatar_db(user_id: str, avatar: str, db: Session) -> None:
+    db.query(UserModel)\
+        .filter(
+            UserModel.id == user_id,
+            UserModel.is_active == True)\
+        .update({ 'avatar': avatar })
+
+    db.commit()
+
 
 def update_user_by_superuser_db(user_id: str, user: UserFull, db: Session) -> None:
     db.query(UserModel)\

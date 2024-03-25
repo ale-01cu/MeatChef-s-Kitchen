@@ -1,5 +1,4 @@
 import Home from "../pages/Home"
-import Header from "../components/Header"
 import Meats from "../pages/Meats"
 import MeatDetail from "../pages/MeatDetail"
 import CourseDetail from "../pages/CourseDetail"
@@ -15,19 +14,25 @@ import isStaff from "../permissions/isStaff"
 import isAuthenticated from "../permissions/isAuthenticated"
 import isAny from '../permissions/isAny'
 import AccessDenied from "../pages/AccessDenied"
+import BaseLayout from '../layout/BaseLayout'
+import MeatMenu from "../components/Meats/MeatMenu"
+import Users from "../pages/Users"
+import isSuperUser from "../permissions/isSuperUser"
 
-
-export const ROUTES = [
+const routes = [
   {
     path: '/',
     component: Home,
+    layout: BaseLayout,
+    layoutProps: { typeSearch: 'carnicos' },
+    subLayout: MeatMenu,
     permissions: isAny
   },
 
   {
     path: '/carnicos',
     component: Meats,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
     permissions: isAny
 
@@ -37,8 +42,9 @@ export const ROUTES = [
   {
     path: '/carnicos/:meat_id',
     component: MeatDetail,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
+    subLayout: MeatMenu,
     permissions: isAny
 
 
@@ -47,7 +53,7 @@ export const ROUTES = [
   {
     path: '/carnicos/category/:category_id',
     component: Meats,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
     permissions: isAny
 
@@ -57,7 +63,7 @@ export const ROUTES = [
   {
     path: '/carnicos/search/:search',
     component: Meats,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
     permissions: isAny
 
@@ -67,7 +73,7 @@ export const ROUTES = [
   {
     path: '/cursos',
     component: Courses,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'cursos' },
     permissions: isAny
 
@@ -78,7 +84,7 @@ export const ROUTES = [
   {
     path: '/cursos/:course_id',
     component: CourseDetail,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'cursos' },
     permissions: isAny
 
@@ -88,7 +94,7 @@ export const ROUTES = [
   {
     path: '/cursos/search/:search',
     component: Courses,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'cursos' },
     permissions: isAny
 
@@ -98,7 +104,7 @@ export const ROUTES = [
   {
     path: '/carrito',
     component: Cart,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
     permissions: isAuthenticated
 
@@ -108,7 +114,7 @@ export const ROUTES = [
   {
     path: '/orden-personalizada',
     component: CustomOrder,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
     permissions: isAuthenticated
 
@@ -117,7 +123,7 @@ export const ROUTES = [
   {
     path: '/perfil',
     component: Profile,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
     permissions: isAuthenticated
 
@@ -126,7 +132,7 @@ export const ROUTES = [
   {
     path: '/mis-pedidos',
     component: MyOrders,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
     permissions: isAuthenticated
 
@@ -135,7 +141,7 @@ export const ROUTES = [
   {
     path: '/favoritos',
     component: FavoriteCourses,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'cursos' },
     permissions: () => true
 
@@ -144,7 +150,7 @@ export const ROUTES = [
   {
     path: '/pedidos-pendientes',
     component: PendingOrders,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
     permissions: isStaff
   },
@@ -152,16 +158,24 @@ export const ROUTES = [
   {
     path: '/pedidos-atendidos',
     component: OrdersFulfilled,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
     permissions: isStaff
 
   },
 
   {
+    path: '/user',
+    component: Users,
+    layout: BaseLayout,
+    layoutProps: { typeSearch: 'usuarios' },
+    permissions: isSuperUser
+  },
+
+  {
     path: '/acceso-denegado',
     component: AccessDenied,
-    layout: Header,
+    layout: BaseLayout,
     layoutProps: { typeSearch: 'carnicos' },
     permissions: () => true
 
@@ -173,3 +187,6 @@ export const ROUTES = [
   },
 
 ]
+
+
+export default routes

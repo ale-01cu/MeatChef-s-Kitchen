@@ -1,4 +1,4 @@
-import CustomModal from '../CustomModal'
+import CustomModal from '../Modals/CustomModal'
 import AddUsersForm from './AddUsersForm'
 import { Button } from '@nextui-org/react'
 import { PlusIcon } from '../Icons/Plusicon'

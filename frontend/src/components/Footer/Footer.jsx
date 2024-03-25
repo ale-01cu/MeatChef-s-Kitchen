@@ -1,8 +1,8 @@
-import CallIcon from "./Icons/CallIcon"
-import WhatAppIcon from "./Icons/WhatAppIcon"
-import XIcon from "./Icons/XIcon"
-import GpsIcon from "./Icons/GpsIcon"
-import InstagramIcon from "./Icons/InstagramIcon"
+import CallIcon from "../Icons/CallIcon"
+import WhatAppIcon from "../Icons/WhatAppIcon"
+import XIcon from "../Icons/XIcon"
+import GpsIcon from "../Icons/GpsIcon"
+import InstagramIcon from "../Icons/InstagramIcon"
 import { Image } from "@nextui-org/react"
 
 export default function Footer() {

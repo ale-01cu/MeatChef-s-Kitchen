@@ -57,73 +57,54 @@ export default function OrdersFulfilled() {
   }, [setIsLoading. setIsError])
 
 
-  const handleSubmit = (selectedRowsState) => {
-    setIsLoadingSubmit(true)
-    updateOrderListStatus(selectedRowsState.map((prod) => {
-      return {
-        id: prod.id,
-        status: 'procesado'
-      }
-    }))
-      .then(() => {
-        setOrders(orders.filter(order => !selectedRowsState.some(row => row.id === order.id)))
-        setCustomOrders(customOrders.filter(order => !selectedRowsState.some(row => row.id === order.id)))
-      })
-      .catch((e) => {
-        setIsError(e)
-      })
-      .finally(() => {
-        setIsLoadingSubmit(false)
-      })
-  }
-  
-
-
-  if(isLoading) return <h1>Cargando</h1>
   return (
     <>
       <MeatMenu/>
-      <div className="p-10">
-        <dir>
-          <h1 className="p-4 text-3xl font-bold text-center">
-            Pedidos Atendidos
-          </h1>
-        </dir>
-        <div>
-          { isError && <h1>Revento esta talla</h1> }
-        </div>
-        <OrdersList 
-          orders={[...orders, ...customOrders]}
-          columns={[
-            { name: 'Id', selector: row => row.id },
-            { 
-              name: 'Estado', 
-              selector: row => row.status, 
-              cell: row => <StatusSelect orderId={row.id} statusDefault={row.status}/> 
-            },
-            { name: 'Tipo de Envio', selector: row => row.delivery_type },
-            { name: 'Metodo de Pago', selector: row => row.payment_method },
-            { name: 'Direccion', selector: row => row.address },
-            { 
-              name: 'Descripcion', 
-              selector: row => row.description, 
-              cell: row => <p className="p-2">{row.description}</p>,
-             },
-            { 
-              name: 'Fecha de Creado', 
-              selector: row => new Date(row.createAt).toLocaleDateString('es-ES', opciones)
-            },
-            { name: 'Tipo de Pedido', selector: row => row.type },
-          ]}
-          atributes={{
-            selectableRows: true,
-            expandableRows: true
-          }}
-          handleSubmit={handleSubmit}
-        >
-        </OrdersList>
-      </div>
-    
+      {
+        isLoading
+          ? <h1>Cargando</h1>
+          : (
+              <div className="p-10">
+                <dir>
+                  <h1 className="p-4 text-3xl font-bold text-center">
+                    Pedidos Atendidos
+                  </h1>
+                </dir>
+                <div>
+                  { isError && <h1>Revento esta talla</h1> }
+                </div>
+                <OrdersList 
+                  orders={[...orders, ...customOrders]}
+                  columns={[
+                    { name: 'Id', selector: row => row.id },
+                    { 
+                      name: 'Estado', 
+                      selector: row => row.status, 
+                      cell: row => <StatusSelect orderId={row.id} statusDefault={row.status}/> 
+                    },
+                    { name: 'Tipo de Envio', selector: row => row.delivery_type },
+                    { name: 'Metodo de Pago', selector: row => row.payment_method },
+                    { name: 'Direccion', selector: row => row.address },
+                    { 
+                      name: 'Descripcion', 
+                      selector: row => row.description, 
+                      cell: row => <p className="p-2">{row.description}</p>,
+                    },
+                    { 
+                      name: 'Fecha de Creado', 
+                      selector: row => new Date(row.createAt).toLocaleDateString('es-ES', opciones)
+                    },
+                    { name: 'Tipo de Pedido', selector: row => row.type },
+                  ]}
+                  atributes={{
+                    selectableRows: true,
+                    expandableRows: true
+                  }}
+                />
+              </div>
+
+          )
+      }
     </>
   )
 }

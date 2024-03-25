@@ -79,7 +79,7 @@ export default function Courses() {
   return (
     <>
       <CourseMenu setRefreshComponent={setRefreshComponent}/>
-      <div className="p-10">
+      <div className="sm:p-10">
         {
           !isError && search && <div>
             <h1 className="text-4xl font-extrabold text-center p-2">Resultados de la Busqueda</h1>

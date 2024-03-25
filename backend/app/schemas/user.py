@@ -32,6 +32,7 @@ class UserLogin(BaseModel):
 
 
 class UserFull(BaseModel):
+    id: str
     email: str
     full_name: str
     phone_number: str
