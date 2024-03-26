@@ -10,7 +10,8 @@ from app.middlewares.role_permisisons import if_is_superuser
 from app.schemas.sales import SalesSchema
 from app.cruds.sales import get_most_selled_products_db, list_biggest_buyers__db
 from app.schemas.meat_product import MeatProduct
-from app.schemas.user import UserListSchema
+from app.schemas.user import UserListSchema, UserFull
+from app.schemas.sales import BiggerBuyersSchema
 
 router = APIRouter()
 
@@ -50,7 +51,7 @@ async def get_most_selled_product(db: Session = Depends(get_db)
 
 @router.get('/list-biggest-buyers', tags=['list-biggest-buyers'])
 async def list_biggest_buyers(db: Session = Depends(get_db)
-) -> list[UserListSchema]:
+) -> list[BiggerBuyersSchema]:
     try:
 
         users = list_biggest_buyers__db(db)

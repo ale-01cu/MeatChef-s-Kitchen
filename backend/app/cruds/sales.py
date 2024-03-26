@@ -7,6 +7,7 @@ from app.schemas.meat_product import MeatProductList
 from app.models.meat_product import MeatProduct
 from app.schemas.user import UserListSchema
 from app.models.user import UserModel
+from app.schemas.sales import BiggerBuyersSchema
 
 def list_sales_db(db: Session, skip: int = 0, limit: int = 100 
 ) -> list[StandardOrderListSchema]:
@@ -37,7 +38,7 @@ def get_most_selled_products_db(db: Session, skip: int = 0, limit: int = 100) ->
 
     return db.query(MeatProduct).filter(MeatProduct.id == most_selled_product_id).first()
 
-def list_biggest_buyers__db(db: Session, skip: int = 0, limit: int = 5) -> list[UserListSchema]:
+def list_biggest_buyers__db(db: Session, skip: int = 0, limit: int = 5) -> list[BiggerBuyersSchema]:
     users = db.query(UserModel, func.sum(StandardOrderItem.amount).label('total_amount'))\
         .join(StandardOrder, UserModel.id == StandardOrder.user_id)\
         .join(StandardOrderItem, StandardOrder.id == StandardOrderItem.order_id)\
@@ -46,4 +47,4 @@ def list_biggest_buyers__db(db: Session, skip: int = 0, limit: int = 5) -> list[
         .limit(limit)\
         .all()
 
-    return users
+    return [{ 'user': i[0], 'total_amount': i[1] } for i in users]

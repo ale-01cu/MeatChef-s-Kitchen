@@ -9,6 +9,7 @@ import BtnFavorite from "../Favorite/BtnFavorite"
 import React, { useMemo } from "react"
 import CourseLink from "./CoursesLink"
 import UsersLink from "./UsersLink"
+import SalesModal from "../Sales/SalesModal"
 
 function HeaderComponent({ typeSearch }) {
 
@@ -55,6 +56,7 @@ function HeaderComponent({ typeSearch }) {
             </Link>
             <CourseLink/>
             <UsersLink/>
+            <SalesModal/>
  
             {
               typeSearch === 'cursos'

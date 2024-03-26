@@ -42,7 +42,6 @@ class UserFull(BaseModel):
     is_teacher: bool
 
 class UserListSchema(UserFull):
-    id: str
     is_active: bool
     createAt: datetime
 

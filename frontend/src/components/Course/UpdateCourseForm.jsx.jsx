@@ -15,8 +15,8 @@ import VideoIcon from '../Icons/VideoIcon'
 export default function UpdateCourseForm(props) {
   const {courseId, closeModal, refreshOneElement } = props
   const [ courseData, setCoursesData ] = useState(null)
-  const [ photoFile, setPhotoFile ] = useState()
-  const [ videoFile, setVideoFile ] = useState()
+  const [ photoFile, setPhotoFile ] = useState(null)
+  const [ videoFile, setVideoFile ] = useState(null)
   const [ updateIsError, setUpdateIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
 
@@ -38,7 +38,7 @@ export default function UpdateCourseForm(props) {
     }
     newCourseData[field] = value 
     setCoursesData(newCourseData)
-  }, [])
+  }, [courseData])
 
   const photoHandleChange = useCallback((e) => {
     const file = e.target.files[0]
@@ -55,7 +55,7 @@ export default function UpdateCourseForm(props) {
       ...courseData,
       is_active: !courseData.is_active
     })
-  }, [])
+  }, [courseData])
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault()
@@ -73,7 +73,8 @@ export default function UpdateCourseForm(props) {
         setUpdateIsError(e)
       })
       .finally(() => setIsLoading(false))
-  }, [])
+
+  }, [closeModal, courseData?.is_active, courseId, refreshOneElement])
 
 
   if(!courseData) return null
@@ -104,60 +105,40 @@ export default function UpdateCourseForm(props) {
           value={courseData.description}
         />
 
-        {
-          photoFile 
-            ? <div>
-                <InputFile 
-                  name='photo'
-                  fileAccept='image/jpeg, image/png' 
-                  text='Cambiar Foto'
-                  className='w-full'
-                  handleChange={photoHandleChange}
-                  startContentIcon={<PhotoIcon/>}
-                  spanClassName='flex justify-center items-center gap-x-2 p-2'
+        <div>
+          <InputFile 
+            name='photo'
+            fileAccept='image/jpeg, image/png' 
+            text='Cambiar Foto'
+            className='w-full'
+            handleChange={photoHandleChange}
+            startContentIcon={<PhotoIcon/>}
+            spanClassName='flex justify-center items-center gap-x-2 p-2'
 
-                />
+          />
 
-                <Image 
-                  className="w-full max-h-[400px]" 
-                  src={URL.createObjectURL(photoFile)} 
-                  alt="" 
-                />
-              </div>
-            : <div>
-                <InputFile 
-                  name='photo'
-                  fileAccept='image/jpeg, image/png' 
-                  text='Cambiar Foto'
-                  className='w-full'
-                  handleChange={photoHandleChange}
-                  startContentIcon={<PhotoIcon/>}
-                  spanClassName='flex justify-center items-center gap-x-2 p-2'
+          <Image 
+            className="w-full max-h-[400px]" 
+            src={photoFile ? URL.createObjectURL(photoFile) : BASE_URL + '/' + courseData.photo} 
+            alt="Foto del Curso" 
+          />
+        </div>
 
-                />
+        <div>
+          <InputFile 
+            name='video'
+            fileAccept='video/mp4' 
+            text='Cambiar Video'
+            className='w-full'
+            handleChange={videoHandleChange}
+            startContentIcon={<VideoIcon/>}
+            spanClassName='flex justify-center items-center gap-x-2 p-2'
 
-                <Image 
-                  className="w-full max-h-[400px]" 
-                  src={BASE_URL + '/' + courseData.photo} 
-                  alt="" 
-                />
-              </div>
-        }
+          />
 
-        {
-          videoFile 
-            ? <div>
-                <InputFile 
-                  name='video'
-                  fileAccept='video/mp4' 
-                  text='Cambiar Video'
-                  className='w-full'
-                  handleChange={videoHandleChange}
-                  startContentIcon={<VideoIcon/>}
-                  spanClassName='flex justify-center items-center gap-x-2 p-2'
-
-                />
-
+          {
+            videoFile 
+              ? (
                 <video controls>
                   <source 
                     src={URL.createObjectURL(videoFile)}
@@ -166,28 +147,19 @@ export default function UpdateCourseForm(props) {
                   Tu navegador no soporta la etiqueta video.
 
                 </video>
-              </div>
-            : <div>
-                <InputFile 
-                  name='video'
-                  fileAccept='video/mp4' 
-                  text='Cambiar Video'
-                  className='w-full'
-                  handleChange={videoHandleChange}
-                  startContentIcon={<VideoIcon/>}
-                  spanClassName='flex justify-center items-center gap-x-2 p-2'
-
-                />
-
+              )
+              : (
                 <video controls>
                   <source 
-                    src={BASE_URL + '/' + courseData.video} 
+                    src={BASE_URL + '/' + courseData.video}
                     type="video/mp4"
                   />
                   Tu navegador no soporta la etiqueta video.
+
                 </video>
-              </div>
-        }
+              )
+          }
+        </div>
 
         <Checkbox 
           defaultSelected 

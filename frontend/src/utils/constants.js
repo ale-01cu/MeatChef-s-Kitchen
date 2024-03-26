@@ -17,6 +17,8 @@ export const ORDER_URL = `${BASE_URL}/order`
 export const STANDARD_ORDER_URL = `${BASE_URL}/standard-order`
 export const CUSTOM_ORDER_URL = `${BASE_URL}/custom-order`
 export const AVATAR_URL = `${BASE_URL}/update-avatar`
+export const GET_MOST_SELLED_PRODUCT_URL = `${BASE_URL}/most-selled-product`
+export const LIST_BIGGEST_BUYERS_URL = `${BASE_URL}/list-biggest-buyers`
 
 export const TOKEN = "token"
 

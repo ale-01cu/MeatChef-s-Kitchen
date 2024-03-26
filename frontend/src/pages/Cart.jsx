@@ -7,13 +7,14 @@ import { createStandardOrder } from "../services/standardOrder"
 import useCart from "../hooks/useCart"
 import { toast } from 'react-toastify'
 import useAuth from "../hooks/useAuth"
+import useRoles from "../hooks/useRoles"
 
 
 export default function Cart() {
   const { cart, deleteProduct, clear } = useCart()
   const [ isLoading, setIsLoading ] = useState(false)
   const [ isError, setIsError ] = useState(false)
-  const { auth } = useAuth()
+  const { isAuthenticated } = useRoles()
 
   const handleSubmit = (formData, values) => {
     if(cart.length > 0) {
@@ -44,7 +45,7 @@ export default function Cart() {
 
   }
   
-  if(!auth) return null
+  if(!isAuthenticated) return null
   return (
     <div>
       <MeatMenu/>
