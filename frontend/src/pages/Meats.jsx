@@ -1,7 +1,7 @@
 import ListMeats from "../components/Meats/ListMeats"
 import { useParams } from "wouter"
 import { listMeats, listSearchMeats, listMeatsByCategory, retrieveMeats } from "../services/meats"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import MeatMenu from "../components/Meats/MeatMenu"
 import CardMenuMeat from "../components/Card/CardMenuMeat"
 import { deleteMeat } from "../services/meats"
@@ -53,7 +53,7 @@ export default function Meats() {
     }
   }, [search, category_id, refreshComponent])
 
-  const handleclickDelete = (meatId, onClose, setIsLoadingDelete, setDeleteIsError) => {
+  const handleclickDelete = useCallback((meatId, onClose, setIsLoadingDelete, setDeleteIsError) => {
     setIsLoadingDelete(true)
     deleteMeat(meatId)
       .then(() => {
@@ -68,9 +68,9 @@ export default function Meats() {
         setDeleteIsError(e)
       })
       .finally(() => setIsLoadingDelete(false))
-  }
+  }, [meatData])
 
-  const reRenderOneElement = (meatId) => {
+  const reRenderOneElement = useCallback((meatId) => {
     retrieveMeats(meatId)
       .then((data) => {
 
@@ -85,9 +85,10 @@ export default function Meats() {
 
       })
       .catch(e => console.error(e))
-  }
+  }, [meatData])
 
-
+  if(isLoading) return <h1>Cargando</h1>
+  if(isError) return <h1>Exploto esta talla</h1>
   return (
     <>
 
@@ -108,7 +109,11 @@ export default function Meats() {
 
         {
           !isError && search && meatData.length === 0 
-            && <div><h1 className="text-center text-pretty">No se encontraron resultados.</h1></div>
+            &&  <div>
+                  <h1 className="text-center text-pretty">
+                    No se encontraron resultados.
+                  </h1>
+                </div>
         }
 
         {
@@ -137,13 +142,6 @@ export default function Meats() {
           }
 
         </div>
-
-        { isLoading && <h1>Cargando</h1> }
-
-        {
-          isError &&
-            <h1>Exploto esta talla</h1>
-        }
       </div>
 
     </>

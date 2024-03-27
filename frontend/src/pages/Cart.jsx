@@ -1,12 +1,10 @@
 import OrderForm from "../components/Order/OrderForm"
 import CartList from "../components/Cart/CartList"
 import { Button } from "@nextui-org/react"
-import MeatMenu from "../components/Meats/MeatMenu"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { createStandardOrder } from "../services/standardOrder"
 import useCart from "../hooks/useCart"
 import { toast } from 'react-toastify'
-import useAuth from "../hooks/useAuth"
 import useRoles from "../hooks/useRoles"
 
 
@@ -16,7 +14,7 @@ export default function Cart() {
   const [ isError, setIsError ] = useState(false)
   const { isAuthenticated } = useRoles()
 
-  const handleSubmit = (formData, values) => {
+  const handleSubmit = useCallback((formData, values) => {
     if(cart.length > 0) {
       setIsLoading(true)
       const newFormData = formData
@@ -43,20 +41,19 @@ export default function Cart() {
         .finally(() => setIsLoading(false))
     }
 
-  }
+  }, [cart, clear])
   
   if(!isAuthenticated) return null
+  if(isError) return <h1>Revento esta talla</h1>
   return (
     <div>
-      <MeatMenu/>
+      {/* <MeatMenu/> */}
 
       <div className="py-8 px-1 sm:px-4 md:p-8">
 
         <h1 className="text-center text-3xl font-bold">
           Carrito de Compras
         </h1>
-
-        { isError && <h1>Revento esta talla</h1> }
 
         <div className="flex flex-col md:flex-row p-4 gap-8 justify-center">
           <section className="xl:w-1/5 md:w-1/3 lg:w-1/4 w-full">

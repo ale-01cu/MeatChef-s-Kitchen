@@ -1,5 +1,4 @@
 import OrdersList from "../components/Order/OrdersList"
-import MeatMenu from "../components/Meats/MeatMenu"
 import { useState, useEffect } from "react"
 import { listStandardOrders } from "../services/standardOrder"
 import { listCustomOrders } from "../services/customOrder"
@@ -19,8 +18,6 @@ export default function MyOrders() {
   const [ isError, setIsError ] = useState()
   const [ orders, setOrders ] = useState([])
   const [ customOrders, setCustomOrders ] = useState([])
-
-  console.log(orders);
 
   useEffect(() => {
     setIsLoading(true)
@@ -56,9 +53,10 @@ export default function MyOrders() {
   }, [setIsLoading. setIsError])
 
   if(isLoading) return <h1>Cargando</h1>
+  if(isError) return <h1>Revento esta talla</h1>
   return (
     <>
-      <MeatMenu/>
+      {/* <MeatMenu/> */}
       <div className="flex flex-col gap-y-5 p-10">
         {
 
@@ -67,8 +65,6 @@ export default function MyOrders() {
             : <h1 className="text-3xl font-bold text-center">No hay Pedidos Realizados</h1>
 
         }
-        
-        { isError && <h1>Revento esta talla</h1> }
         
         {
           orders.length > 0 &&

@@ -1,15 +1,21 @@
 import Header from "../Header/Header"
 import React from "react"
 
-function BaseLayoutComponent({ typeSearch, children }) {
+function BaseLayoutComponent({ typeSearch, children, SubLayout }) {
   return (
     <>
       <header>
         <Header typeSearch={typeSearch}/>
       </header>
     
-      {/* <aside>
-      </aside> */}
+      {
+
+        SubLayout &&
+          <aside>
+            <SubLayout/>
+          </aside>
+      }
+
     
       <main>
         { children }

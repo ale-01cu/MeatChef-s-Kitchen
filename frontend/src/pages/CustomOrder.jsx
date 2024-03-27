@@ -1,18 +1,17 @@
 import OrderForm from "../components/Order/OrderForm"
 import { Button } from "@nextui-org/react"
 import { Textarea, Input } from "@nextui-org/react"
-import MeatMenu from "../components/Meats/MeatMenu"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { createCustomOrder } from '../services/customOrder'
 import { toast } from "react-toastify"
 import { useFormik } from "formik"
 import * as Yup from 'yup'
-import useAuth from "../hooks/useAuth"
+import useRoles from "../hooks/useRoles"
 
 export default function CustomOrder() {
   const [ isLoading, setIsLoading ] = useState(false)
   const [ isError, setIsError ] = useState(false)
-  const { auth } = useAuth()
+  const { isAuthenticated } = useRoles()
 
   const formik = useFormik({
     initialValues: {
@@ -30,7 +29,7 @@ export default function CustomOrder() {
     })
   })
 
-  const handleSubmit = (formData, values) => {
+  const handleSubmit = useCallback((formData, values) => {
     setIsLoading(true)
     const newFormData = formData
     newFormData.description = formik.values.description
@@ -51,13 +50,13 @@ export default function CustomOrder() {
         toast.error('Upss. Ha ocurrido un error al realizar la orden personalizada.')
       })
       .finally(() => setIsLoading(false))
-  }
+  }, [formik?.values])
 
 
-  if(!auth) return null
+  if(!isAuthenticated) return null
   return (
     <div>
-      <MeatMenu/>
+      {/* <MeatMenu/> */}
 
       <div className="py-8 px-1 sm:px-4 md:p-8">
 

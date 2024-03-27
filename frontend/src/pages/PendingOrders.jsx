@@ -1,5 +1,5 @@
 import OrdersList from "../components/Order/OrdersList"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { listStandardOrders } from "../services/standardOrder"
 import { listCustomOrders } from "../services/customOrder"
 import { Button } from "@nextui-org/react"
@@ -56,7 +56,7 @@ export default function PendingOrders() {
   }, [setIsLoading. setIsError])
 
 
-  const handleSubmit = (selectedRowsState) => {
+  const handleSubmit = useCallback((selectedRowsState) => {
     setIsLoadingSubmit(true)
     updateOrderListStatus(selectedRowsState.map((prod) => {
       return {
@@ -74,59 +74,47 @@ export default function PendingOrders() {
       .finally(() => {
         setIsLoadingSubmit(false)
       })
-  }
+  }, [customOrders, orders])
   
 
+  if(isLoading) return <h1>Cargando</h1>
+  if(isError) return <h1>Revento esta talla</h1>
   return (
     <>
       <MeatMenu/>
-
-      {
-
-        isLoading
-          ? <h1>Cargando</h1>
-          : (
-            <div className="p-10">
-              <dir>
-                <h1 className="p-4 text-3xl font-bold text-center">
-                  Pedidos Pendientes
-                </h1>
-              </dir>
-              <div>
-                { isError && <h1>Revento esta talla</h1> }
-              </div>
-              <OrdersList 
-                orders={[...orders, ...customOrders]}
-                columns={[
-                  { name: 'Id', selector: row => row.id },
-                  { name: 'Estado', selector: row => row.status },
-                  { name: 'Tipo de Envio', selector: row => row.delivery_type },
-                  { name: 'Metodo de Pago', selector: row => row.payment_method },
-                  { name: 'Direccion', selector: row => row.address },
-                  { name: 'Descripcion', selector: row => row.description, cell: row => <p className="p-2">{row.description}</p>, },
-                  { name: 'Fecha de Creado', selector: row => new Date(row.createAt).toLocaleDateString('es-ES', opciones)},
-                  { name: 'Tipo de Pedido', selector: row => row.type },
-                ]}
-                atributes={{
-                  selectableRows: true,
-                  expandableRows: true
-                }}
-                handleSubmit={handleSubmit}
-              >
-                <Button 
-                  color='success' 
-                  variant='solid' 
-                  isLoading={isLoadingSubmit}
-                >
-                  Marcar Seleccionados como Atendidos
-                </Button>
-              </OrdersList>
-            </div>
-          )
-
-      }
-      
-    
+      <div className="p-10">
+        <dir>
+          <h1 className="p-4 text-3xl font-bold text-center">
+            Pedidos Pendientes
+          </h1>
+        </dir>
+        <OrdersList 
+          orders={[...orders, ...customOrders]}
+          columns={[
+            { name: 'Id', selector: row => row.id },
+            { name: 'Estado', selector: row => row.status },
+            { name: 'Tipo de Envio', selector: row => row.delivery_type },
+            { name: 'Metodo de Pago', selector: row => row.payment_method },
+            { name: 'Direccion', selector: row => row.address },
+            { name: 'Descripcion', selector: row => row.description, cell: row => <p className="p-2">{row.description}</p>, },
+            { name: 'Fecha de Creado', selector: row => new Date(row.createAt).toLocaleDateString('es-ES', opciones)},
+            { name: 'Tipo de Pedido', selector: row => row.type },
+          ]}
+          atributes={{
+            selectableRows: true,
+            expandableRows: true
+          }}
+          handleSubmit={handleSubmit}
+        >
+          <Button 
+            color='success' 
+            variant='solid' 
+            isLoading={isLoadingSubmit}
+          >
+            Marcar Seleccionados como Atendidos
+          </Button>
+        </OrdersList>
+      </div>
     </>
   )
 }

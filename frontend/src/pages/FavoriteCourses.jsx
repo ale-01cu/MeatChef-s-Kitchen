@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import ListCourses from "../components/Course/ListCourses"
 import { getFavorites } from "../services/favorite"
 import CardMenuFavoriteCourse from "../components/Card/CardMenuFavoriteCourse"
@@ -7,19 +7,18 @@ import { deleteCourseFromFavorites } from "../services/favorite"
 export default function FavoriteCourses() {
   const [ courses, setCourses ] = useState([])
 
-
   useState(() => {
     const coursesFav = getFavorites()
     setCourses(coursesFav)
   }, [])
 
-  const handleclickDelete = (courseId, onClose, setIsLoadingDelete) => {
+  const handleclickDelete = useCallback((courseId, onClose, setIsLoadingDelete) => {
     setIsLoadingDelete(true)
     deleteCourseFromFavorites(courseId)
     setCourses(courses.filter((course) => course.id !== courseId))
     setIsLoadingDelete(false)
     onClose()
-  }
+  }, [courses])
 
   return (
     <div>

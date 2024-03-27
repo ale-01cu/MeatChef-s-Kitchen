@@ -2,13 +2,12 @@ import useAuth from '../hooks/useAuth'
 import { Avatar } from '@nextui-org/react'
 import AvatarIcon from '../components/Icons/AvatarIcon'
 import { BASE_URL } from '../utils/constants'
-import MeatMenu from '../components/Meats/MeatMenu'
 import BtnChangeAvatar from '../components/Profile/BtnChangeAvatar'
 import { useMemo, useState, useCallback } from 'react'
 import { updateAvatar } from '../services/user'
 
 export default function Profile() {
-  const { user, auth } = useAuth()
+  const { user } = useAuth()
   const [ avatar, setAvatar ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
 
@@ -52,11 +51,11 @@ export default function Profile() {
 
   }, [user?.id])
 
-  if(!user && !auth) return <MeatMenu/>
-  if(!user) return <h1>Cargando</h1>
+
+  if(!user) return null
   return (
     <>
-      <MeatMenu/>
+      {/* <MeatMenu/> */}
       <div className='flex flex-col justify-center items-center py-24'>
         <div className='flex flex-col'>
           <h1 className='pb-12 text-3xl font-bold flex justify-center items-center gap-x-2'>

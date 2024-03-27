@@ -2,8 +2,9 @@ import CategoryParent from "../Category/CategoryParent"
 import OrderManageMenu from "../OrderManage/OrderManageMenu"
 import AddMeatFormModal from "./AddMeatFormModal"
 import useRoles from "../../hooks/useRoles"
+import React from "react"
 
-export default function MeatMenu({ setRefreshComponent, category_id }) {
+function MeatMenuComponent({ setRefreshComponent, category_id }) {
   const { isSuperUser, isClientOrAny } = useRoles()
 
   return (
@@ -18,3 +19,6 @@ export default function MeatMenu({ setRefreshComponent, category_id }) {
     </div>
   )
 }
+
+const MeatMenu = React.memo(MeatMenuComponent)
+export default MeatMenu

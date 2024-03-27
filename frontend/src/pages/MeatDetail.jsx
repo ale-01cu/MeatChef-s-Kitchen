@@ -1,6 +1,6 @@
 import { useParams } from "wouter"
 import { retrieveMeats } from "../services/meats"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Image, Input } from "@nextui-org/react"
 import { BASE_URL } from "../utils/constants"
 import CardChipStatus from '../components/Card/CardChipStatus'
@@ -16,12 +16,11 @@ export default function MeatDetail() {
   const { meat_id } = useParams()
   const [ meat, setMeat ] = useState()
   const [ amount, setAmount ] = useState(1)
-  const [ isLoading, setIsLoading ] = useState(false)
+  const [ isLoading, setIsLoading ] = useState(true)
   const [ isError, setIsError ] = useState()
   const [ isInCart, setIsInCart ] = useState(false)
 
   useEffect(() => {
-    setIsLoading(true)
     retrieveMeats(meat_id)
       .then(data => setMeat(data))
       .catch((e) => {
@@ -38,7 +37,7 @@ export default function MeatDetail() {
     setIsInCart(is)
   }, [meat_id])
 
-  const handleAddToCart = () => {
+  const handleAddToCart = useCallback(() => {
     try {
       addToCart({
         ...meat,
@@ -49,12 +48,11 @@ export default function MeatDetail() {
     }catch(e) {
       console.error(e);
     }
-  }
+  }, [amount, meat])
 
   if(isLoading) return <h1>Cargando</h1>
   else if(isError) return <h1>Revento esta talla</h1>
   else if(!meat) return null
-
 
   return (
     <div>

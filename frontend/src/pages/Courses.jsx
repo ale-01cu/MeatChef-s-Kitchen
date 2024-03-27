@@ -1,5 +1,5 @@
 import ListCourses from "../components/Course/ListCourses"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useParams } from "wouter"
 import { listSearchCourses, listCourses } from "../services/courses"
 import useAuth from "../hooks/useAuth"
@@ -41,7 +41,7 @@ export default function Courses() {
     }
   }, [search, refreshComponent])
 
-  const reRenderOneElement = (courseId) => {
+  const reRenderOneElement = useCallback((courseId) => {
     retrieveCourses(courseId)
       .then((data) => {
 
@@ -56,9 +56,9 @@ export default function Courses() {
 
       })
       .catch(e => console.error(e))
-  }
+  }, [coursesData])
 
-   const handleclickDelete = (courseId, onClose, setIsLoadingDelete, setDeleteIsError) => {
+   const handleclickDelete = useCallback((courseId, onClose, setIsLoadingDelete, setDeleteIsError) => {
     setIsLoadingDelete(true)
     deleteCourse(courseId)
       .then(() => {
@@ -73,22 +73,38 @@ export default function Courses() {
         setDeleteIsError(e)
       })
       .finally(() => setIsLoadingDelete(false))
-  }
+  }, [coursesData])
 
 
+  if(isLoading) return <h1>Cargando</h1>
+  if(isError) return <h1>Exploto esta talla</h1>
   return (
     <>
       <CourseMenu setRefreshComponent={setRefreshComponent}/>
       <div className="sm:p-10">
         {
+          coursesData?.length > 0 &&
+            <div>
+              <h5 className="text-xl font-semibold text-center">
+                Nuestros Cursos
+              </h5>
+            </div>
+        }
+        {
           !isError && search && <div>
-            <h1 className="text-4xl font-extrabold text-center p-2">Resultados de la Busqueda</h1>
+            <h1 className="text-4xl font-extrabold text-center p-2">
+              Resultados de la Busqueda
+            </h1>
           </div>
         }
         
         {
           !isError && search && coursesData?.length === 0 
-            && <div><h1 className="text-center text-pretty">No se encontraron resultados :(</h1></div>
+            &&  <div>
+                  <h1 className="text-center text-pretty">
+                    No se encontraron resultados :(
+                  </h1>
+                </div>
         }
 
         {
@@ -97,19 +113,16 @@ export default function Courses() {
         }
 
         {
-            coursesData.length > 0 && !isError && !isLoading
-              && <ListCourses 
-                  data={coursesData} 
-                  user={user}
-                  refreshOneElement={reRenderOneElement}
-                  CardMenu={CardMenuCourse}
-                  handleclickDelete={handleclickDelete}
-                  textModalDelete='Desea Eliminar el Curso ?'
-                />
+          coursesData.length > 0 && !isError && !isLoading
+            && <ListCourses 
+                data={coursesData} 
+                user={user}
+                refreshOneElement={reRenderOneElement}
+                CardMenu={CardMenuCourse}
+                handleclickDelete={handleclickDelete}
+                textModalDelete='Desea Eliminar el Curso ?'
+              />
         }
-
-        { isLoading && <h1>Cargando</h1> }
-        { isError && <h1>Exploto esta talla</h1> }
 
       </div>
     </>

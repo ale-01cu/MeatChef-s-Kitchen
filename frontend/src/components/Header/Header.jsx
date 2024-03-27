@@ -51,9 +51,6 @@ function HeaderComponent({ typeSearch }) {
 
         <div className="flex justify-center items-center gap-x-8">
           <div className="flex justify-center items-center gap-x-5">
-            <Link to="/carnicos">
-              Carnicos
-            </Link>
             <CourseLink/>
             <UsersLink/>
             <SalesModal/>

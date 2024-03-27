@@ -3,22 +3,22 @@ import { Image } from "@nextui-org/react"
 import Footer from '../components/Footer/Footer.jsx'
 import LastMeatlist from "../components/HomeSections/LastMeatsList.jsx"
 import LastCourseList from "../components/HomeSections/LastCourseList.jsx"
-import HomeSkeleton from "../components/Skeletons/HomeSkeleton.jsx"
-import { useState } from "react"
-
-const data = [
-  {
-    id: '5a65s4d6as4d',
-    photo: '/Banner 1Recurso 3.png'
-  },
-
-  {
-    id: 'as4da5sda5s6',
-    photo: '/Banner 2Recurso 5.png'
-  }
-]
+import { useMemo } from "react"
 
 export default function Home() {
+  const data = useMemo(() => (
+    [
+      {
+        id: '5a65s4d6as4d',
+        photo: '/Banner 1Recurso 3.png'
+      },
+
+      {
+        id: 'as4da5sda5s6',
+        photo: '/Banner 2Recurso 5.png'
+      }
+    ]
+  ), [])
   // const [ isLoading, setIsLoading ] = useState(false)
 
   // return <HomeSkeleton/>
@@ -57,7 +57,6 @@ export default function Home() {
         </section>
 
       </div>
-
 
       <Footer/>
     </div>

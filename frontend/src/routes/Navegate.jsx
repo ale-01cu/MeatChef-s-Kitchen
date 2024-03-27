@@ -20,13 +20,14 @@ import AccessDenied from "../pages/AccessDenied"
 import MeatMenu from "../components/Meats/MeatMenu"
 import BaseLayout from "../components/layout/BaseLayout"
 import Users from "../pages/Users"
+import { Spinner } from "@nextui-org/react"
 
 const ROUTES = [
   {
     path: '/',
     component: Home,
     layout: BaseLayout,
-    layoutProps: { typeSearch: 'carnicos' },
+    layoutProps: { typeSearch: 'carnicos', SubLayout: MeatMenu },
     permissions: isAny
   },
 
@@ -192,7 +193,15 @@ const ROUTES = [
 export default function Navegate() {
   const { user, authIsLoading } = useAuth()
 
-  if(authIsLoading) return <h1>Cargando</h1>
+  if(authIsLoading) return (
+    <div className="w-full h-screen flex justify-center items-center">
+      <Spinner
+        size="lg"
+        color="warning"
+      />
+    </div>
+  )
+
   return (
     <Switch>
       {
@@ -202,7 +211,11 @@ export default function Navegate() {
               const { layout, layoutProps, permissions } = route
 
               if(!permissions(user))
-                return <h1>Acceso denegado</h1>
+                return (
+                  <route.layout {...layoutProps}>
+                    <h1>Acceso denegado</h1>
+                  </route.layout>
+                )
 
               if(!layout) return <route.component/>
               // else if(!layoutProps) 
