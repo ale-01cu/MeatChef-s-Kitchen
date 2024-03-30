@@ -26,7 +26,7 @@ const meatValidation = {
       .min(0, 'El minimo es 0.')
       .required(true, 'El campo es obligatorio.'),
     category_id: Yup
-      .number('La campo debe de ser un texto.')
+      .string('La campo debe de ser un texto.')
       .required(true, 'El campo es obligatorio.'),
     description: Yup
       .string('La campo debe de ser un texto.')
@@ -34,7 +34,7 @@ const meatValidation = {
       .max(120, 'El maximo de caracteres es 120.')
       .required(true, 'El campo es obligatorio.'),
     isActive: Yup
-      .boolean('El campo debe de ser un boleano.')
+      .boolean('El campo debe de ser un boleano.'),
   })
 }
 

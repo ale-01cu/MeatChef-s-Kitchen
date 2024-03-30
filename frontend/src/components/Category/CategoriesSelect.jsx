@@ -15,7 +15,9 @@ export default function CategoriesSelect (props) {
     categories, 
     isLoading, 
     defaultValue, 
-    location } = props
+    location,
+    isInvalid,
+    errorMessage } = props
   const [ _, navegate ] = useLocation()
   const { isSuperUser } = useRoles()
 
@@ -26,7 +28,7 @@ export default function CategoriesSelect (props) {
         navegate('/carnicos/category/' + categoryId)
       else navegate('/carnicos')
     }
-  }, [])
+  }, [location, navegate])
 
   if( !isSuperUser ) return null
   return (
@@ -44,6 +46,9 @@ export default function CategoriesSelect (props) {
       classNames={{
         trigger: 'py-0',
       }}
+      isInvalid={isInvalid}
+      errorMessage={errorMessage}
+    
     >
       <SelectItem 
         key={NONE_SELECTED_VALUE} 

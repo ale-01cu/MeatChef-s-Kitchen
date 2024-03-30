@@ -29,6 +29,11 @@ def get_meat_product_admin_by_id(db: Session, id: str) -> MeatProduct:
         MeatProduct.id == id, 
     ).first()
 
+def get_meat_product_admin_by_name(db: Session, name: str) -> MeatProduct:
+    return db.query(MeatProduct).filter(
+        MeatProduct.name_of_the_cut_of_meat == name, 
+    ).first()
+
 
 def list_meat_product_by_name(db: Session, name: str, skip: int = 0, limit: int = 100
 ) -> list[MeatProduct]:

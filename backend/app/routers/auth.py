@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.schemas.user import UserLogin, UserCreateSchema, UserSchema
+from app.schemas.user import UserLogin, UserCreateSchema
 from app.schemas.token import Token, TokenIsValid
 from settings.db import get_db
 from app.cruds.user import (
@@ -13,12 +13,12 @@ from datetime import timedelta
 from settings.base import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.utils.token import create_access_token, verify_token
 from app.utils.token import get_token_within_bearer
-from jose import JWTError
 router = APIRouter()
 
-@router.post('/register', tags={'register'})
+@router.post('/register', tags={'register'},
+    status_code=status.HTTP_201_CREATED,)
 async def register(user: UserCreateSchema, db: Session = Depends(get_db)
-) -> UserSchema:
+) -> None:
     try:
         foundEmail = get_user_by_email(db, user.email)
         if foundEmail: 
@@ -36,8 +36,7 @@ async def register(user: UserCreateSchema, db: Session = Depends(get_db)
 
         hashed_password = hash_password(user.password)
         user.password = hashed_password
-        new_user = create_user_db(db, user)
-        return new_user
+        create_user_db(db, user)
     
     except HTTPException as e:
         print(e)
@@ -52,7 +51,6 @@ async def register(user: UserCreateSchema, db: Session = Depends(get_db)
         )
 
 
-
 @router.post('/login', tags={'login'})
 async def login(user: UserLogin, db: Session = Depends(get_db)
 ) -> Token:
@@ -62,7 +60,7 @@ async def login(user: UserLogin, db: Session = Depends(get_db)
         if not userFound:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="No existe un usuario con ese email.",
+                detail="Email o contraseña incorrecto.",
             )
         
         passwordSucess = verify_password(user.password, userFound.password)

@@ -125,8 +125,17 @@ const ROUTES = [
     path: '/pedidos-pendientes',
     component: PendingOrders,
     layout: BaseLayout,
-    layoutProps: { typeSearch: 'carnicos' },
+    layoutProps: { typeSearch: 'carnicos', SubLayout: MeatMenu },
     permissions: isStaff
+  },
+
+  {
+    path: '/pedidos-atendidos',
+    component: OrdersFulfilled,
+    layout: BaseLayout,
+    layoutProps: { typeSearch: 'carnicos', SubLayout: MeatMenu },
+    permissions: isStaff
+
   },
 
   {
@@ -157,14 +166,6 @@ const ROUTES = [
   },
 
 
-  {
-    path: '/pedidos-atendidos',
-    component: OrdersFulfilled,
-    layout: BaseLayout,
-    layoutProps: { typeSearch: 'carnicos' },
-    permissions: isStaff
-
-  },
 
   {
     path: '/user',

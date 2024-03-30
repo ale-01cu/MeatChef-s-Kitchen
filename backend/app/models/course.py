@@ -35,7 +35,7 @@ class Course(Base):
 
     teacher = relationship(
         'UserModel',
-        back_populates='course'
+        back_populates='course',
     )
 
     photo = Column(

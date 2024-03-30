@@ -14,7 +14,8 @@ from app.cruds.meat_product import (
     get_meat_product_admin_by_id,
     list_meat_product_admin_by_category,
     list_meat_product_admin_by_name,
-    list_meat_products_admin_db
+    list_meat_products_admin_db,
+    get_meat_product_admin_by_name
 )
 from settings.db import get_db
 from sqlalchemy.orm import Session
@@ -213,6 +214,13 @@ async def update_meat_products(
         if user:
             if user.is_staff or user.is_superuser: product = get_meat_product_admin_by_id(db, product_id)
             else: product = get_meat_product_by_id(db, product_id)
+
+        if name_of_the_cut_of_meat != product.name_of_the_cut_of_meat:
+            prod_found = get_meat_product_admin_by_name(db, name_of_the_cut_of_meat)
+            if prod_found: raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail='Ya existe un producto con ese nombre.'
+            )
 
         if photo.filename:
             path = f'media/meat-products/{name_of_the_cut_of_meat}'

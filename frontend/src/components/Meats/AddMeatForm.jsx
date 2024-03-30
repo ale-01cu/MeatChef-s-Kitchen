@@ -13,6 +13,7 @@ import useListCategories from "../../hooks/useListCategories";
 import meatValidation from "../../validations/meat";
 import { useFormik } from 'formik'
 import PhotoIcon from "../Icons/PhotoIcon";
+import { useMemo } from "react";
 
 export default function AddMeatForm ({ closeModal, refreshParent }) {
   const [ photoFile, setPhotoFile ] = useState()
@@ -38,13 +39,14 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
     formik.values.description = ''
     formik.values.isActive = true
     setPhotoFile(null)
-  }, [])
+  }, [formik.values])
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault()
     setIsLoading(true)
     const formData = new FormData(e.target)
     formData.set('is_active', formik.values.isActive)
+
     createMeat(formData)
       .then(() => {
           clearStates()
@@ -58,8 +60,18 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
       })
       .finally(() => setIsLoading(false))
 
-  }, [])
+  }, [clearStates, closeModal, formik.values.isActive, refreshParent])
 
+
+  const photoMemo = useMemo(() => (
+    photoFile && <div>
+      <Image 
+        className="w-full max-h-[400px]" 
+        src={URL.createObjectURL(photoFile)} 
+        alt="" 
+      />
+    </div>
+  ), [photoFile])
 
   return (
     <>
@@ -78,6 +90,8 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           placeholder="Tipo de Carne"
           onChange={formik.handleChange}
           value={formik.values.type_of_meat}
+          isInvalid={formik.errors.type_of_meat ? true : false}
+          errorMessage={formik.errors.type_of_meat}
         />
 
         <Input
@@ -124,15 +138,7 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
 
         />
 
-        {
-          photoFile && <div>
-            <Image 
-              className="w-full max-h-[400px]" 
-              src={URL.createObjectURL(photoFile)} 
-              alt="" 
-            />
-          </div>
-        }
+        { photoMemo }
 
         <Checkbox 
           defaultSelected 

@@ -17,7 +17,7 @@ class UserModel(Base):
         String, 
         unique=True, 
         index=True, 
-        nullable=False
+        nullable=False,
     )
     
     full_name = Column(

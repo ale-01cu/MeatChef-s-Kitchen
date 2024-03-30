@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from app.routers import standard_order
 from settings.db import engine
 from settings.db import Base
 from app.routers import (
@@ -46,5 +45,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
 
 

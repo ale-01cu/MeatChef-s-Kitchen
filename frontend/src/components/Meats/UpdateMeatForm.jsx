@@ -12,6 +12,7 @@ import { updateMeat, retrieveMeats } from '../../services/meats'
 import CategoriesSelect from "../Category/CategoriesSelect";
 import useListCategories from "../../hooks/useListCategories";
 import PhotoIcon from "../Icons/PhotoIcon";
+import meatValidation from "../../validations/meat";
 
 export default function UpdateMeatForm(props) {
   const { meatId, closeModal, refreshOneElement } = props
@@ -20,7 +21,16 @@ export default function UpdateMeatForm(props) {
   const [ updateIsError, setUpdateIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
   const { categories } = useListCategories()
-
+  const [ formErrors, setFormErrors ] = useState({
+    type_of_meat: '',
+    name_of_the_cut_of_meat: '',
+    price: '',
+    category_id: '',
+    description: '',
+    isActive: '',
+    photo: '',
+  })
+  
   useEffect(() => {
     retrieveMeats(meatId)
       .then(data => setMeatData(data))
@@ -38,7 +48,7 @@ export default function UpdateMeatForm(props) {
     }
     newMeatData[field] = value 
     setMeatData(newMeatData)
-  }, [])
+  }, [meatData])
 
   const photoHandleChange = useCallback((e) => {
     const file = e.target.files[0]
@@ -50,29 +60,49 @@ export default function UpdateMeatForm(props) {
       ...meatData,
       is_active: !meatData.is_active
     })
-  }, [])
+  }, [meatData])
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault()
     setIsLoading(true)
     const formData = new FormData(e.target)
     formData.set('is_active', meatData.is_active)
 
-    updateMeat(meatId, formData)
-      .then(() => {
-        closeModal()
-        refreshOneElement(meatId)
-      })
-      .catch(e => {
-        console.error(e);
+    try {
+      await meatValidation.validationSchema.validate(
+        Object.fromEntries(formData.entries()), 
+        { abortEarly: false }
+      )
+      await updateMeat(meatId, formData)
+      closeModal()
+      refreshOneElement(meatId)
+
+    } catch (errors) {
+      console.error(errors);
+      // Maneja los errores de validación aquí
+      if(errors.name === 'ValidationError') {
+        const errorMessages = {errors}.errors.inner.reduce((acc, e) => {
+          const field = e.path;
+          acc[field] = e.message;
+          return acc;
+        }, {})
+        setFormErrors(errorMessages)
+
+      }else {
         setUpdateIsError(e)
-      })
-      .finally(() => setIsLoading(false))
-  }, [])
+
+      }
+    
+    } finally {
+
+      setIsLoading(false);
+    
+    }
+      
+  }, [closeModal, meatData, refreshOneElement, meatId])
 
 
   if(!meatData) return null
-
   return (
     <>
       {
@@ -91,6 +121,8 @@ export default function UpdateMeatForm(props) {
           placeholder="Tipo de Carne"
           onChange={(e) => handleChange(e, 'type_of_meat')}
           value={meatData.type_of_meat}
+          isInvalid={formErrors.type_of_meat ? true : false}
+          errorMessage={formErrors.type_of_meat}
         />
 
         <Input
@@ -99,6 +131,8 @@ export default function UpdateMeatForm(props) {
           placeholder="Nombre del Corte"
           onChange={(e) => handleChange(e, 'name_of_the_cut_of_meat')}
           value={meatData.name_of_the_cut_of_meat}
+          isInvalid={formErrors.name_of_the_cut_of_meat ? true : false}
+          errorMessage={formErrors.name_of_the_cut_of_meat}
         />
 
         <Input
@@ -108,6 +142,8 @@ export default function UpdateMeatForm(props) {
           placeholder="Precio"
           onChange={(e) => handleChange(e, 'price')}
           value={meatData.price}
+          isInvalid={formErrors.price ? true : false}
+          errorMessage={formErrors.price}
         />
 
         <CategoriesSelect 
@@ -116,6 +152,8 @@ export default function UpdateMeatForm(props) {
           isLoading={false}
           defaultValue={meatData?.category?.id}
           location='FORM'
+          isInvalid={formErrors.category_id ? true : false}
+          errorMessage={formErrors.category_id}
         />
 
         <Textarea
@@ -124,47 +162,25 @@ export default function UpdateMeatForm(props) {
           type="text"
           onChange={(e) => handleChange(e, 'description')}
           value={meatData.description}
+          isInvalid={formErrors.description ? true : false}
+          errorMessage={formErrors.description}
         />
 
-        {
-          photoFile 
-            ? <div>
-                <InputFile 
-                  name='photo'
-                  fileAccept='image/jpeg, image/png' 
-                  text='Cambiar Foto'
-                  handleChange={photoHandleChange}
-                  startContentIcon={<PhotoIcon/>}
-                  className='w-full'
-                  spanClassName='flex justify-center items-center gap-x-2 p-2'
+        <InputFile 
+          name='photo'
+          fileAccept='image/jpeg, image/png' 
+          text='Cambiar Foto'
+          handleChange={photoHandleChange}
+          startContentIcon={<PhotoIcon/>}
+          className='w-full'
+          spanClassName='flex justify-center items-center gap-x-2 p-2'
+        />
 
-                />
-
-                <Image 
-                  className="w-full max-h-[400px]" 
-                  src={URL.createObjectURL(photoFile)} 
-                  alt="" 
-                />
-              </div>
-            : <div>
-                <InputFile 
-                  name='photo'
-                  fileAccept='image/jpeg, image/png' 
-                  text='Cambiar Foto'
-                  handleChange={photoHandleChange}
-                  startContentIcon={<PhotoIcon/>}
-                  className='w-full'
-                  spanClassName='flex justify-center items-center gap-x-2 p-2'
-
-                />
-
-                <Image 
-                  className="w-full max-h-[400px]" 
-                  src={BASE_URL + '/' + meatData.photo} 
-                  alt="" 
-                />
-              </div>
-        }
+        <Image 
+          className="w-full max-h-[400px]" 
+          src={photoFile ? URL.createObjectURL(photoFile) : BASE_URL + '/' + meatData.photo} 
+          alt="" 
+        />
 
 
         <Checkbox 
@@ -172,6 +188,7 @@ export default function UpdateMeatForm(props) {
           name="is_active" 
           isSelected={meatData.is_active} 
           onValueChange={handleSelect}
+          isInvalid={formErrors.isActive ? true : false}
         >
           Activo
         </Checkbox>

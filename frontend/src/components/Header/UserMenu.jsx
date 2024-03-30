@@ -1,3 +1,4 @@
+import { React, useMemo } from 'react';
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User, DropdownSection} from "@nextui-org/react";
 import Logout from "../Auth/Logout";
 import useAuth from "../../hooks/useAuth";
@@ -6,32 +7,36 @@ import AvatarIcon from '../Icons/AvatarIcon'
 import { Link } from "wouter";
 import useRoles from "../../hooks/useRoles";
 
-export default function UserMenu() {
+function UserMenuComponent() {
   const { user } = useAuth()
   const { isAuthenticated } = useRoles()
+
+  const userMenu = useMemo(() => (
+    <User
+      as="button"
+      avatarProps={{
+        src: user?.avatar
+          ? BASE_URL + '/' + user?.avatar
+          : undefined,
+        fallback: !user?.avatar && 
+          <AvatarIcon 
+            className="animate-pulse w-6 h-6 text-default-500" 
+            fill="currentColor" 
+            size={20} 
+          />
+      }}
+      className="transition-transform"
+      description={'@' + user?.full_name}
+      name={user?.email}
+    />
+  ), [user?.avatar, user?.email, user?.full_name])
 
   if(!isAuthenticated || isAuthenticated == undefined) return null
   return (
     <div className="flex items-center gap-4">
       <Dropdown placement="bottom-start">
         <DropdownTrigger>
-          <User
-            as="button"
-            avatarProps={{
-              src: user?.avatar
-                ? BASE_URL + '/' + user?.avatar
-                : undefined,
-              fallback: !user?.avatar && 
-                <AvatarIcon 
-                  className="animate-pulse w-6 h-6 text-default-500" 
-                  fill="currentColor" 
-                  size={20} 
-                />
-            }}
-            className="transition-transform"
-            description={'@' + user?.full_name}
-            name={user?.email}
-          />
+          { userMenu }
         </DropdownTrigger>
          <DropdownMenu
         aria-label="Custom item styles"
@@ -98,3 +103,7 @@ export default function UserMenu() {
     </div>
   )
 }
+
+
+const UserMenu = React.memo(UserMenuComponent)
+export default UserMenu

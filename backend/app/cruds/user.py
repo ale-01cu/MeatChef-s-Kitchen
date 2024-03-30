@@ -22,8 +22,11 @@ def get_user_by_admin_by_id(db: Session, user_id: str) -> UserFull:
     return user
 
 def get_user_by_email(db: Session, email: str) -> UserCreateSchema:
-    return db.query(UserModel).filter(
+    user = db.query(UserModel).filter(
         UserModel.email == email, UserModel.is_active == True).first()
+    db.close()
+    return user
+        
 
 
 def get_user_by_phone_number(db: Session, phone_number: str) -> UserCreateSchema:

@@ -2,8 +2,8 @@ import OrdersList from "../components/Order/OrdersList"
 import { useState, useEffect } from "react"
 import { listProcessedStandardOrders } from "../services/standardOrder"
 import { listProcessedCustomOrders } from "../services/customOrder"
-import MeatMenu from "../components//Meats/MeatMenu"
 import StatusSelect from "../components/OrdersFulfilled/StatusSelect"
+import { Spinner } from "@nextui-org/react"
 
 const opciones = { 
   year: 'numeric', 
@@ -55,11 +55,17 @@ export default function OrdersFulfilled() {
   }, [setIsLoading. setIsError])
 
 
-  if(isLoading) return <h1>Cargando</h1>
+  if(isLoading) return (
+    <div className="w-full h-screen flex justify-center items-center">
+      <Spinner
+        size="lg"
+        color="warning"
+      />
+    </div>
+  )
   if(isError) return <h1>Revento esta talla</h1>
   return (
     <>
-      <MeatMenu/>
       <div className="p-10">
         <div>
           <h1 className="p-4 text-3xl font-bold text-center">

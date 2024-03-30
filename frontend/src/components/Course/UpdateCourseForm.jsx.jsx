@@ -1,7 +1,7 @@
 import InputFile from "../Inputs/InputFile";
 import { Image } from "@nextui-org/react";
 import { BASE_URL } from "../../utils/constants";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { retrieveCourses, updateCourse } from "../../services/courses";
 import {  
   Textarea,
@@ -16,7 +16,7 @@ export default function UpdateCourseForm(props) {
   const {courseId, closeModal, refreshOneElement } = props
   const [ courseData, setCoursesData ] = useState(null)
   const [ photoFile, setPhotoFile ] = useState(null)
-  const [ videoFile, setVideoFile ] = useState(null)
+  const [ videoFile, setVideoFile ] = useState()
   const [ updateIsError, setUpdateIsError ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
 
@@ -76,9 +76,31 @@ export default function UpdateCourseForm(props) {
 
   }, [closeModal, courseData?.is_active, courseId, refreshOneElement])
 
+  const photoMemo = useMemo(() => (
+    <div>
+      <InputFile 
+        name='photo'
+        fileAccept='image/jpeg, image/png' 
+        text='Cambiar Foto'
+        className='w-full'
+        handleChange={photoHandleChange}
+        startContentIcon={<PhotoIcon/>}
+        spanClassName='flex justify-center items-center gap-x-2 p-2'
+
+      />
+
+      <Image 
+        className="w-full max-h-[400px]" 
+        src={photoFile ? URL.createObjectURL(photoFile) : BASE_URL + '/' + courseData?.photo} 
+        alt="Foto del Curso" 
+      />
+    </div>
+  ), [photoFile, courseData?.photo, photoHandleChange])
+
 
   if(!courseData) return null
 
+  console.log(videoFile);
   return (
     <>
       {
@@ -90,13 +112,13 @@ export default function UpdateCourseForm(props) {
         className="flex flex-col gap-y-2" 
         onSubmit={handleSubmit}
       >
-        <Input
+        {/* <Input
           label="Nombre"
           name="name"
           placeholder="Nombre del Curso"
           onChange={(e) => handleChange(e, 'name')}
           value={courseData.name}
-        />
+        /> */}
         <Textarea
           name="description"
           placeholder="Descripcion del curso"
@@ -105,24 +127,7 @@ export default function UpdateCourseForm(props) {
           value={courseData.description}
         />
 
-        <div>
-          <InputFile 
-            name='photo'
-            fileAccept='image/jpeg, image/png' 
-            text='Cambiar Foto'
-            className='w-full'
-            handleChange={photoHandleChange}
-            startContentIcon={<PhotoIcon/>}
-            spanClassName='flex justify-center items-center gap-x-2 p-2'
-
-          />
-
-          <Image 
-            className="w-full max-h-[400px]" 
-            src={photoFile ? URL.createObjectURL(photoFile) : BASE_URL + '/' + courseData.photo} 
-            alt="Foto del Curso" 
-          />
-        </div>
+        { photoMemo }
 
         <div>
           <InputFile 
@@ -136,28 +141,37 @@ export default function UpdateCourseForm(props) {
 
           />
 
+          <video controls key={videoFile ? videoFile.name : courseData.video}>
+            <source 
+              src={videoFile ? URL.createObjectURL(videoFile) : BASE_URL + '/' + courseData.video}
+              type="video/mp4"
+            />
+            Tu navegador no soporta la etiqueta video.
+
+          </video>
+
           {
-            videoFile 
-              ? (
-                <video controls>
-                  <source 
-                    src={URL.createObjectURL(videoFile)}
-                    type="video/mp4"
-                  />
-                  Tu navegador no soporta la etiqueta video.
+            // videoFile 
+            //   ? (
+            //     <video controls>
+            //       <source 
+            //         src={URL.createObjectURL(videoFile)}
+            //         type="video/mp4"
+            //       />
+            //       Tu navegador no soporta la etiqueta video.
 
-                </video>
-              )
-              : (
-                <video controls>
-                  <source 
-                    src={BASE_URL + '/' + courseData.video}
-                    type="video/mp4"
-                  />
-                  Tu navegador no soporta la etiqueta video.
+            //     </video>
+            //   )
+            //   : (
+            //     <video controls>
+            //       <source 
+            //         src={BASE_URL + '/' + courseData.video}
+            //         type="video/mp4"
+            //       />
+            //       Tu navegador no soporta la etiqueta video.
 
-                </video>
-              )
+            //     </video>
+            //   )
           }
         </div>
 

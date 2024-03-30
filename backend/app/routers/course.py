@@ -3,6 +3,7 @@ from fastapi import (
     HTTPException, status,
     UploadFile, File, Form    
 )
+import os
 from settings.db import get_db
 from sqlalchemy.orm import Session
 from app.utils.save_file import save_file
@@ -180,7 +181,7 @@ async def create_course(
     dependencies=[Depends(role_permisisons.if_is_teacher)])
 async def update_course(
     course_id: str,
-    name: str = Form(),
+    # name: str = Form(),
     description: str = Form(),
     photo: UploadFile = File(),
     video: UploadFile = File(),
@@ -195,16 +196,28 @@ async def update_course(
             if user.is_teacher: course = get_course_admin_by_id(db, course_id)
             else: course = get_course_by_id(db, course_id)
 
+        # print(photo)
+        # if name != course.name:
+        #     course_found = get_course_by_name(db, name)
+        #     if course_found: raise HTTPException(
+        #         status_code=status.HTTP_400_BAD_REQUEST,
+        #         detail='Ya existe un curso con ese nombre.'
+        #     )
+        #     os.rename(f'media/courses/{course.name}', path)
+
+        name = course.name
+        path = f'media/courses/{name}'
+        
         if photo.filename:
-            path = f'media/courses/{name}'
-            photo_info = await save_file(photo, path)
-            if course.photo != photo_info.path:
+            if course.photo != f'{path}/{photo.filename}':
                 delete_file(course.photo)
+                photo_info = await save_file(photo, path)
 
         if video.filename:
-            video_info = await save_file(video, path)
-            if course.video != video_info.path:
+            if course.video != f'{path}/{video.filename}':
                 delete_file(course.video)
+            video_info = await save_file(video, path)
+
 
         if course and course.name == name: 
             course = CourseUpdateWithinNameSchema(

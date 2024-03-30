@@ -4,7 +4,7 @@ import { listStandardOrders } from "../services/standardOrder"
 import { listCustomOrders } from "../services/customOrder"
 import { Button } from "@nextui-org/react"
 import { updateOrderListStatus } from '../services/order'
-import MeatMenu from "../components/Meats/MeatMenu"
+import { Spinner } from "@nextui-org/react"
 
 const opciones = { 
   year: 'numeric', 
@@ -77,11 +77,17 @@ export default function PendingOrders() {
   }, [customOrders, orders])
   
 
-  if(isLoading) return <h1>Cargando</h1>
+  if(isLoading) return (
+    <div className="w-full h-screen flex justify-center items-center">
+      <Spinner
+        size="lg"
+        color="warning"
+      />
+    </div>
+  )
   if(isError) return <h1>Revento esta talla</h1>
   return (
     <>
-      <MeatMenu/>
       <div className="p-10">
         <dir>
           <h1 className="p-4 text-3xl font-bold text-center">

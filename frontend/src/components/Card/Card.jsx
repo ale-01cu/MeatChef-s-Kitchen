@@ -17,7 +17,10 @@ export default function Card(props) {
       <div className="space-y-2 p-2">
         <div>
           <h1 className="font-bold text-2xl text-nowrap truncate">{name}</h1>
-          { author && <span className="truncate">Profesor: {author}</span> } 
+          <span className="truncate text-gray-400 flex items-center gap-x-2">
+            <span>Profesor:</span> 
+            {author ? author : <div className="w-4 h-1 bg-default-400"></div>}
+          </span>
         </div>
         <p className="truncate">{description}</p>
       </div>

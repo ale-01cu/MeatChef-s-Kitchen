@@ -1,6 +1,7 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, EmailStr
 from datetime import datetime
 from typing import Optional
+from dataclasses import field
 
 class UserBaseSchema(BaseModel):
     id: str
@@ -9,10 +10,10 @@ class UserFullNameSchema(BaseModel):
     full_name: str
 
 class UserCreateSchema(BaseModel):
-    email: str
-    full_name: str
-    phone_number: str
-    password: str
+    email: EmailStr = Field(min_length=12, max_length=50)
+    full_name: str = Field(min_length=12, max_length=50)
+    phone_number: str = Field(min_length=8, max_length=8)
+    password: str = Field(min_length=6, max_length=25)
 
 
 class UserSchema(UserBaseSchema):

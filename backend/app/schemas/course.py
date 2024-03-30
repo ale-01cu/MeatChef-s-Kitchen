@@ -28,7 +28,7 @@ class CourseListSchema(BaseModel):
     name: str
     description: str
     photo: str
-    teacher: UserFullNameSchema
+    teacher: UserFullNameSchema | None = None
     is_active: bool
     createAt: datetime
 
