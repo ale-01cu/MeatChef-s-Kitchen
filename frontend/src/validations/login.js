@@ -9,10 +9,10 @@ const loginValidation = {
     email: Yup
       .string('El email debe de ser un texto.')
       .email("El email no es valido.")
-      .required(true, 'El password es obligatorio.'),
+      .required('El password es obligatorio.'),
     password: Yup
       .string('La contraseña debe ser de tipo texto.')
-      .required(true, 'El password es obligatorio.')
+      .required('El password es obligatorio.')
   })
 }
 

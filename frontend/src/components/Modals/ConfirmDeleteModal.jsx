@@ -27,7 +27,7 @@ export default function ConfirmDeleteModal (props) {
         btnText
           ? (
             <Button 
-              className="px-0 min-w-unit-10 hover:scale-110" 
+              className="px-0 min-w-unit-10 hover:scale-110 z-10" 
               color="danger"
               variant="light" 
               onClick={onOpen} 
@@ -35,7 +35,7 @@ export default function ConfirmDeleteModal (props) {
             />
           )
           : <Button 
-              className="px-0 min-w-unit-10 hover:scale-110" 
+              className="px-0 min-w-unit-10 hover:scale-110 z-10" 
               color="danger" 
               onClick={onOpen} 
               startContent={<DeleteIcon/>}

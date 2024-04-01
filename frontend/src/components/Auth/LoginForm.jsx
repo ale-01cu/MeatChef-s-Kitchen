@@ -64,7 +64,7 @@ export default function LoginForm({ closeModal }){
           }
           classNames={{
             input: [
-                "bg-transparent",
+                "bg-transparent active:bg-transparent",
                 "text-black/90 dark:text-white/90",
                 "placeholder:text-default-700/50", 
                 "dark:placeholder:text-white/60",

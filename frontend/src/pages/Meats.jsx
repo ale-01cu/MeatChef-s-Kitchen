@@ -126,7 +126,9 @@ export default function Meats() {
 
         {
           !search && meatData.length === 0 && !isError && !isLoading
-            && <h1>No hay Carnes</h1>
+            && <h1 className="text-2xl font-bold text-center">
+                No hay Carnes para mostrar
+              </h1>
         }
 
         <div className='py-8 space-y-4'>

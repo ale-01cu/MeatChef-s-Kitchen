@@ -40,7 +40,7 @@ export default function CourseDetail() {
   return (
     <div>
       <div className="p-2 md:flex md:gap-x-8 md:p-12 md:justify-center">
-        <section className="max-w-[1024px]">
+        <section className="w-full max-w-[1024px]">
           <VideoPlayer videoPath={course.video}/>
           {/* <video controls>
             <source 

@@ -142,10 +142,7 @@ async def search_meat_products(product_name: str, db: Session = Depends(get_db),
             if user.is_staff:
                 return list_meat_product_admin_by_name(db, product_name)
         product = list_meat_product_by_name(db, product_name)
-        if not product: raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail='El producto no existe.'
-        )
+        if not product: return []
         return product
 
     except HTTPException as e:

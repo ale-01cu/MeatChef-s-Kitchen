@@ -6,6 +6,7 @@ export default function CardChipStatus({ startContentIcon, text, color }) {
       startContent={startContentIcon}
       variant="faded"
       color={color}
+      className="z-10"
     >
       { text }
     </Chip>
