@@ -3,15 +3,14 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import InputFile from '../Inputs/InputFile'
 import { getUser, updateUser } from "../../services/user"
 import { BASE_URL } from "../../utils/constants"
-import userValidation from "../../validations/user"
+import GeneralError from "../Errors/GeneralError"
 
 export default function UpdateUsersForm({ userId, setUsers, closeModal }) {
-  const [ addIsError, setAddIsError ] = useState(null)
+  const [ isError, setIsError ] = useState(null)
   const [ submitIsLoading, setSubmitIsLoading ] = useState(false)
   const [ isLoading, setIsLoading ] = useState(false)
   const [ avatarFile, setAvatarFile ] = useState()
   const [ userData, setUserData ] = useState(null)
-  const [ inputErrors, setInputErrors ] = useState([])
 
   useEffect(() => {
     setIsLoading(true)
@@ -69,7 +68,7 @@ export default function UpdateUsersForm({ userId, setUsers, closeModal }) {
       })
       .catch((e) => {
         console.error(e);
-        setAddIsError(e)
+        setIsError(e)
       })
       .finally(() => {
         setSubmitIsLoading(false)
@@ -189,8 +188,8 @@ export default function UpdateUsersForm({ userId, setUsers, closeModal }) {
         </div>
 
         {
-          addIsError &&
-            <h1>Revento esta talla</h1>
+          isError &&
+            <GeneralError/>
         }
         <Button 
           className='mt-5' 

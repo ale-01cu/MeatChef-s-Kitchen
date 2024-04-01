@@ -28,11 +28,12 @@ def get_user_by_email(db: Session, email: str) -> UserCreateSchema:
     return user
         
 
-
 def get_user_by_phone_number(db: Session, phone_number: str) -> UserCreateSchema:
-    return db.query(UserModel).filter(
+    user = db.query(UserModel).filter(
         UserModel.phone_number == phone_number, 
     ).first()
+    db.close()
+    return user
 
 
 def get_user_by_full_name(db: Session, full_name: str) -> list[UserSchema]:
@@ -51,6 +52,7 @@ def create_user_db(db: Session, user: UserCreateSchema) -> UserSchema:
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    db.close()
     return db_user
 
 

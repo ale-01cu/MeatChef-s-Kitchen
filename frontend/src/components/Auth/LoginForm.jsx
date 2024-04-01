@@ -12,6 +12,7 @@ import MailIcon from "../Icons/MailIcon";
 import LockIcon from "../Icons/LockIcon";
 import { login } from "../../services/auth";
 import loginValidation from "../../validations/login";
+import GeneralError from '../Errors/GeneralError'
 
 export default function LoginForm({ closeModal }){
   const [ isRemember, setIsRemember ] = useState(false)
@@ -44,9 +45,9 @@ export default function LoginForm({ closeModal }){
     }
   })
 
+  if(isError) return <GeneralError/>
   return (
     <>
-      { isError && <h1>Revento esta talla</h1> }
       <form 
         id="form-login" 
         className="flex flex-col gap-y-2 py-4" 

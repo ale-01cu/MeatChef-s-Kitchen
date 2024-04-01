@@ -1,7 +1,8 @@
 from fastapi import (
     APIRouter, Depends, 
     HTTPException, status,
-    UploadFile, File, Form    
+    UploadFile, File, Form  ,  
+    Header, Response
 )
 import os
 from settings.db import get_db
@@ -35,6 +36,7 @@ from app.errors.SaveFileException import SaveFileException
 from app.utils.delete_file import delete_file
 
 router = APIRouter()
+CHUNK_SIZE = 1024*1024
 
 @router.get('/course', tags=['list-course'])
 async def list_courses(db: Session = Depends(get_db),
@@ -282,4 +284,23 @@ async def delete_course(course_id: str, db: Session = Depends(get_db)
         )
     
 
+@router.get("/course/play/", tags=['play-course'])
+async def video_endpoint(video_path: str, range: str = Header(default="bytes=0-")):
+    start, end = range.replace("bytes=", "").split("-")
+    start = int(start)
+    end = int(end) if end else start + CHUNK_SIZE
+    with open(video_path, "rb") as video:
+        video.seek(start)
+        data = video.read(end - start)
+        filesize = str(os.path.getsize(video_path))
+        headers = {
+            'Content-Range': f'bytes {str(start)}-{str(end)}/{filesize}',
+            'Accept-Ranges': 'bytes'
+        }
+        return Response(
+            data, 
+            status_code=206, 
+            headers=headers, 
+            media_type="video/mp4"
+        )
 

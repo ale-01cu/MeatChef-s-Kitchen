@@ -12,7 +12,7 @@ class UserFullNameSchema(BaseModel):
 class UserCreateSchema(BaseModel):
     email: EmailStr = Field(min_length=12, max_length=50)
     full_name: str = Field(min_length=12, max_length=50)
-    phone_number: str = Field(min_length=8, max_length=8)
+    phone_number: str = Field(min_length=8, max_length=10)
     password: str = Field(min_length=6, max_length=25)
 
 

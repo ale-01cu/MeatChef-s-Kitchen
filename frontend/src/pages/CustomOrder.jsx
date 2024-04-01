@@ -7,6 +7,7 @@ import { toast } from "react-toastify"
 import { useFormik } from "formik"
 import * as Yup from 'yup'
 import useRoles from "../hooks/useRoles"
+import GeneralError from "../components/Errors/GeneralError"
 
 export default function CustomOrder() {
   const [ isLoading, setIsLoading ] = useState(false)
@@ -54,17 +55,14 @@ export default function CustomOrder() {
 
 
   if(!isAuthenticated) return null
+  if(isError) <GeneralError/>
   return (
     <div>
-      {/* <MeatMenu/> */}
-
       <div className="py-8 px-1 sm:px-4 md:p-8">
 
         <h1 className="text-center text-3xl font-bold">
           Carrito de Compras
         </h1>
-
-        { isError && <h1>Revento esta talla</h1> }
 
         <div className="flex flex-col md:flex-row p-4 gap-8">
           <section className="xl:w-1/5 md:w-1/3 lg:w-1/4">

@@ -1,8 +1,9 @@
 import { Link } from "wouter"
 import CartIcon from '../Icons/CartIcon'
 import useRoles from "../../hooks/useRoles"
+import React from "react"
 
-export default function CartButton() {
+function CartButton() {
   const { isClient } = useRoles()
 
   if(!isClient || isClient == undefined) return null
@@ -13,7 +14,7 @@ export default function CartButton() {
       className="flex justify-center items-center gap-x-2"
     >
       <span>
-        <CartIcon fill='#f1c40f'/>
+        <CartIcon fill='#ff990f'/>
       </span>
       {/* <span>
         Carrito
@@ -21,3 +22,6 @@ export default function CartButton() {
     </Link>
   )
 }
+
+const CartButtonMemo = React.memo(CartButton)
+export default CartButtonMemo

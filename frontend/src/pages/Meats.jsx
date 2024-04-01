@@ -5,6 +5,8 @@ import { useCallback, useEffect, useState } from "react"
 import MeatMenu from "../components/Meats/MeatMenu"
 import CardMenuMeat from "../components/Card/CardMenuMeat"
 import { deleteMeat } from "../services/meats"
+import { Spinner } from "@nextui-org/react"
+import GeneralError from "../components/Errors/GeneralError"
 
 export default function Meats() {
   const { category_id, search } = useParams()
@@ -87,11 +89,17 @@ export default function Meats() {
       .catch(e => console.error(e))
   }, [meatData])
 
-  if(isLoading) return <h1>Cargando</h1>
-  if(isError) return <h1>Exploto esta talla</h1>
+  if(isLoading) return (
+    <div className="w-full h-screen flex justify-center items-center">
+      <Spinner
+        size="lg"
+        color="warning"
+      />
+    </div>
+  )
+  if(isError) return <GeneralError/>
   return (
     <>
-
       <MeatMenu
         setRefreshComponent={setRefreshComponent}
         category_id={category_id}

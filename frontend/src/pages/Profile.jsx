@@ -55,7 +55,6 @@ export default function Profile() {
   if(!user) return null
   return (
     <>
-      {/* <MeatMenu/> */}
       <div className='flex flex-col justify-center items-center py-24'>
         <div className='flex flex-col'>
           <h1 className='pb-12 text-3xl font-bold flex justify-center items-center gap-x-2'>

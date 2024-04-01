@@ -10,6 +10,8 @@ import useAuth from "../hooks/useAuth"
 import { addToCart } from '../services/cart'
 import { productIsInCart } from "../services/cart"
 import BtnAddToCart from "../components/Cart/BtnAddToCart"
+import { Spinner } from "@nextui-org/react"
+import GeneralError from "../components/Errors/GeneralError"
 
 export default function MeatDetail() {
   const { user } = useAuth()
@@ -50,18 +52,22 @@ export default function MeatDetail() {
     }
   }, [amount, meat])
 
-  if(isLoading) return <h1>Cargando</h1>
-  else if(isError) return <h1>Revento esta talla</h1>
-  else if(!meat) return null
+  if(isLoading) return (
+    <div className="w-full h-screen flex justify-center items-center">
+      <Spinner
+        size="lg"
+        color="warning"
+      />
+    </div>
+  )
+  if(!meat) return null
+  if(isError) return <GeneralError/>
 
   return (
     <div>
-      
-      {/* <MeatMenu/> */}
-            
       <div className="">
-        <div className="flex p-20 justify-center items-center">
-          <section className="w-1/2 flex justify-center">
+        <div className="flex flex-col gap-y-8 p-2 sm:p-10 md:flex-row md:justify-center md:gap-x-12 md:items-start">
+          <section className="">
             <Image 
               src={BASE_URL + '/' + meat?.photo} 
               alt="ImageCard"
@@ -72,7 +78,7 @@ export default function MeatDetail() {
             />
           </section>
 
-          <section className="flex flex-col gap-y-4 w-1/2 items-start">
+          <section className="flex flex-col gap-y-4 items-start">
             <h1 className="font-bold text-5xl">
               {meat?.name_of_the_cut_of_meat}
             </h1>
@@ -94,7 +100,7 @@ export default function MeatDetail() {
             </h2>
             <p className="max-w-96">{meat?.description}</p>
 
-            <div className="flex justify-center items-center gap-x-3">
+            <div className="flex justify-start gap-y-2 items-center flex-wrap gap-x-3">
               
               <Input
                 label="Cantidad"

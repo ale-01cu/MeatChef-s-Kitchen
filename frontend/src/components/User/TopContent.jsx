@@ -7,7 +7,6 @@ import {
   Button, } from "@nextui-org/react"
 import SearchIcon_v from "../Icons/SearchIcon_v2 "
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon "
-import { PlusIcon } from "../Icons/Plusicon"
 import { capitalize } from "../../utils/utils"
 import React from "react"
 import AddUsersModal from "./AddUsersModal"

@@ -1,8 +1,9 @@
 import { Image } from "@nextui-org/react"
 import { Link } from "wouter"
 import useRoles from "../../hooks/useRoles"
+import React from "react"
 
-export default function UsersLink() {
+function UsersLinkComponent() {
   const { isSuperUser } = useRoles()
 
   if(!isSuperUser || isSuperUser == undefined) return null
@@ -12,3 +13,6 @@ export default function UsersLink() {
     </Link>
   )
 }
+
+const UsersLink = React.memo(UsersLinkComponent)
+export default UsersLink

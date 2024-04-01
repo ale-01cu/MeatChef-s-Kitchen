@@ -1,4 +1,4 @@
-import { React, useMemo } from 'react';
+import { useMemo } from 'react';
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User, DropdownSection} from "@nextui-org/react";
 import Logout from "../Auth/Logout";
 import useAuth from "../../hooks/useAuth";
@@ -6,6 +6,7 @@ import { BASE_URL } from "../../utils/constants";
 import AvatarIcon from '../Icons/AvatarIcon'
 import { Link } from "wouter";
 import useRoles from "../../hooks/useRoles";
+import React from 'react';
 
 function UserMenuComponent() {
   const { user } = useAuth()

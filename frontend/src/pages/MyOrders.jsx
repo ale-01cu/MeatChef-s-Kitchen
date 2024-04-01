@@ -3,6 +3,8 @@ import { useState, useEffect } from "react"
 import { listStandardOrders } from "../services/standardOrder"
 import { listCustomOrders } from "../services/customOrder"
 import { ORDER_STATUS } from "../utils/order"
+import { Spinner } from "@nextui-org/react"
+import GeneralError from "../components/Errors/GeneralError"
 
 const opciones = { 
   year: 'numeric', 
@@ -52,11 +54,17 @@ export default function MyOrders() {
       })
   }, [setIsLoading. setIsError])
 
-  if(isLoading) return <h1>Cargando</h1>
-  if(isError) return <h1>Revento esta talla</h1>
+  if(isLoading) return (
+    <div className="w-full h-screen flex justify-center items-center">
+      <Spinner
+        size="lg"
+        color="warning"
+      />
+    </div>
+  )
+  if(isError) return <GeneralError/>
   return (
     <>
-      {/* <MeatMenu/> */}
       <div className="flex flex-col gap-y-5 p-10">
         {
 

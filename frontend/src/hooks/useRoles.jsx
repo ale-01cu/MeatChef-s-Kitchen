@@ -8,7 +8,7 @@ export default function useRoles() {
     isStaff: false,
     isTeacher: false,
     isSuperUser: undefined,
-    isStaffOrTeacherOrSuperUser: true,
+    isStaffOrTeacherOrSuperUser: undefined,
     isClient: undefined,
     isClientOrAny: true
   })

@@ -1,10 +1,11 @@
+import React from 'react'
 import CustomModal from "../Modals/CustomModal"
 import { listBiggestBuyers, getMostSelledProduct } from "../../services/sales"
 import { useEffect, useState } from "react"
 import CardNextUi from '../Card/CardNextUi'
 import useRoles from '../../hooks/useRoles'
 
-export default function SalesModal() {
+function SalesModal() {
   const [ product, setProduct ] = useState({})
   const [ buyers, setBuyers ] = useState([])
   const { isSuperUser } = useRoles()
@@ -23,7 +24,7 @@ export default function SalesModal() {
       })
   }, [])
 
-  if(!isSuperUser) return null
+  if(!isSuperUser || isSuperUser === undefined) return null
   return (
     <CustomModal
       size='3xl'
@@ -61,3 +62,6 @@ export default function SalesModal() {
     </CustomModal>
   )
 }
+
+const SalesModalMemo = React.memo(SalesModal)
+export default SalesModalMemo

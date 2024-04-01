@@ -6,7 +6,7 @@ import { createStandardOrder } from "../services/standardOrder"
 import useCart from "../hooks/useCart"
 import { toast } from 'react-toastify'
 import useRoles from "../hooks/useRoles"
-
+import GeneralError from "../components/Errors/GeneralError"
 
 export default function Cart() {
   const { cart, deleteProduct, clear } = useCart()
@@ -44,11 +44,9 @@ export default function Cart() {
   }, [cart, clear])
   
   if(!isAuthenticated) return null
-  if(isError) return <h1>Revento esta talla</h1>
+  if(isError) return <GeneralError/>
   return (
     <div>
-      {/* <MeatMenu/> */}
-
       <div className="py-8 px-1 sm:px-4 md:p-8">
 
         <h1 className="text-center text-3xl font-bold">

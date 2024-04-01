@@ -14,10 +14,12 @@ import meatValidation from "../../validations/meat";
 import { useFormik } from 'formik'
 import PhotoIcon from "../Icons/PhotoIcon";
 import { useMemo } from "react";
+import GeneralError from "../Errors/GeneralError";
 
 export default function AddMeatForm ({ closeModal, refreshParent }) {
   const [ photoFile, setPhotoFile ] = useState()
   const [ addIsError, setAddIsError ] = useState(null)
+  const [ isActive, setIsActive ] = useState(true)
   const [ isLoading, setIsLoading ] = useState(false)
   const { categories } = useListCategories()
 
@@ -46,6 +48,7 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
     setIsLoading(true)
     const formData = new FormData(e.target)
     formData.set('is_active', formik.values.isActive)
+    console.log(formData.get('category_id'))
 
     createMeat(formData)
       .then(() => {
@@ -77,7 +80,7 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
     <>
       {
         addIsError &&
-          <h1>Revento esta talla</h1>
+          <GeneralError/>
       }
       <form 
         id="create-meat" 
@@ -100,6 +103,8 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           placeholder="Nombre del Corte"
           onChange={formik.handleChange}
           value={formik.values.name_of_the_cut_of_meat}
+          isInvalid={formik.errors.name_of_the_cut_of_meat ? true : false}
+          errorMessage={formik.errors.name_of_the_cut_of_meat}
         />
 
         <Input
@@ -109,6 +114,8 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           placeholder="Precio"
           onChange={formik.handleChange}
           value={formik.values.price}
+          isInvalid={formik.errors.price ? true : false}
+          errorMessage={formik.errors.price}
         />
 
         <CategoriesSelect 
@@ -116,7 +123,10 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           categories={categories}
           isLoading={false}
           defaultValue={'NONE'}
-          location='FORM'
+          value={formik.values.category_id}
+          handleChange={formik.handleChange}
+          isInvalid={formik.errors.category_id ? true : false}
+          errorMessage={formik.errors.category_id}
         />
 
         <Textarea
@@ -126,6 +136,8 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           type="text"
           onChange={formik.handleChange}
           value={formik.values.description}
+          isInvalid={formik.errors.description ? true : false}
+          errorMessage={formik.errors.description}
         />
 
         <InputFile 
@@ -135,6 +147,8 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
           handleChange={photoHandleChange}
           startContentIcon={<PhotoIcon/>}
           spanClassName='flex justify-center items-center gap-x-2 p-2'
+          isInvalid={photoFile ? false : true}
+          errorMessage={'La Imagen es requerida'}
 
         />
 
@@ -143,8 +157,9 @@ export default function AddMeatForm ({ closeModal, refreshParent }) {
         <Checkbox 
           defaultSelected 
           name="isActive" 
-          isSelected={formik.values.isActive} 
-          onValueChange={formik.handleChange}
+          value={isActive}
+          isSelected={isActive} 
+          onValueChange={setIsActive}
         >
           Activo
         </Checkbox>

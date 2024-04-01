@@ -12,7 +12,10 @@ export default function InputFile(props) {
     className, 
     spanClassName,
     color,
-    isLoading } = props
+    isLoading,
+    errorMessage,
+    isInvalid
+  } = props
   const inputFileRef = useRef(null)
 
   const handleButtonClick = () => {
@@ -43,6 +46,12 @@ export default function InputFile(props) {
           {text}
         </span>
       </Button>
+      { 
+        isInvalid 
+          && <span className="text-xs text-red-700">
+              {errorMessage}
+            </span> 
+      }
     </>
   )
 }

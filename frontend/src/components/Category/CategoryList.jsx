@@ -2,29 +2,9 @@ import { Link } from "wouter"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation } from 'swiper/modules';
 import { useParams } from "wouter";
+import React from "react";
 
-// export default function CategoryList({ categories }) {
-//   return (
-//     <div className="w-full flex justify-center bg-warning-400 py-1 rounded-xl">
-//       <ul className="flex gap-x-8">
-//         {
-//           categories.map(cat => (
-//             <li key={cat.id}>
-//               <Link 
-//                 to={'/carnicos/category/' + cat.id} 
-//                 className="text-black text-lg font-semibold hover:text-amber-300 transition">
-//                   {cat.name}
-//               </Link>
-//             </li>
-//           ))
-//         }
-//       </ul>
-//     </div>
-//   )
-// }
-
-
-export default function CategoryList({ categories }) {
+function CategoryList({ categories }) {
   const { category_id } = useParams()
 
   return (
@@ -68,3 +48,6 @@ export default function CategoryList({ categories }) {
     </>
   );
 }
+
+const CategoryListMemo = React.memo(CategoryList)
+export default CategoryListMemo

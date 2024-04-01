@@ -19,6 +19,7 @@ export const CUSTOM_ORDER_URL = `${BASE_URL}/custom-order`
 export const AVATAR_URL = `${BASE_URL}/update-avatar`
 export const GET_MOST_SELLED_PRODUCT_URL = `${BASE_URL}/most-selled-product`
 export const LIST_BIGGEST_BUYERS_URL = `${BASE_URL}/list-biggest-buyers`
+export const COURSE_VIDEO_PLAY_URL = `${COURSES_URL}/play`
 
 export const TOKEN = "token"
 

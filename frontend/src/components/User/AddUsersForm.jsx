@@ -2,6 +2,7 @@ import { Input, Checkbox, Button, Image } from "@nextui-org/react"
 import { useCallback, useMemo, useState } from "react"
 import InputFile from '../Inputs/InputFile'
 import { createUser } from "../../services/user"
+import GeneralError from "../Errors/GeneralError"
 
 export default function AddUsersForm({ setUsers, closeModal }) {
   const [ addIsError, setAddIsError ] = useState(null)
@@ -187,7 +188,7 @@ export default function AddUsersForm({ setUsers, closeModal }) {
 
         {
           addIsError &&
-            <h1>Revento esta talla</h1>
+            <GeneralError/>
         }
         <Button 
           className='mt-5' 

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { createCategories } from "../../services/categories";
 import { useFormik } from 'formik'
 import { categorySchema } from "../../validations/category";
+import GeneralError from '../Errors/GeneralError'
 
 export default function CategoryForm ({ closeModal, setCategories }) {
   const [ isError, setIsError ] = useState(null)
@@ -39,7 +40,7 @@ export default function CategoryForm ({ closeModal, setCategories }) {
     <>
       {
         isError &&
-          <h1>Revento esta talla</h1>
+          <GeneralError/>
       }
       <form 
         id="create-category-form" 

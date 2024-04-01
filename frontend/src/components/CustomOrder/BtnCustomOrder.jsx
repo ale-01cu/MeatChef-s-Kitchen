@@ -1,8 +1,9 @@
 import { Link } from "wouter"
 import useRoles from "../../hooks/useRoles"
 import { Image } from "@nextui-org/react"
+import React from "react"
 
-export default function BtnCustomOrder() {
+function BtnCustomOrder() {
   const { isTeacher, isAuthenticated, isSuperUser, isStaff } = useRoles()
 
   if(!isAuthenticated || isTeacher || isSuperUser || isStaff) return null
@@ -26,3 +27,6 @@ export default function BtnCustomOrder() {
     </Link>
   )
 }
+
+const BtnCustomOrderMemo = React.memo(BtnCustomOrder)
+export default BtnCustomOrderMemo

@@ -4,6 +4,7 @@ import { Input, Button } from "@nextui-org/react";
 import { useState } from "react";
 import { register } from "../../services/auth";
 import registerValidation from "../../validations/register";
+import GeneralError from '../Errors/GeneralError';
 
 export default function RegisterForm({ onClose }){
   const [ isLoading, setIsLoading ] = useState(false)
@@ -32,9 +33,9 @@ export default function RegisterForm({ onClose }){
     }
   })
 
+  if(isError) return <GeneralError/>
   return (
     <>
-      { isError && <h1>Revento esta talla</h1> }
       <form 
         id="form-register" 
         className="flex flex-col gap-y-2 py-4"

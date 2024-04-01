@@ -12,6 +12,7 @@ import PhotoIcon from "../Icons/PhotoIcon";
 import VideoIcon from '../Icons/VideoIcon'
 import { useFormik } from 'formik'
 import { courseValidation } from "../../validations/course";
+import GeneralError from '../Errors/GeneralError'
 
 export default function AddCourseForm ({ closeModal, refreshParent }) {
   const [ photoFile, setPhotoFile ] = useState()
@@ -62,12 +63,11 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
 
   }
 
-
   return (
     <>
       {
         addIsError &&
-          <h1>Revento esta talla</h1>
+          <GeneralError/>
       }
       <form 
         id="form-login" 
@@ -80,6 +80,9 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
           placeholder="Nombre del Curso"
           onChange={formik.handleChange}
           value={formik.values.name}
+          isInvalid={formik.errors.name ? true : false}
+          errorMessage={formik.errors.name}
+
         />
         <Textarea
           label='Descripcion'
@@ -88,6 +91,9 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
           type="text"
           onChange={formik.handleChange}
           value={formik.values.description}
+          isInvalid={formik.errors.description ? true : false}
+          errorMessage={formik.errors.description}
+
         />
 
         <InputFile 
@@ -97,6 +103,9 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
           spanClassName='flex justify-center items-center gap-x-2 p-2'
           handleChange={photoHandleChange}
           startContentIcon={<PhotoIcon/>}
+          isInvalid={photoFile ? false : true}
+          errorMessage={'La Imagen es requerida.'}
+
         />
 
         {
@@ -116,6 +125,9 @@ export default function AddCourseForm ({ closeModal, refreshParent }) {
           spanClassName='flex justify-center items-center gap-x-2 p-2'
           handleChange={videoHandleChange}
           startContentIcon={<VideoIcon/>}
+          isInvalid={videoFile ? false : true}
+          errorMessage={'El video es requerido.'}
+
         />
 
         {

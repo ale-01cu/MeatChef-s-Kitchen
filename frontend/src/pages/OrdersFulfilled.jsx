@@ -4,6 +4,7 @@ import { listProcessedStandardOrders } from "../services/standardOrder"
 import { listProcessedCustomOrders } from "../services/customOrder"
 import StatusSelect from "../components/OrdersFulfilled/StatusSelect"
 import { Spinner } from "@nextui-org/react"
+import GeneralError from "../components/Errors/GeneralError"
 
 const opciones = { 
   year: 'numeric', 
@@ -63,7 +64,7 @@ export default function OrdersFulfilled() {
       />
     </div>
   )
-  if(isError) return <h1>Revento esta talla</h1>
+  if(isError) return <GeneralError/>
   return (
     <>
       <div className="p-10">

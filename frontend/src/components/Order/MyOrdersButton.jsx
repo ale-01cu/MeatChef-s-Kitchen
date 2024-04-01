@@ -2,11 +2,15 @@ import { Link } from 'wouter'
 import useAuth from '../../hooks/useAuth'
 import useRoles from '../../hooks/useRoles'
 import { Image } from '@nextui-org/react'
+import React from 'react'
 
-export default function MyOrdersButton() {
+function MyOrdersButton() {
   const { isAuthenticated, isStaffOrTeacherOrSuperUser } = useRoles()
 
-  if(!isAuthenticated || isStaffOrTeacherOrSuperUser) return null
+  if(!isAuthenticated 
+    || isAuthenticated === undefined 
+    || isStaffOrTeacherOrSuperUser
+    || isStaffOrTeacherOrSuperUser === undefined) return null
   return (
     <Link 
       to='/mis-pedidos' 
@@ -23,3 +27,6 @@ export default function MyOrdersButton() {
     </Link>
   )
 }
+
+const MyOrdersButtonMemo = React.memo(MyOrdersButton)
+export default MyOrdersButtonMemo

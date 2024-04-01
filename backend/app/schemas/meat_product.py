@@ -10,6 +10,14 @@ class MeatProductCreate(BaseModel):
     category_id: str
     is_active: bool = True
 
+class MeatProductList(BaseModel):
+    id: str
+    name_of_the_cut_of_meat: str
+    description: str
+    photo: str
+    is_active: bool = True
+
+
 class MeatProduct(BaseModel):
     id: str
     type_of_meat: str
@@ -25,3 +33,4 @@ class MeatProductList(BaseModel):
     name_of_the_cut_of_meat: str
     description: str
     photo: str
+    is_active: bool = True

@@ -5,6 +5,7 @@ import { listCustomOrders } from "../services/customOrder"
 import { Button } from "@nextui-org/react"
 import { updateOrderListStatus } from '../services/order'
 import { Spinner } from "@nextui-org/react"
+import GeneralError from "../components/Errors/GeneralError"
 
 const opciones = { 
   year: 'numeric', 
@@ -85,7 +86,7 @@ export default function PendingOrders() {
       />
     </div>
   )
-  if(isError) return <h1>Revento esta talla</h1>
+  if(isError) return <GeneralError/>
   return (
     <>
       <div className="p-10">

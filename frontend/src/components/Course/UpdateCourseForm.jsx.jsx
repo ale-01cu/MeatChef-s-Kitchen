@@ -5,12 +5,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { retrieveCourses, updateCourse } from "../../services/courses";
 import {  
   Textarea,
-  Input,
   Checkbox,
   Button
 } from "@nextui-org/react";
 import PhotoIcon from "../Icons/PhotoIcon";
 import VideoIcon from '../Icons/VideoIcon'
+import GeneralError from "../Errors/GeneralError";
 
 export default function UpdateCourseForm(props) {
   const {courseId, closeModal, refreshOneElement } = props
@@ -105,7 +105,7 @@ export default function UpdateCourseForm(props) {
     <>
       {
         updateIsError &&
-          <h1>Revento esta talla</h1>
+          <GeneralError/>
       }
       <form 
         id="form-login" 

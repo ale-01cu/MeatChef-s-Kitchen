@@ -8,19 +8,29 @@ export default function Card(props) {
   return (
     <Link to={path} className="w-full">
       <div id="image">
-        <Image src={BASE_URL + '/' + image} alt="ImageCard" classNames={{
-          wrapper: 'img-container',
-          img: 'w-full max-h-[266px] object-cover aspect-video'
-        }}/>
+        <Image 
+          src={BASE_URL + '/' + image} 
+          alt="ImageCard" 
+          shadow="md"
+          classNames={{
+            wrapper: 'img-container',
+            img: 'w-full max-h-[266px] object-cover aspect-video'
+          }}
+        />
       </div>
 
       <div className="space-y-2 p-2">
         <div>
           <h1 className="font-bold text-2xl text-nowrap truncate">{name}</h1>
-          <span className="truncate text-gray-400 flex items-center gap-x-2">
-            <span>Profesor:</span> 
-            {author ? author : <div className="w-4 h-1 bg-default-400"></div>}
-          </span>
+          
+          {
+            author &&
+              <span className="truncate text-gray-400 flex items-center gap-x-2">
+                <span>Profesor:</span> 
+                {author ? author : <div className="w-4 h-1 bg-default-400"></div>}
+              </span>
+
+          }
         </div>
         <p className="truncate">{description}</p>
       </div>

@@ -1,34 +1,20 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { useLocation } from "wouter";
 import useRoles from "../../hooks/useRoles";
-import { useCallback } from "react";
+import React from "react";
 
 const NONE_SELECTED_VALUE = 'NONE'
-const LOCATIONS = {
-  form: 'FORM'
-}
 
-export default function CategoriesSelect (props) {
+function CategoriesSelectComponent (props) {
   const { 
     placeholder, 
     className, 
     categories, 
     isLoading, 
     defaultValue, 
-    location,
     isInvalid,
-    errorMessage } = props
-  const [ _, navegate ] = useLocation()
+    errorMessage,
+    handleChange } = props
   const { isSuperUser } = useRoles()
-
-  const handleChange = useCallback((e) => {
-    if(!(location === LOCATIONS.form)) {
-      const categoryId = e.target.value
-      if(categoryId !== NONE_SELECTED_VALUE) 
-        navegate('/carnicos/category/' + categoryId)
-      else navegate('/carnicos')
-    }
-  }, [location, navegate])
 
   if( !isSuperUser ) return null
   return (
@@ -69,3 +55,6 @@ export default function CategoriesSelect (props) {
     </Select>
   )
 }
+
+const CategoriesSelect = React.memo(CategoriesSelectComponent)
+export default CategoriesSelect

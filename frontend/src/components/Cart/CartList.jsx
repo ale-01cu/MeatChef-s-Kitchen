@@ -11,7 +11,7 @@ export default function CartList({ cart, deleteProduct }) {
     deleteProduct(id)
   }
 
-  if(!cart) return <h1>El carrito esta vacio</h1>
+  if(!cart) return <h1 className="text-center text-2xl font-semibold">El carrito esta vacio</h1>
   return (
     <ul className="grid justify-items-center xl:justify-items-stretch grid-cols-1 lg:grid-cols-2 xl2:grid-cols-3 gap-2">
       {

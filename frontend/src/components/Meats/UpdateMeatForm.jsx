@@ -13,6 +13,8 @@ import CategoriesSelect from "../Category/CategoriesSelect";
 import useListCategories from "../../hooks/useListCategories";
 import PhotoIcon from "../Icons/PhotoIcon";
 import meatValidation from "../../validations/meat";
+import * as Yup from 'yup'
+import GeneralError from "../Errors/GeneralError";
 
 export default function UpdateMeatForm(props) {
   const { meatId, closeModal, refreshOneElement } = props
@@ -41,13 +43,24 @@ export default function UpdateMeatForm(props) {
   }, [meatId])
 
 
-  const handleChange = useCallback((e, field) => {
-    const value = e.target.value
-    let newMeatData = {
-      ...meatData
+  const handleChange = useCallback(async (e, field) => {
+    try {
+      const value = e.target.value
+      setMeatData({ ...meatData, [field]: value })
+      const fieldSchema = Yup.reach(meatValidation.validationSchema, field);
+      await fieldSchema.validate(value, { abortEarly: false });
+      
+    } catch (error) {
+      console.error(error);
+      // Maneja los errores de validación aquí
+      if(error.name === 'ValidationError') {
+        const errorMessages = {error}.error.inner.reduce((acc, e) => {
+          acc[field] = e.message;
+          return acc;
+        }, {})
+        setFormErrors(prev => ({...prev, ...errorMessages}))
+      }
     }
-    newMeatData[field] = value 
-    setMeatData(newMeatData)
   }, [meatData])
 
   const photoHandleChange = useCallback((e) => {
@@ -63,12 +76,12 @@ export default function UpdateMeatForm(props) {
   }, [meatData])
 
   const handleSubmit = useCallback(async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
-    const formData = new FormData(e.target)
-    formData.set('is_active', meatData.is_active)
-
+    
     try {
+      e.preventDefault()
+      setIsLoading(true)
+      const formData = new FormData(e.target)
+      formData.set('is_active', meatData.is_active)
       await meatValidation.validationSchema.validate(
         Object.fromEntries(formData.entries()), 
         { abortEarly: false }
@@ -90,7 +103,6 @@ export default function UpdateMeatForm(props) {
 
       }else {
         setUpdateIsError(e)
-
       }
     
     } finally {
@@ -98,7 +110,6 @@ export default function UpdateMeatForm(props) {
       setIsLoading(false);
     
     }
-      
   }, [closeModal, meatData, refreshOneElement, meatId])
 
 
@@ -107,7 +118,7 @@ export default function UpdateMeatForm(props) {
     <>
       {
         updateIsError &&
-          <h1>Revento esta talla</h1>
+          <GeneralError/>
       }
       <form 
         id="form-update-meat" 
@@ -151,7 +162,8 @@ export default function UpdateMeatForm(props) {
           categories={categories}
           isLoading={false}
           defaultValue={meatData?.category?.id}
-          location='FORM'
+          onChange={(e) => handleChange(e, 'category_id')}
+          value={meatData?.category_id}
           isInvalid={formErrors.category_id ? true : false}
           errorMessage={formErrors.category_id}
         />
@@ -188,7 +200,6 @@ export default function UpdateMeatForm(props) {
           name="is_active" 
           isSelected={meatData.is_active} 
           onValueChange={handleSelect}
-          isInvalid={formErrors.isActive ? true : false}
         >
           Activo
         </Checkbox>
