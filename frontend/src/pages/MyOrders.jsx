@@ -3,8 +3,8 @@ import { useState, useEffect } from "react"
 import { listStandardOrders } from "../services/standardOrder"
 import { listCustomOrders } from "../services/customOrder"
 import { ORDER_STATUS } from "../utils/order"
-import { Spinner } from "@nextui-org/react"
 import GeneralError from "../components/Errors/GeneralError"
+import Spinner from "../components/Loading/Spinner"
 
 const opciones = { 
   year: 'numeric', 
@@ -54,14 +54,7 @@ export default function MyOrders() {
       })
   }, [setIsLoading. setIsError])
 
-  if(isLoading) return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <Spinner
-        size="lg"
-        color="warning"
-      />
-    </div>
-  )
+  if(isLoading) return <Spinner/>
   if(isError) return <GeneralError/>
   return (
     <>

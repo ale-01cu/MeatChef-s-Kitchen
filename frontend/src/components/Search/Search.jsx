@@ -34,7 +34,7 @@ export default function Search({ type }) {
           isClearable
           onClear={handleClear}
           radius="lg"
-          className="w-[350px]"
+          className="w-full"
           classNames={{
             label: "text-black/50 dark:text-white/90",
             input: [

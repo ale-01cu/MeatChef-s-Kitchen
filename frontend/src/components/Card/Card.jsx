@@ -6,12 +6,12 @@ export default function Card(props) {
   const { image, name, author, description, path } = props
   
   return (
-    <Link to={path} className="w-full">
+    <Link to={path} className="w-full max-w-[435px]">
       <div id="image">
         <Image 
           src={BASE_URL + '/' + image} 
           alt="ImageCard" 
-          shadow="md"
+          shadow="sm"
           classNames={{
             wrapper: 'img-container',
             img: 'w-full max-h-[266px] object-cover aspect-video'

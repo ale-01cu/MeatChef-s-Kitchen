@@ -4,8 +4,8 @@ import { listStandardOrders } from "../services/standardOrder"
 import { listCustomOrders } from "../services/customOrder"
 import { Button } from "@nextui-org/react"
 import { updateOrderListStatus } from '../services/order'
-import { Spinner } from "@nextui-org/react"
 import GeneralError from "../components/Errors/GeneralError"
+import Spinner from "../components/Loading/Spinner"
 
 const opciones = { 
   year: 'numeric', 
@@ -78,14 +78,7 @@ export default function PendingOrders() {
   }, [customOrders, orders])
   
 
-  if(isLoading) return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <Spinner
-        size="lg"
-        color="warning"
-      />
-    </div>
-  )
+  if(isLoading) return <Spinner/>
   if(isError) return <GeneralError/>
   return (
     <>

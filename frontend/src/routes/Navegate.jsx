@@ -20,7 +20,8 @@ import AccessDenied from "../pages/AccessDenied"
 import MeatMenu from "../components/Meats/MeatMenu"
 import BaseLayout from "../components/layout/BaseLayout"
 import Users from "../pages/Users"
-import { Spinner } from "@nextui-org/react"
+import NotFound404 from "../pages/NotFound404"
+import Spinner from "../components/Loading/Spinner"
 
 const ROUTES = [
   {
@@ -186,7 +187,7 @@ const ROUTES = [
 
   {
     path: '*',
-    component: <h1>404 no such page</h1>,
+    component: NotFound404,
   },
 
 ]
@@ -194,15 +195,7 @@ const ROUTES = [
 export default function Navegate() {
   const { user, authIsLoading } = useAuth()
 
-  if(authIsLoading) return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <Spinner
-        size="lg"
-        color="warning"
-      />
-    </div>
-  )
-
+  if(authIsLoading) return <Spinner/>
   return (
     <Switch>
       {
@@ -211,20 +204,14 @@ export default function Navegate() {
             {() => {
               const { layout, layoutProps, permissions } = route
 
-              if(!permissions(user))
+              if(permissions && !permissions(user))
                 return (
                   <route.layout {...layoutProps}>
-                    <h1>Acceso denegado</h1>
+                    <NotFound404/>
                   </route.layout>
                 )
 
               if(!layout) return <route.component/>
-              // else if(!layoutProps) 
-              //   return (
-              //     <route.layout>
-              //       <route.component/>
-              //     </route.layout>
-              //   )
               
               return (
                 <route.layout {...layoutProps}>

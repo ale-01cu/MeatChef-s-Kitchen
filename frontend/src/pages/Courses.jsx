@@ -7,8 +7,8 @@ import { retrieveCourses } from "../services/courses"
 import CourseMenu from "../components/Course/CourseMenu"
 import CardMenuCourse from "../components/Card/CardMenuCourse"
 import { deleteCourse } from "../services/courses"
-import { Spinner } from "@nextui-org/react"
 import GeneralError from "../components/Errors/GeneralError"
+import Spinner from "../components/Loading/Spinner"
 
 export default function Courses() {
   const { search } = useParams()
@@ -78,14 +78,7 @@ export default function Courses() {
   }, [coursesData])
 
 
-  if(isLoading) return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <Spinner
-        size="lg"
-        color="warning"
-      />
-    </div>
-  )
+  if(isLoading) return <Spinner/>
   if(isError) return <GeneralError/>
   return (
     <>
@@ -93,7 +86,7 @@ export default function Courses() {
       <div className="sm:p-10">
         {
           coursesData?.length > 0 && !search &&
-            <div>
+            <div className="py-8">
               <h5 className="text-xl font-semibold text-center">
                 Nuestros Cursos
               </h5>

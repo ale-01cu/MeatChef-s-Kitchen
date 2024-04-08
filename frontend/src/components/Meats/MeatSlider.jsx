@@ -25,6 +25,7 @@ export default function MeatSlider({ meatData }) {
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,
+          pauseOnMouseEnter: true
         }}
         modules={[Autoplay, Pagination]}
         className="mySwiper"

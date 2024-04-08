@@ -10,8 +10,8 @@ import useAuth from "../hooks/useAuth"
 import { addToCart } from '../services/cart'
 import { productIsInCart } from "../services/cart"
 import BtnAddToCart from "../components/Cart/BtnAddToCart"
-import { Spinner } from "@nextui-org/react"
 import GeneralError from "../components/Errors/GeneralError"
+import Spinner from "../components/Loading/Spinner"
 
 export default function MeatDetail() {
   const { user } = useAuth()
@@ -52,14 +52,7 @@ export default function MeatDetail() {
     }
   }, [amount, meat])
 
-  if(isLoading) return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <Spinner
-        size="lg"
-        color="warning"
-      />
-    </div>
-  )
+  if(isLoading) return <Spinner/>
   if(!meat) return null
   if(isError) return <GeneralError/>
 

@@ -3,10 +3,11 @@ import FavoriteIcon from '../Icons/FavoriteIcon'
 import useAuth from '../../hooks/useAuth'
 import React from 'react'
 
-function BtnFavorite() {
+function BtnFavorite({ typeSearch }) {
   const { user } = useAuth()
 
   if(!user || user?.is_teacher) return null
+  if(typeSearch !== 'cursos') return null
   return (
     <Link 
       to='/favoritos' 

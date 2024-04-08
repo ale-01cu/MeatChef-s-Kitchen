@@ -14,7 +14,7 @@ export default function ListCourses(props) {
       <ul className='flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
         {
           data?.map(course => (
-            <li key={course?.id} className='relative flex justify-end hover:scale-105 transition'>
+            <li key={course?.id} className='relative flex justify-center hover:scale-105 transition'>
               <Card 
                 image={course?.photo}
                 name={course?.name}

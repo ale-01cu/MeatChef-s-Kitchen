@@ -1,18 +1,17 @@
-import { Image } from "@nextui-org/react"
 import { Link } from "wouter"
 import useRoles from "../../hooks/useRoles"
 import React from "react"
 
-function CourseLinkComponent() {
+function MeatLinkComponent() {
   const { isSuperUser } = useRoles()
 
   if(isSuperUser || isSuperUser == undefined) return null
   return (
-    <Link to="/cursos">
-      Cursos
+    <Link to="/carnicos">
+      Carnes
     </Link>
   )
 }
 
-const CourseLink = React.memo(CourseLinkComponent)
-export default CourseLink
+const MeatLink = React.memo(MeatLinkComponent)
+export default MeatLink
