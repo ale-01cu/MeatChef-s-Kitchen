@@ -1,6 +1,7 @@
 import React from "react"
+import { Spinner } from "@nextui-org/react"
 
-function Spinner() {
+function CustomSpinner() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <Spinner
@@ -11,5 +12,5 @@ function Spinner() {
   )
 }
 
-const SpinnerMemo = React.memo(Spinner)
+const SpinnerMemo = React.memo(CustomSpinner)
 export default SpinnerMemo
